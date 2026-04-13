@@ -1,0 +1,79 @@
+{
+  "common": {
+    "appName": "Yumly",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "confirm": "Confirm"
+  },
+  "nav": {
+    "home": "Home",
+    "recipes": "Recipes",
+    "mealPlan": "Meal Plan",
+    "favorites": "Favorites",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginSuccess": "Welcome back!",
+    "registerSuccess": "Account created!",
+    "logoutSuccess": "Logged out successfully"
+  },
+  "feed": {
+    "title": "Recipe Feed",
+    "searchPlaceholder": "Search recipes..."
+  },
+  "recipe": {
+    "prepTime": "Prep Time",
+    "cookTime": "Cook Time",
+    "servings": "Servings",
+    "calories": "Calories",
+    "ingredients": "Ingredients",
+    "steps": "Instructions",
+    "createTitle": "Create Recipe",
+    "editTitle": "Edit Recipe"
+  },
+  "mealPlan": {
+    "title": "Weekly Meal Plan",
+    "generate": "Generate Plan",
+    "empty": "No meal plan yet"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "empty": "No favorites yet"
+  },
+  "profile": {
+    "title": "My Profile",
+    "recipes": "My Recipes",
+    "stats": "Health Stats"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "network": "Network error",
+    "somethingWentWrong": "Something went wrong"
+  }
+}

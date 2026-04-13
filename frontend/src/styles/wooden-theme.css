@@ -1,0 +1,215 @@
+/* Wooden Theme - Inspired by Зоната */
+
+/* Wood texture background */
+.wood-bg {
+  background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.wood-overlay {
+  background: linear-gradient(180deg, rgba(139, 90, 43, 0.1) 0%, rgba(101, 67, 33, 0.2) 100%);
+}
+
+/* Wood panel cards */
+.wood-panel {
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dcc5a0 100%);
+  border: 3px solid #8B5A2B;
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.wood-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><path d="M0 50 Q 25 48, 50 50 T 100 50" stroke="rgba(139,90,43,0.1)" fill="none" stroke-width="0.5"/><path d="M0 30 Q 25 28, 50 30 T 100 30" stroke="rgba(139,90,43,0.08)" fill="none" stroke-width="0.3"/><path d="M0 70 Q 25 72, 50 70 T 100 70" stroke="rgba(139,90,43,0.08)" fill="none" stroke-width="0.3"/></pattern></defs><rect fill="url(%23grain)" width="100" height="100"/></svg>');
+  opacity: 0.5;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+/* Green header banner */
+.green-banner {
+  background: linear-gradient(180deg, #8BC34A 0%, #689F38 50%, #558B2F 100%);
+  border: 2px solid #33691E;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Navigation buttons */
+.nav-wood-btn {
+  background: linear-gradient(180deg, #9CCC65 0%, #7CB342 50%, #689F38 100%);
+  border: 2px solid #558B2F;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.nav-wood-btn:hover {
+  background: linear-gradient(180deg, #AED581 0%, #8BC34A 50%, #7CB342 100%);
+  transform: translateY(-1px);
+}
+
+.nav-wood-btn.active {
+  background: linear-gradient(180deg, #FFEB3B 0%, #FBC02D 50%, #F9A825 100%);
+  border-color: #F57F17;
+  color: #5D4037;
+}
+
+/* Recipe card wooden style */
+.recipe-card-wood {
+  background: linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%);
+  border: 3px solid #8D6E63;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recipe-card-wood:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Rustic button */
+.btn-rustic {
+  background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 50%, #5D4037 100%);
+  border: 2px solid #4E342E;
+  color: #FFFDE7;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-rustic:hover {
+  background: linear-gradient(180deg, #A1887F 0%, #8D6E63 50%, #6D4C41 100%);
+  transform: translateY(-2px);
+}
+
+/* Green accent button */
+.btn-green-accent {
+  background: linear-gradient(180deg, #7CB342 0%, #558B2F 50%, #33691E 100%);
+  border: 2px solid #1B5E20;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.btn-green-accent:hover {
+  background: linear-gradient(180deg, #8BC34A 0%, #689F38 50%, #558B2F 100%);
+}
+
+/* Wooden sign/label */
+.wood-sign {
+  background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+  border: 3px solid #5D4037;
+  border-radius: 4px;
+  padding: 8px 20px;
+  color: #FFFDE7;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+/* Rope decoration */
+.rope-hang {
+  position: relative;
+}
+
+.rope-hang::before,
+.rope-hang::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(90deg, #D7CCC8 0%, #A1887F 50%, #8D6E63 100%);
+  border-radius: 2px;
+}
+
+.rope-hang::before {
+  left: 20%;
+}
+
+.rope-hang::after {
+  right: 20%;
+}
+
+/* Input fields wooden style */
+.input-wood {
+  background: #FFFDE7;
+  border: 2px solid #8D6E63;
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: #5D4037;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-wood:focus {
+  border-color: #689F38;
+  outline: none;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(104, 159, 56, 0.3);
+}
+
+/* Scrollbar wooden theme */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D7CCC8;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 100%);
+  border-radius: 6px;
+  border: 2px solid #D7CCC8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
+}
+
+/* Dark mode adjustments */
+.dark .wood-panel {
+  background: linear-gradient(135deg, #5D4037 0%, #4E342E 50%, #3E2723 100%);
+  border-color: #8D6E63;
+}
+
+.dark .recipe-card-wood {
+  background: linear-gradient(135deg, #4E342E 0%, #3E2723 100%);
+  border-color: #6D4C41;
+}
+
+.dark .input-wood {
+  background: #3E2723;
+  border-color: #6D4C41;
+  color: #FFFDE7;
+}
