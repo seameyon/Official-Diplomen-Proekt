@@ -171,8 +171,34 @@
     "myRecipes": "Моите Рецепти",
     "createNew": "Създай нова",
     "noRecipesYet": "Все още нямаш рецепти",
-    "createFirst": "Създай първата си рецепта"
+    "createFirst": "Създай първата си рецепта",
+    "editRecipe": "Редактирайте рецепта",
+    "updateRecipe": "Актуализирайте рецепта",
+    "basicInformation": "Основна информация",
+    "recipeTitle": "Заглавие на рецептата",
+    "description": "Описание",
+    "imageUrl": "URL на снимкa",
+
+    "tags": "Тагове",
+    
+    "instructions": "Инструкции",
+
+    "addIngredient": "Добави съставка",
+    "addStep": "Добави стъпка",
+
+    "cancel": "Отказ",
+    "saveChanges": "Запази промените",
+
+    "ingredientName": "Име на съставката",
+    "stepPlaceholder": "Стъпка {{number}}",
+
+    "updateSuccess": "Рецептата е обновена! ✨",
+    "updateError": "Неуспешно обновяване на рецептата",
+
+    "previewAlt": "Преглед"
   },
+
+
   "errors": {
     "generic": "Нещо се обърка",
     "network": "Мрежова грешка",

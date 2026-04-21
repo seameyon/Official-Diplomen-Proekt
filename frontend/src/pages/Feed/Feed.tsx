@@ -1264,7 +1264,7 @@ export default function Feed() {
         </div>
 
         {/* Category Tags */}
-        <div className="flex flex-wrap gap-2">
+        <div className="hidden">
           {TAGS.map((tag) => (
             <button
               key={tag.id}
