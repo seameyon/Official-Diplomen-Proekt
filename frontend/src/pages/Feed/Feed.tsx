@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Search, Clock, Flame, ChefHat, Plus, 
-  Loader2, X, Users, Heart, Globe,
+  Loader2, X, Users, Heart, Globe, RefreshCw,
   ChevronLeft, ChevronRight
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -1213,14 +1213,14 @@ export default function Feed() {
               </Link>
             )}
             
-            <button
-              onClick={handleRefresh}
-              disabled={loading}
-              className="p-3 rounded-xl bg-orange-100 dark:bg-wood-700 text-orange-600 dark:text-forest-400 hover:bg-orange-200 dark:hover:bg-wood-600 transition-colors"
-              title={language === 'bg' ? 'Презареди' : 'Refresh'}
-            >
-              
-            </button>
+          <button
+  onClick={handleRefresh}
+  disabled={loading}
+  className="p-3 rounded-xl bg-orange-100 dark:bg-wood-700 text-orange-600 dark:text-forest-400 hover:bg-orange-200 dark:hover:bg-wood-600 transition-colors"
+  title={language === 'bg' ? 'Презареди' : 'Refresh'}
+>
+  <RefreshCw className={cn('w-5 h-5', loading && 'animate-spin')} />
+</button>
           </div>
         </div>
 

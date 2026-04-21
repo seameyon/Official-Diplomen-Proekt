@@ -596,7 +596,7 @@ export default function MealPlan() {
         >
           {generating ? (
             <>
-              <Loader2 className="h-5 w-5 animate-spin" />
+             <Loader2 className="w-5 h-5 animate-spin text-white" />
               {t.generating}
             </>
           ) : (
