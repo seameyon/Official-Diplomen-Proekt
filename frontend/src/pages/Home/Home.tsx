@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  ChefHat, Calendar, Heart, BookOpen, ArrowRight, 
+  ChefHat, Calendar, BookOpen, ArrowRight, 
   Utensils, Users, Sparkles, Leaf
 } from 'lucide-react';
 import { useAuthStore } from '../../context/authStore';

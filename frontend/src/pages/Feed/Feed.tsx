@@ -577,7 +577,6 @@ const WORD_TRANSLATIONS: Record<string, string> = {
   
   // Seasonings
   'Honey': 'Мед', 'honey': 'мед',
-  'Garlic': 'Чесън', 'garlic': 'чесън',
   'Ginger': 'Джинджифил', 'ginger': 'джинджифил',
   'Rosemary': 'Розмарин', 'rosemary': 'розмарин',
   'Thyme': 'Мащерка', 'thyme': 'мащерка',
