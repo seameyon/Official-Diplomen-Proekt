@@ -20,13 +20,11 @@ export default function Register() {
   const { register: registerUser } = useAuthStore();
 
   const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<RegisterForm>();
+  register,
+  handleSubmit,
+} = useForm<RegisterForm>();
 
-  const password = watch('password', '');
+  
 
   const onSubmit = async (data: RegisterForm) => {
     // Validate

@@ -1,7 +1,7 @@
 // VerifyEmail.tsx
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { CheckCircle, XCircle, Loader2, Mail } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { authApi } from '../../services/api';
 import { useTranslation } from '../../i18n';
 

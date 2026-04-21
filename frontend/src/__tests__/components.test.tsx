@@ -192,30 +192,6 @@ describe('Error Display', () => {
 
 // ==================== Counter Component Test ====================
 describe('Counter Component', () => {
-  const Counter = () => {
-    const [count, setCount] = vi.hoisted(() => {
-      let value = 0;
-      return [
-        value,
-        (fn: (prev: number) => number) => {
-          value = fn(value);
-        },
-      ];
-    });
-
-    return (
-      <div>
-        <span data-testid="count">{count}</span>
-        <button 
-          data-testid="increment" 
-          onClick={() => setCount((prev: number) => prev + 1)}
-        >
-          +
-        </button>
-      </div>
-    );
-  };
-
   test('трябва да рендира начална стойност', () => {
     render(
       <div>
@@ -223,7 +199,7 @@ describe('Counter Component', () => {
         <button data-testid="increment">+</button>
       </div>
     );
-    
+
     expect(screen.getByTestId('count')).toHaveTextContent('0');
   });
 });
