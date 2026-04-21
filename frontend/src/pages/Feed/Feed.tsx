@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Search, Clock, Flame, ChefHat, Plus, 
-  Loader2, X, Users, Heart, Globe, RefreshCw,
+  Loader2, X, Users, Heart, Globe,
   ChevronLeft, ChevronRight
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -283,8 +283,7 @@ const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
   'Korean Fried Chicken': 'Корейско пържено пиле',
   'Japchae': 'Джапче',
   
-  // === Vietnamese ===
-  'Banh Mi': 'Бан Ми',
+  
   
   // === American ===
   'Mac and Cheese': 'Макарони със сирене',
@@ -418,7 +417,6 @@ const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
   'Prawn Curry': 'Къри със скариди',
   'Piri-piri Chicken and Slaw': 'Пири-пири пиле и зелева салата',
   'Rappie Pie': 'Пай Рапие',
-  'Ribollita': 'Риболита',
   'Rogaliki (Polish Croissant Cookies)': 'Рогалики (Полски кроасанчета)',
   'Rosemary Roasted Chicken': 'Печено пиле с розмарин',
   'Salmon Avocado Salad': 'Салата със сьомга и авокадо',
@@ -427,8 +425,6 @@ const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
   'Spicy North African Shakshuka': 'Пикантна Африканска шакшука',
   'Stuffed Lamb Tomatoes': 'Пълнени домати с агнешко',
   'Sugar Pie': 'Захарен пай',
-  'Sushi': 'Суши',
-  'Tarte Tatin': 'Тарт Татен',
   'Thai Fried Rice': 'Тайландски пържен ориз',
   'Tonkatsu pork': 'Тонкацу свинско',
   'Tunisian Lamb Soup': 'Тунизийска агнешка супа',
@@ -1223,7 +1219,7 @@ export default function Feed() {
               className="p-3 rounded-xl bg-orange-100 dark:bg-wood-700 text-orange-600 dark:text-forest-400 hover:bg-orange-200 dark:hover:bg-wood-600 transition-colors"
               title={language === 'bg' ? 'Презареди' : 'Refresh'}
             >
-              <RefreshCw className={cn('w-5 h-5', loading && 'animate-spin')} />
+              
             </button>
           </div>
         </div>
