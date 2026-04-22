@@ -324,3 +324,7 @@ describe('calculateAge', () => {
     expect(calculateAge(3000)).toBe(0);
   });
 });
+
+export default function handler(req, res) {
+  res.status(200).json({message: "API works!"});
+}
