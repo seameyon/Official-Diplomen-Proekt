@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, Heart, Clock, Users, Flame, Edit, Trash2,
-  Check, Loader2, ChefHat
+import {
+  ArrowLeft,
+  Heart,
+  Clock,
+  Users,
+  Flame,
+  Edit,
+  Trash2,
+  Check,
+  Loader2,
+  ChefHat,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { recipeApi, favoriteApi } from '../../services/api';
@@ -12,23 +20,61 @@ import { useAuthStore } from '../../context/authStore';
 import { useThemeStore } from '../../context/themeStore';
 import { cn } from '../../utils';
 
+interface RecipeAuthor {
+  _id: string;
+  username?: string;
+  avatar?: string;
+}
+
+interface RecipeIngredient {
+  name: string;
+  amount?: number;
+  unit?: string;
+}
+
+interface RecipeNutrition {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+}
+
+interface Recipe {
+  _id: string;
+  title: string;
+  description?: string;
+  mainImage?: string;
+  prepTime?: number;
+  cookTime?: number;
+  servings?: number;
+  ingredients?: RecipeIngredient[];
+  steps?: string[];
+  nutrition?: RecipeNutrition;
+  author?: RecipeAuthor;
+  isFavorited?: boolean;
+}
+
+interface RecipeResponse {
+  recipe: Recipe;
+}
+
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, isAuthenticated } = useAuthStore();
   const { language } = useThemeStore();
+
   const [servings, setServings] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // Redirect to API recipe page if this is a MealDB recipe
-  if (id?.startsWith('mealdb_')) {
-    navigate(`/recipes/api/${id}`, { replace: true });
-    return null;
-  }
+  useEffect(() => {
+    if (id?.startsWith('mealdb_')) {
+      navigate(`/recipes/api/${id}`, { replace: true });
+    }
+  }, [id, navigate]);
 
-  // Translations
   const t = {
     loading: language === 'bg' ? 'Зареждане на рецептата...' : 'Loading recipe...',
     notFound: language === 'bg' ? 'Рецептата не е намерена' : 'Recipe not found',
@@ -36,7 +82,6 @@ export default function RecipeDetail() {
     ingredients: language === 'bg' ? 'Съставки' : 'Ingredients',
     servings: language === 'bg' ? 'порции' : 'servings',
     steps: language === 'bg' ? 'Стъпки' : 'Steps',
-    step: language === 'bg' ? 'Стъпка' : 'Step',
     nutrition: language === 'bg' ? 'Хранителна стойност' : 'Nutrition',
     calories: language === 'bg' ? 'Калории' : 'Calories',
     protein: language === 'bg' ? 'Протеин' : 'Protein',
@@ -49,40 +94,36 @@ export default function RecipeDetail() {
     removedFav: language === 'bg' ? 'Премахнато от любими' : 'Removed from favorites',
     loginFirst: language === 'bg' ? 'Влез в профила си' : 'Please login first',
     min: language === 'bg' ? 'мин' : 'min',
+    confirmDelete: language === 'bg' ? 'Сигурен ли си?' : 'Are you sure?',
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<RecipeResponse>({
     queryKey: ['recipe', id],
     queryFn: () => recipeApi.getRecipeById(id!),
-    enabled: !!id,
-    onSuccess: (data) => {
-      if (data?.recipe) {
-        setIsFavorited(data.recipe.isFavorited || false);
-      }
-    }
+    enabled: !!id && !id.startsWith('mealdb_'),
   });
 
   const recipe = data?.recipe;
-  
-  // Safe check for owner
-  const isOwner = recipe && user && recipe.author && user._id === recipe.author._id;
+  const isOwner = !!(recipe && user && recipe.author && user._id === recipe.author._id);
 
-  // Set initial servings when recipe loads
-  if (recipe && servings === 0) {
+  useEffect(() => {
+    if (!recipe) return;
+
     setServings(recipe.servings || 4);
-  }
+    setIsFavorited(!!recipe.isFavorited);
+  }, [recipe]);
 
   const favoriteMutation = useMutation({
     mutationFn: () => favoriteApi.toggleFavorite(id!),
-    onSuccess: (data) => {
-      setIsFavorited(data.isFavorited);
+    onSuccess: (result) => {
+      setIsFavorited(result.isFavorited);
       queryClient.invalidateQueries({ queryKey: ['recipe', id] });
       queryClient.invalidateQueries({ queryKey: ['favorites'] });
-      toast.success(data.isFavorited ? t.addedFav : t.removedFav);
+      toast.success(result.isFavorited ? t.addedFav : t.removedFav);
     },
     onError: () => {
       toast.error(t.loginFirst);
-    }
+    },
   });
 
   const deleteMutation = useMutation({
@@ -98,6 +139,7 @@ export default function RecipeDetail() {
       toast.error(t.loginFirst);
       return;
     }
+
     favoriteMutation.mutate();
   };
 
@@ -112,7 +154,10 @@ export default function RecipeDetail() {
     return Math.round((amount / recipe.servings) * servings * 100) / 100;
   };
 
-  // Loading state
+  if (id?.startsWith('mealdb_')) {
+    return null;
+  }
+
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
@@ -122,7 +167,6 @@ export default function RecipeDetail() {
     );
   }
 
-  // Error state
   if (error || !recipe) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
@@ -130,8 +174,8 @@ export default function RecipeDetail() {
         <h2 className="text-2xl font-serif font-bold text-wood-800 dark:text-cream-100 mb-4">
           {t.notFound}
         </h2>
-        <Link 
-          to="/recipes" 
+        <Link
+          to="/recipes"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-forest-600 hover:bg-forest-500"
         >
           {t.backToRecipes}
@@ -144,16 +188,17 @@ export default function RecipeDetail() {
 
   return (
     <div className="pb-20">
-      {/* Hero Image */}
       <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
         <img
-          src={recipe.mainImage || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'}
+          src={
+            recipe.mainImage ||
+            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'
+          }
           alt={recipe.title}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-wood-900/80 via-wood-900/40 to-transparent" />
 
-        {/* Navigation */}
         <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
           <button
             onClick={() => navigate(-1)}
@@ -161,7 +206,7 @@ export default function RecipeDetail() {
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          
+
           <button
             onClick={handleFavorite}
             disabled={favoriteMutation.isPending}
@@ -180,12 +225,11 @@ export default function RecipeDetail() {
           </button>
         </div>
 
-        {/* Title */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-cream-100 mb-3">
             {recipe.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 text-cream-200">
             {totalTime > 0 && (
               <span className="flex items-center gap-1.5 bg-wood-900/50 px-3 py-1 rounded-full">
@@ -209,16 +253,13 @@ export default function RecipeDetail() {
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        {/* Description */}
         {recipe.description && (
           <p className="text-lg text-wood-600 dark:text-cream-400 mb-8 leading-relaxed">
             {recipe.description}
           </p>
         )}
 
-        {/* Owner Actions */}
         {isOwner && (
           <div className="flex gap-3 mb-8">
             <Link
@@ -230,7 +271,7 @@ export default function RecipeDetail() {
             </Link>
             <button
               onClick={() => {
-                if (confirm(language === 'bg' ? 'Сигурен ли си?' : 'Are you sure?')) {
+                if (confirm(t.confirmDelete)) {
                   deleteMutation.mutate();
                 }
               }}
@@ -243,14 +284,12 @@ export default function RecipeDetail() {
         )}
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Ingredients */}
           <div className="lg:col-span-1">
             <div className="bg-cream-100 dark:bg-wood-800 rounded-2xl p-6 border-2 border-wood-200 dark:border-wood-600 sticky top-24">
               <h2 className="text-xl font-serif font-bold text-wood-800 dark:text-cream-100 mb-4">
                 {t.ingredients}
               </h2>
-              
-              {/* Servings adjuster */}
+
               <div className="flex items-center gap-3 mb-6 p-3 bg-wood-200 dark:bg-wood-700 rounded-xl">
                 <button
                   onClick={() => setServings(Math.max(1, servings - 1))}
@@ -270,11 +309,17 @@ export default function RecipeDetail() {
               </div>
 
               <ul className="space-y-3">
-                {recipe.ingredients?.map((ing: any, idx: number) => (
-                  <li key={idx} className="flex items-start gap-3 text-wood-700 dark:text-cream-300">
+                {recipe.ingredients?.map((ing, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-3 text-wood-700 dark:text-cream-300"
+                  >
                     <span className="w-2 h-2 rounded-full bg-forest-500 mt-2 flex-shrink-0" />
                     <span>
-                      <strong>{scaleAmount(ing.amount || 1)} {ing.unit || ''}</strong> {ing.name}
+                      <strong>
+                        {scaleAmount(ing.amount || 1)} {ing.unit || ''}
+                      </strong>{' '}
+                      {ing.name}
                     </span>
                   </li>
                 ))}
@@ -282,14 +327,13 @@ export default function RecipeDetail() {
             </div>
           </div>
 
-          {/* Steps */}
           <div className="lg:col-span-2">
             <h2 className="text-xl font-serif font-bold text-wood-800 dark:text-cream-100 mb-6">
               {t.steps}
             </h2>
-            
+
             <div className="space-y-4">
-              {recipe.steps?.map((step: string, idx: number) => (
+              {recipe.steps?.map((step, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, x: -20 }}
@@ -303,29 +347,32 @@ export default function RecipeDetail() {
                       : 'bg-cream-100 dark:bg-wood-800 border-wood-200 dark:border-wood-600 hover:border-forest-300'
                   )}
                 >
-                  <div className={cn(
-                    'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold transition-colors',
-                    completedSteps.includes(idx)
-                      ? 'bg-forest-500 text-white'
-                      : 'bg-wood-200 dark:bg-wood-700 text-wood-600 dark:text-cream-300'
-                  )}>
+                  <div
+                    className={cn(
+                      'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold transition-colors',
+                      completedSteps.includes(idx)
+                        ? 'bg-forest-500 text-white'
+                        : 'bg-wood-200 dark:bg-wood-700 text-wood-600 dark:text-cream-300'
+                    )}
+                  >
                     {completedSteps.includes(idx) ? (
                       <Check className="w-5 h-5" />
                     ) : (
                       idx + 1
                     )}
                   </div>
-                  <p className={cn(
-                    'flex-1 text-wood-700 dark:text-cream-300 leading-relaxed',
-                    completedSteps.includes(idx) && 'line-through opacity-60'
-                  )}>
+                  <p
+                    className={cn(
+                      'flex-1 text-wood-700 dark:text-cream-300 leading-relaxed',
+                      completedSteps.includes(idx) && 'line-through opacity-60'
+                    )}
+                  >
                     {step}
                   </p>
                 </motion.div>
               ))}
             </div>
 
-            {/* Nutrition */}
             {recipe.nutrition && (
               <div className="mt-8 bg-cream-100 dark:bg-wood-800 rounded-2xl p-6 border-2 border-wood-200 dark:border-wood-600">
                 <h2 className="text-xl font-serif font-bold text-wood-800 dark:text-cream-100 mb-4">
@@ -333,20 +380,36 @@ export default function RecipeDetail() {
                 </h2>
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
-                    <p className="text-2xl font-bold text-forest-600">{recipe.nutrition.calories || 0}</p>
-                    <p className="text-sm text-wood-500 dark:text-cream-400">{t.calories}</p>
+                    <p className="text-2xl font-bold text-forest-600">
+                      {recipe.nutrition.calories || 0}
+                    </p>
+                    <p className="text-sm text-wood-500 dark:text-cream-400">
+                      {t.calories}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-red-500">{recipe.nutrition.protein || 0}g</p>
-                    <p className="text-sm text-wood-500 dark:text-cream-400">{t.protein}</p>
+                    <p className="text-2xl font-bold text-red-500">
+                      {recipe.nutrition.protein || 0}g
+                    </p>
+                    <p className="text-sm text-wood-500 dark:text-cream-400">
+                      {t.protein}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-amber-500">{recipe.nutrition.carbs || 0}g</p>
-                    <p className="text-sm text-wood-500 dark:text-cream-400">{t.carbs}</p>
+                    <p className="text-2xl font-bold text-amber-500">
+                      {recipe.nutrition.carbs || 0}g
+                    </p>
+                    <p className="text-sm text-wood-500 dark:text-cream-400">
+                      {t.carbs}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-blue-500">{recipe.nutrition.fat || 0}g</p>
-                    <p className="text-sm text-wood-500 dark:text-cream-400">{t.fat}</p>
+                    <p className="text-2xl font-bold text-blue-500">
+                      {recipe.nutrition.fat || 0}g
+                    </p>
+                    <p className="text-sm text-wood-500 dark:text-cream-400">
+                      {t.fat}
+                    </p>
                   </div>
                 </div>
               </div>

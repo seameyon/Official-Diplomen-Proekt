@@ -62,19 +62,21 @@ interface RecipesResponse {
 }
 
 interface FavoriteRecipe {
-  _id?: string;
+  _id: string;
   title?: string;
   mainImage?: string;
-}
-
-interface FavoriteItem {
-  _id: string;
-  recipeId?: string;
-  recipe?: FavoriteRecipe;
+  prepTime?: number;
+  cookTime?: number;
+  nutrition?: {
+    calories?: number;
+  };
 }
 
 interface FavoritesResponse {
-  favorites: FavoriteItem[];
+  recipes: FavoriteRecipe[];
+  total?: number;
+  page?: number;
+  totalPages?: number;
 }
 
 const calculateBMI = (weight: number, height: number): number => {
@@ -165,14 +167,14 @@ export default function Profile() {
     enabled: !!user?._id,
   });
 
-  const { data: favoritesData } = useQuery<FavoritesResponse>({
-    queryKey: ['favorites'],
-    queryFn: () => favoriteApi.getFavorites(),
-    enabled: !!user,
-  });
+ const { data: favoritesData } = useQuery<FavoritesResponse>({
+  queryKey: ['favorites'],
+  queryFn: async () => (await favoriteApi.getFavorites()) as FavoritesResponse,
+  enabled: !!user,
+});
 
   const updateHealthMutation = useMutation({
-    mutationFn: (data: Partial<HealthProfile>) => userApi.updateHealthProfile(data),
+  mutationFn: (data: Partial<HealthProfile>) => userApi.updateHealthProfile(data as any),
     onSuccess: () => {
       toast.success(language === 'bg' ? 'Данните са актуализирани!' : 'Data updated!');
       checkAuth();
@@ -235,7 +237,7 @@ export default function Profile() {
   }
 
   const myRecipes = recipesData?.recipes || [];
-  const favorites = favoritesData?.favorites || [];
+ const favorites = favoritesData?.recipes || [];
 
   const healthProfile: HealthProfile = (user.healthProfile || {}) as HealthProfile;
   const weight = healthProfile.weight || 0;
@@ -826,30 +828,30 @@ export default function Profile() {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-             {favorites.map((fav: FavoriteItem) => (
-                <Link
-                  key={fav._id}
-                  to={`/recipes/${fav.recipe?._id || fav.recipeId}`}
-                  className="flex gap-4 rounded-xl border-2 border-orange-200 bg-white p-4 transition-colors hover:border-orange-400 dark:border-wood-600 dark:bg-wood-800 dark:hover:border-forest-500"
-                >
-                  <img
-                    src={
-                      fav.recipe?.mainImage ||
-                      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop'
-                    }
-                    alt={fav.recipe?.title || 'Recipe'}
-                    className="h-20 w-20 rounded-lg object-cover"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <h3 className="line-clamp-1 font-semibold text-gray-800 dark:text-cream-100">
-                      {fav.recipe?.title || (language === 'bg' ? 'Рецепта' : 'Recipe')}
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500 dark:text-cream-400">
-                      {language === 'bg' ? 'Добавено в любими' : 'Added to favorites'}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+            {favorites.map((fav) => (
+  <Link
+    key={fav._id}
+    to={`/recipes/${fav._id}`}
+    className="flex gap-4 rounded-xl border-2 border-orange-200 bg-white p-4 transition-colors hover:border-orange-400 dark:border-wood-600 dark:bg-wood-800 dark:hover:border-forest-500"
+  >
+    <img
+      src={
+        fav.mainImage ||
+        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop'
+      }
+      alt={fav.title || 'Recipe'}
+      className="h-20 w-20 rounded-lg object-cover"
+    />
+    <div className="min-w-0 flex-1">
+      <h3 className="line-clamp-1 font-semibold text-gray-800 dark:text-cream-100">
+        {fav.title || (language === 'bg' ? 'Рецепта' : 'Recipe')}
+      </h3>
+      <p className="mt-1 text-sm text-gray-500 dark:text-cream-400">
+        {language === 'bg' ? 'Добавено в любими' : 'Added to favorites'}
+      </p>
+    </div>
+  </Link>
+))}
             </div>
           )}
         </div>
