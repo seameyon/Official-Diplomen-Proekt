@@ -1,20 +1,10 @@
-/**
- * React Component Tests
- * 
- * Тези тестове проверяват дали React компонентите се рендират правилно
- * и реагират на потребителски действия.
- */
-
 import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-// ==================== Simple Button Component Test ====================
-// Пример за тестване на прост компонент
-
 describe('Button Component Behavior', () => {
   test('бутон трябва да извика onClick при клик', () => {
-    const handleClick = vi.fn(); // Mock функция
+    const handleClick = vi.fn();
     
     render(
       <button onClick={handleClick} data-testid="test-button">
@@ -44,7 +34,6 @@ describe('Button Component Behavior', () => {
   });
 });
 
-// ==================== Form Input Tests ====================
 describe('Form Input Behavior', () => {
   test('input трябва да показва въведена стойност', () => {
     render(<input data-testid="test-input" />);
@@ -63,7 +52,6 @@ describe('Form Input Behavior', () => {
   });
 });
 
-// ==================== Conditional Rendering Tests ====================
 describe('Conditional Rendering', () => {
   const ConditionalComponent = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
     <div>
@@ -90,7 +78,6 @@ describe('Conditional Rendering', () => {
   });
 });
 
-// ==================== List Rendering Tests ====================
 describe('List Rendering', () => {
   const RecipeList = ({ recipes }: { recipes: string[] }) => (
     <ul data-testid="recipe-list">
@@ -119,7 +106,6 @@ describe('List Rendering', () => {
   });
 });
 
-// ==================== Navigation Link Tests ====================
 describe('Navigation Links', () => {
   const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
     <BrowserRouter>
@@ -138,7 +124,6 @@ describe('Navigation Links', () => {
   });
 });
 
-// ==================== Loading State Tests ====================
 describe('Loading States', () => {
   const LoadingComponent = ({ isLoading }: { isLoading: boolean }) => (
     <div>
@@ -165,7 +150,6 @@ describe('Loading States', () => {
   });
 });
 
-// ==================== Error Display Tests ====================
 describe('Error Display', () => {
   const ErrorComponent = ({ error }: { error: string | null }) => (
     <div>
@@ -190,7 +174,6 @@ describe('Error Display', () => {
   });
 });
 
-// ==================== Counter Component Test ====================
 describe('Counter Component', () => {
   test('трябва да рендира начална стойност', () => {
     render(
@@ -204,7 +187,6 @@ describe('Counter Component', () => {
   });
 });
 
-// ==================== Accessibility Tests ====================
 describe('Accessibility', () => {
   test('form inputs трябва да имат labels', () => {
     render(

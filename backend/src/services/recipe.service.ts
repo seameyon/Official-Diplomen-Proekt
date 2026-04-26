@@ -37,9 +37,7 @@ export const createRecipe = async (
   return recipe;
 };
 
-/**
- * Get recipe by ID
- */
+
 export const getRecipeById = async (
   recipeId: string,
   userId?: string
@@ -52,7 +50,7 @@ export const getRecipeById = async (
     throw new ApiError('Recipe not found', 404);
   }
 
-  // Check if favorited by user
+ 
   let isFavorited = false;
   if (userId) {
     const favorite = await Favorite.findOne({
@@ -69,9 +67,7 @@ export const getRecipeById = async (
   } as IRecipeWithAuthor & { isFavorited?: boolean };
 };
 
-/**
- * Update a recipe
- */
+
 export const updateRecipe = async (
   recipeId: string,
   authorId: string,
@@ -93,9 +89,7 @@ export const updateRecipe = async (
   return recipe;
 };
 
-/**
- * Delete a recipe
- */
+
 export const deleteRecipe = async (
   recipeId: string,
   authorId: string,
@@ -107,20 +101,16 @@ export const deleteRecipe = async (
     throw new ApiError('Recipe not found', 404);
   }
 
-  // Allow deletion if user is the author OR if user is admin
   if (recipe.authorId.toString() !== authorId && !isAdmin) {
     throw new ApiError('Not authorized to delete this recipe', 403);
   }
 
-  // Remove all favorites for this recipe
   await Favorite.deleteMany({ recipeId: new Types.ObjectId(recipeId) });
 
   await Recipe.deleteOne({ _id: recipeId });
 };
 
-/**
- * Get recipes with filters and pagination
- */
+
 export const getRecipes = async (
   filters: RecipeFilters,
   pagination: PaginationOptions,
@@ -134,7 +124,7 @@ export const getRecipes = async (
   const { page, limit, sortBy = 'createdAt', sortOrder = 'desc' } = pagination;
   const skip = (page - 1) * limit;
 
-  // Build query
+  
   const query: Record<string, unknown> = {};
 
   if (filters.search) {
@@ -169,10 +159,10 @@ export const getRecipes = async (
     query.tags = { $all: filters.dietary };
   }
 
-  // Get total count
+  
   const total = await Recipe.countDocuments(query);
 
-  // Get recipes
+ 
   const recipes = await Recipe.find(query)
     .populate('authorId', 'username avatar')
     .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
@@ -180,7 +170,7 @@ export const getRecipes = async (
     .limit(limit)
     .lean();
 
-  // Get user's favorites if logged in
+
   let userFavorites: Set<string> = new Set();
   if (userId) {
     const favorites = await Favorite.find({ userId: new Types.ObjectId(userId) });
@@ -201,9 +191,7 @@ export const getRecipes = async (
   };
 };
 
-/**
- * Get recipes matching user dietary requirements (for meal planning)
- */
+
 export const getMatchingRecipes = async (
   dietary: string[],
   allergies: string[],
@@ -212,12 +200,12 @@ export const getMatchingRecipes = async (
 ): Promise<IRecipe[]> => {
   const query: Record<string, unknown> = {};
 
-  // Include dietary preferences
+
   if (dietary.length > 0) {
     query.tags = { $in: dietary };
   }
 
-  // Exclude allergens from ingredients
+  
   if (allergies.length > 0) {
     query['ingredients.name'] = { 
       $not: { 
@@ -227,12 +215,12 @@ export const getMatchingRecipes = async (
     };
   }
 
-  // Filter by prep time
+  
   if (maxPrepTime) {
     query.$expr = { $lte: [{ $add: ['$prepTime', '$cookTime'] }, maxPrepTime] };
   }
 
-  // Additional tags
+ 
   if (tags && tags.length > 0) {
     query.tags = { ...(query.tags || {}), $all: tags };
   }
@@ -244,9 +232,7 @@ export const getMatchingRecipes = async (
   return recipes as IRecipe[];
 };
 
-/**
- * Get user's recipes
- */
+
 export const getUserRecipes = async (
   userId: string,
   pagination: PaginationOptions

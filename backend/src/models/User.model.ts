@@ -2,7 +2,6 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUser } from '../types/user.types.js';
 
-// Health profile - flexible schema (accepts any fields)
 const HealthProfileSchema = new Schema({}, { 
   _id: false, 
   strict: false // Accept any fields
@@ -58,7 +57,6 @@ const UserSchema = new Schema<IUser>({
   }
 });
 
-// Hash password before saving
 UserSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
@@ -71,7 +69,6 @@ UserSchema.pre('save', async function(next) {
   }
 });
 
-// Compare password method
 UserSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
   try {
     return await bcrypt.compare(candidatePassword, this.password);
@@ -80,7 +77,6 @@ UserSchema.methods.comparePassword = async function(candidatePassword: string): 
   }
 };
 
-// Indexes
 UserSchema.index({ email: 1 });
 UserSchema.index({ username: 1 });
 

@@ -1,9 +1,4 @@
-/**
- * Unit Tests for Frontend Utilities
- * 
- * Тези тестове проверяват правилната работа на помощните функции
- * във frontend приложението.
- */
+
 
 import { describe, test, expect } from 'vitest';
 import {
@@ -17,7 +12,6 @@ import {
   getTagColor,
 } from '../utils';
 
-// ==================== Format Time Tests ====================
 describe('formatTime', () => {
   test('трябва да форматира минути под 60 правилно (EN)', () => {
     expect(formatTime(30, 'en')).toBe('30 min');
@@ -44,7 +38,6 @@ describe('formatTime', () => {
   });
 });
 
-// ==================== Format Calories Tests ====================
 describe('formatCalories', () => {
   test('трябва да форматира калории правилно', () => {
     expect(formatCalories(250)).toBe('250 kcal');
@@ -57,7 +50,6 @@ describe('formatCalories', () => {
   });
 });
 
-// ==================== Truncate Text Tests ====================
 describe('truncateText', () => {
   test('трябва да съкрати дълъг текст', () => {
     const longText = 'This is a very long text that needs to be truncated';
@@ -75,7 +67,6 @@ describe('truncateText', () => {
   });
 });
 
-// ==================== Get Initials Tests ====================
 describe('getInitials', () => {
   test('трябва да извлече инициали от пълно име', () => {
     expect(getInitials('John Doe')).toBe('JD');
@@ -96,7 +87,6 @@ describe('getInitials', () => {
   });
 });
 
-// ==================== Email Validation Tests ====================
 describe('isValidEmail', () => {
   test('трябва да приеме валидни имейли', () => {
     expect(isValidEmail('test@example.com')).toBe(true);
@@ -112,7 +102,6 @@ describe('isValidEmail', () => {
   });
 });
 
-// ==================== BMI Calculation Tests ====================
 describe('calculateBMI', () => {
   test('трябва да изчисли BMI правилно', () => {
     // 70kg, 175cm -> BMI = 70 / 1.75^2 = 22.86
@@ -129,7 +118,6 @@ describe('calculateBMI', () => {
   });
 });
 
-// ==================== BMI Category Tests ====================
 describe('getBMICategory', () => {
   test('трябва да върне правилна категория на английски', () => {
     expect(getBMICategory(17, 'en')).toBe('Underweight');
@@ -155,7 +143,6 @@ describe('getBMICategory', () => {
   });
 });
 
-// ==================== Tag Color Tests ====================
 describe('getTagColor', () => {
   test('трябва да върне правилен цвят за познати тагове', () => {
     expect(getTagColor('vegan')).toContain('green');

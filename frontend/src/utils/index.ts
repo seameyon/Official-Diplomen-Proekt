@@ -1,12 +1,11 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-// Merge Tailwind classes with clsx
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Format date
 export function formatDate(date: string | Date, locale: string = 'en'): string {
   const d = new Date(date);
   return d.toLocaleDateString(locale === 'bg' ? 'bg-BG' : 'en-US', {
@@ -16,7 +15,7 @@ export function formatDate(date: string | Date, locale: string = 'en'): string {
   });
 }
 
-// Format relative time
+
 export function formatRelativeTime(date: string | Date, locale: string = 'en'): string {
   const d = new Date(date);
   const now = new Date();
@@ -32,12 +31,12 @@ export function formatRelativeTime(date: string | Date, locale: string = 'en'): 
   return rtf.format(-Math.floor(diffInSeconds / 31536000), 'year');
 }
 
-// Format number with locale
+
 export function formatNumber(num: number, locale: string = 'en'): string {
   return num.toLocaleString(locale === 'bg' ? 'bg-BG' : 'en-US');
 }
 
-// Format time (minutes to human readable)
+
 export function formatTime(minutes: number, locale: string = 'en'): string {
   if (minutes < 60) {
     return locale === 'bg' ? `${minutes} мин` : `${minutes} min`;
@@ -50,18 +49,18 @@ export function formatTime(minutes: number, locale: string = 'en'): string {
   return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
 }
 
-// Format calories
+
 export function formatCalories(calories: number): string {
   return `${Math.round(calories)} kcal`;
 }
 
-// Truncate text
+
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trim() + '...';
 }
 
-// Generate avatar initials
+
 export function getInitials(name: string): string {
   return name
     .split(' ')
@@ -71,7 +70,7 @@ export function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-// Debounce function
+
 export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
@@ -83,7 +82,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   };
 }
 
-// Storage helpers
+
 export const storage = {
   get: <T>(key: string, defaultValue: T): T => {
     try {
@@ -109,18 +108,17 @@ export const storage = {
   },
 };
 
-// Validate email
+
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// Calculate BMI
+
 export function calculateBMI(weight: number, height: number): number {
   const heightInMeters = height / 100;
   return Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
 }
 
-// Get BMI category
 export function getBMICategory(bmi: number, locale: string = 'en'): string {
   const categories = {
     en: {
@@ -145,7 +143,7 @@ export function getBMICategory(bmi: number, locale: string = 'en'): string {
   return cat.obese;
 }
 
-// Get week key (YYYY-WW format)
+
 export function getCurrentWeekKey(): string {
   const now = new Date();
   const year = now.getFullYear();
@@ -155,12 +153,12 @@ export function getCurrentWeekKey(): string {
   return `${year}-${weekNumber.toString().padStart(2, '0')}`;
 }
 
-// Generate placeholder image URL
+
 export function getPlaceholderImage(seed: string, width = 400, height = 300): string {
   return `https://picsum.photos/seed/${seed}/${width}/${height}`;
 }
 
-// Get recipe tag color
+
 export function getTagColor(tag: string): string {
   const colors: Record<string, string> = {
     vegan: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',

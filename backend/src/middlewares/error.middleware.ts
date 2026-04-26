@@ -8,9 +8,7 @@ export interface AppError extends Error {
   errors?: Record<string, { message: string }>;
 }
 
-/**
- * Custom error class
- */
+
 export class ApiError extends Error {
   statusCode: number;
   isOperational: boolean;
@@ -24,17 +22,13 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Not found handler
- */
+
 export const notFound = (req: Request, res: Response, next: NextFunction): void => {
   const error = new ApiError(`Not found - ${req.originalUrl}`, 404);
   next(error);
 };
 
-/**
- * Global error handler
- */
+
 export const errorHandler = (
   err: AppError,
   _req: Request,
@@ -45,7 +39,7 @@ export const errorHandler = (
   let message = err.message || 'Internal Server Error';
   const errors: Record<string, string> = {};
 
-  // Handle Zod validation errors
+
   if (err instanceof ZodError) {
     statusCode = 400;
     message = 'Validation error';
@@ -55,7 +49,7 @@ export const errorHandler = (
     });
   }
 
-  // Handle Mongoose validation errors
+  
   if (err.name === 'ValidationError' && err.errors) {
     statusCode = 400;
     message = 'Validation error';
@@ -64,19 +58,19 @@ export const errorHandler = (
     });
   }
 
-  // Handle Mongoose duplicate key error
+
   if (err.code === 11000) {
     statusCode = 400;
     message = 'Duplicate field value entered';
   }
 
-  // Handle Mongoose cast error (invalid ObjectId)
+ 
   if (err instanceof mongoose.Error.CastError) {
     statusCode = 400;
     message = `Invalid ${err.path}: ${err.value}`;
   }
 
-  // Handle JWT errors
+  
   if (err.name === 'JsonWebTokenError') {
     statusCode = 401;
     message = 'Invalid token';
@@ -87,7 +81,7 @@ export const errorHandler = (
     message = 'Token expired';
   }
 
-  // Log error in development
+
   if (process.env.NODE_ENV === 'development') {
     console.error('Error:', err);
   }
@@ -100,9 +94,7 @@ export const errorHandler = (
   });
 };
 
-/**
- * Async handler wrapper to catch errors
- */
+
 export const asyncHandler = (
   fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
 ) => {

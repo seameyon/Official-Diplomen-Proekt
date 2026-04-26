@@ -1,4 +1,4 @@
-// VerifyEmail.tsx
+
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';

@@ -1,11 +1,9 @@
 import rateLimit from 'express-rate-limit';
 
-/**
- * General API rate limiter - very generous for development
- */
+
 export const generalLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000, // 1000 requests per minute - very generous
+  max: 1000, // 1000 requests per minute 
   message: {
     success: false,
     message: 'Too many requests, please try again later',
@@ -19,9 +17,7 @@ export const generalLimiter = rateLimit({
   },
 });
 
-/**
- * Auth endpoints rate limiter (stricter)
- */
+
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 50, // 50 attempts per window (increased from 10)
@@ -34,9 +30,7 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: true,
 });
 
-/**
- * Registration rate limiter
- */
+
 export const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 5, // 5 registrations per hour per IP
@@ -48,9 +42,7 @@ export const registerLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-/**
- * Meal plan generation rate limiter
- */
+
 export const mealPlanLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 5, // 5 generations per hour
@@ -62,9 +54,7 @@ export const mealPlanLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-/**
- * Recipe creation rate limiter
- */
+
 export const recipeLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 20, // 20 recipes per hour

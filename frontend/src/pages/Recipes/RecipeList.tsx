@@ -189,7 +189,7 @@ export default function RecipeList() {
     createFirst: language === 'en' ? 'Create the first recipe' : 'Създай първата рецепта',
   };
 
-  // Fetch user recipes
+  
   const { data: userRecipesData, isLoading: loadingUser, refetch } = useQuery({
     queryKey: ['recipes', search, selectedRegion],
     queryFn: () => recipeApi.getAll({ 
@@ -198,7 +198,7 @@ export default function RecipeList() {
     }),
   });
 
-  // Fetch API recipes
+ 
   useEffect(() => {
     const fetchApiRecipes = async () => {
       setLoadingApi(true);

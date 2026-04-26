@@ -1,7 +1,4 @@
-// TheMealDB API Integration - Using backend proxy to avoid CORS
-// Free API: https://www.themealdb.com/api.php
 
-// Use backend proxy to avoid CORS issues
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const PROXY_URL = `${API_BASE}/mealdb`;
 
@@ -36,10 +33,7 @@ export interface MealDBRecipe {
   strMeasure10?: string;
 }
 
-// Map MealDB area to our regions
-// Valid TheMealDB areas: American, British, Canadian, Chinese, Croatian, Dutch, Egyptian, 
-// Filipino, French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, 
-// Mexican, Moroccan, Polish, Portuguese, Russian, Spanish, Thai, Tunisian, Turkish, Ukrainian, Vietnamese
+
 const AREA_TO_REGION: Record<string, string> = {
   'Chinese': 'liyun',
   'Japanese': 'sakuraya',
@@ -71,7 +65,7 @@ const AREA_TO_REGION: Record<string, string> = {
   'Dutch': 'mondberg',
 };
 
-// Bulgarian translations for common terms
+
 const TRANSLATIONS: Record<string, string> = {
   'Chicken': 'Пиле',
   'Beef': 'Телешко',
@@ -89,7 +83,7 @@ const TRANSLATIONS: Record<string, string> = {
   'Goat': 'Козе месо',
 };
 
-// Parse measure string like "1 cup", "1/2 tsp", "200g" into amount and unit
+
 const parseMeasure = (measure: string | undefined): { amount: number; unit: string } => {
   if (!measure || !measure.trim()) {
     return { amount: 1, unit: '' };
@@ -113,7 +107,7 @@ const parseMeasure = (measure: string | undefined): { amount: number; unit: stri
     const whole = parseInt(mixedMatch[1]);
     const num = parseInt(mixedMatch[2]);
     const denom = parseInt(mixedMatch[3]);
-    // Clean the unit
+   
     const unit = (mixedMatch[4] || '').replace(/^[\s\/]+/, '').trim();
     return { amount: whole + (num / denom), unit };
   }
@@ -126,13 +120,12 @@ const parseMeasure = (measure: string | undefined): { amount: number; unit: stri
     return { amount, unit };
   }
   
-  // No number found - return just the unit (cleaned)
   return { amount: 1, unit: m.replace(/^[\s\/]+/, '').trim() };
 };
 
-// Convert MealDB recipe to our format
+
 export const convertMealDBToRecipe = (meal: MealDBRecipe) => {
-  // Extract ingredients
+  
   const ingredients = [];
   for (let i = 1; i <= 20; i++) {
     const ingredient = meal[`strIngredient${i}` as keyof MealDBRecipe] as string;
@@ -147,13 +140,13 @@ export const convertMealDBToRecipe = (meal: MealDBRecipe) => {
     }
   }
 
-  // Parse instructions into steps
+
   const steps = meal.strInstructions
     .split(/\r\n|\r|\n/)
     .filter(s => s.trim())
     .map(s => s.trim());
 
-  // Get tags
+ 
   const tags: string[] = [];
   if (meal.strTags) {
     tags.push(...meal.strTags.split(',').map(t => t.trim().toLowerCase()));
@@ -165,7 +158,6 @@ export const convertMealDBToRecipe = (meal: MealDBRecipe) => {
     tags.push(meal.strArea.toLowerCase());
   }
 
-  // Estimate nutrition (rough calculation)
   const nutrition = {
     calories: Math.round(200 + Math.random() * 300),
     protein: Math.round(10 + Math.random() * 30),
@@ -197,9 +189,9 @@ export const convertMealDBToRecipe = (meal: MealDBRecipe) => {
   };
 };
 
-// API calls
+
 export const mealdbApi = {
-  // Search by name
+  
   searchByName: async (query: string) => {
     try {
       const res = await fetch(`${PROXY_URL}/search?q=${encodeURIComponent(query)}`);
@@ -211,7 +203,7 @@ export const mealdbApi = {
     }
   },
 
-  // Get random meals - with batching to avoid rate limits
+  
   getRandom: async (count: number = 8) => {
     try {
       const recipes: any[] = [];
@@ -227,7 +219,7 @@ export const mealdbApi = {
           .map(r => convertMealDBToRecipe(r.meals[0]));
         recipes.push(...batchRecipes);
         
-        // Small delay between batches
+        
         if (i + batchSize < count) {
           await new Promise(resolve => setTimeout(resolve, 50));
         }
@@ -240,11 +232,11 @@ export const mealdbApi = {
     }
   },
 
-  // Get by area/region
+ 
   getByArea: async (area: string) => {
     try {
       console.log(`Fetching recipes for area: ${area}`);
-      // First get list of meals
+      
       const listRes = await fetch(`${PROXY_URL}/filter/area/${encodeURIComponent(area)}`);
       const listData = await listRes.json();
       
@@ -255,7 +247,7 @@ export const mealdbApi = {
         return [];
       }
 
-      // Then get details for first 15 (increased from 12)
+      
       const meals = listData.meals.slice(0, 15);
       const detailPromises = meals.map((m: any) =>
         fetch(`${PROXY_URL}/lookup/${m.idMeal}`)
@@ -279,7 +271,7 @@ export const mealdbApi = {
     }
   },
 
-  // Get by category
+
   getByCategory: async (category: string) => {
     try {
       const listRes = await fetch(`${PROXY_URL}/filter/category/${encodeURIComponent(category)}`);
@@ -304,15 +296,15 @@ export const mealdbApi = {
     }
   },
 
-  // Get meal by ID with retry
+  
   getById: async (id: string) => {
     try {
-      // Handle different ID formats
+      
       let mealId = id;
       if (mealId.startsWith('mealdb_')) {
         mealId = mealId.replace('mealdb_', '');
       }
-      // Skip fallback IDs - they're not real MealDB IDs
+      
       if (mealId.startsWith('fallback_') || !mealId.match(/^\d+$/)) {
         console.warn('Invalid MealDB ID:', id);
         return null;
@@ -320,7 +312,7 @@ export const mealdbApi = {
       
       console.log('Fetching recipe by ID:', mealId);
       
-      // Try up to 3 times
+  
       for (let attempt = 1; attempt <= 3; attempt++) {
         try {
           const res = await fetch(`${PROXY_URL}/lookup/${mealId}`);
@@ -357,7 +349,7 @@ export const mealdbApi = {
     }
   },
 
-  // Get areas list
+  
   getAreas: async () => {
     try {
       const res = await fetch(`${PROXY_URL}/areas`);
@@ -369,10 +361,7 @@ export const mealdbApi = {
     }
   },
 
-  // Map our region to MealDB areas
-  // Valid TheMealDB areas: American, British, Canadian, Chinese, Croatian, Dutch, Egyptian, 
-  // Filipino, French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, 
-  // Mexican, Moroccan, Polish, Portuguese, Russian, Spanish, Thai, Tunisian, Turkish, Ukrainian, Vietnamese
+  
   getAreasForRegion: (regionId: string): string[] => {
     const mapping: Record<string, string[]> = {
       'liyun': ['Chinese', 'Thai', 'Vietnamese', 'Malaysian', 'Filipino'],
@@ -384,7 +373,7 @@ export const mealdbApi = {
     return mapping[regionId] || [];
   },
 
-  // Search by keyword (for regions with limited results)
+  
   searchByKeyword: async (keyword: string) => {
     try {
       const res = await fetch(`${PROXY_URL}/search?q=${encodeURIComponent(keyword)}`);

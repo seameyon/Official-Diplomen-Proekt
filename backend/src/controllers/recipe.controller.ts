@@ -5,17 +5,13 @@ import * as groqService from '../services/groq.service.js';
 import * as translateService from '../services/translate.service.js';
 import { RecipeTag } from '../types/recipe.types.js';
 
-/**
- * @route   POST /api/recipes
- * @desc    Create a new recipe
- * @access  Private
- */
+
 export const createRecipe = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   
   console.log('[Recipe] Creating recipe:', JSON.stringify(req.body, null, 2));
   
-  // Validate required fields
+  
   const { title, description, ingredients, steps, prepTime, cookTime, servings, mainImage, nutrition } = req.body;
   
   if (!title || title.length < 3) {
@@ -33,7 +29,7 @@ export const createRecipe = asyncHandler(async (req: Request, res: Response) => 
     return res.status(400).json({ success: false, message: 'At least one ingredient is required' });
   }
   
-  // Validate each ingredient has required fields
+  
   for (let i = 0; i < ingredients.length; i++) {
     const ing = ingredients[i];
     if (!ing.name || ing.amount === undefined || ing.amount === null || !ing.unit) {
@@ -91,11 +87,7 @@ export const createRecipe = asyncHandler(async (req: Request, res: Response) => 
   }
 });
 
-/**
- * @route   GET /api/recipes
- * @desc    Get recipes with filters and pagination
- * @access  Public
- */
+
 export const getRecipes = asyncHandler(async (req: Request, res: Response) => {
   const {
     search,
@@ -140,11 +132,7 @@ export const getRecipes = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * @route   GET /api/recipes/:id
- * @desc    Get recipe by ID
- * @access  Public
- */
+
 export const getRecipeById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -156,11 +144,7 @@ export const getRecipeById = asyncHandler(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * @route   PUT /api/recipes/:id
- * @desc    Update a recipe
- * @access  Private (owner only)
- */
+
 export const updateRecipe = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.userId!;
@@ -174,11 +158,7 @@ export const updateRecipe = asyncHandler(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * @route   DELETE /api/recipes/:id
- * @desc    Delete a recipe
- * @access  Private (owner or admin)
- */
+
 export const deleteRecipe = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.userId!;
@@ -192,11 +172,7 @@ export const deleteRecipe = asyncHandler(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * @route   GET /api/recipes/user/:userId
- * @desc    Get recipes by user
- * @access  Public
- */
+
 export const getUserRecipes = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;
   const { page = '1', limit = '12' } = req.query;
@@ -215,11 +191,7 @@ export const getUserRecipes = asyncHandler(async (req: Request, res: Response) =
   });
 });
 
-/**
- * @route   GET /api/recipes/my-recipes
- * @desc    Get current user's recipes
- * @access  Private
- */
+
 export const getMyRecipes = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { page = '1', limit = '12' } = req.query;
@@ -238,11 +210,6 @@ export const getMyRecipes = asyncHandler(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * @route   POST /api/recipes/:id/tips
- * @desc    Get AI-generated cooking tips for a recipe
- * @access  Public
- */
 export const getCookingTips = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -255,11 +222,7 @@ export const getCookingTips = asyncHandler(async (req: Request, res: Response) =
   });
 });
 
-/**
- * @route   POST /api/recipes/suggest
- * @desc    Get recipe suggestions based on ingredients
- * @access  Private
- */
+
 export const suggestRecipes = asyncHandler(async (req: Request, res: Response) => {
   const { ingredients, dietary, maxTime, cuisine } = req.body;
 
@@ -274,11 +237,7 @@ export const suggestRecipes = asyncHandler(async (req: Request, res: Response) =
   });
 });
 
-/**
- * @route   POST /api/recipes/translate
- * @desc    Translate recipe content to Bulgarian
- * @access  Public
- */
+
 export const translateRecipe = asyncHandler(async (req: Request, res: Response) => {
   const { title, steps, ingredients } = req.body;
 
@@ -289,7 +248,7 @@ export const translateRecipe = asyncHandler(async (req: Request, res: Response) 
     });
   }
 
-  // Use Google Translate (FREE, no API key needed)
+ 
   const translation = await translateService.translateRecipeToBulgarian(
     title,
     steps,

@@ -134,7 +134,7 @@ export default function Favorites() {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
 
-  // Translations
+  
   const t = {
     title: language === 'bg' ? 'Любими рецепти' : 'Favorite Recipes',
     savedRecipes: language === 'bg' ? 'запазени рецепти' : 'saved recipes',

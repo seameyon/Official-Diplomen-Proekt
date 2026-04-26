@@ -1,5 +1,3 @@
-// Premium Culinary Regions - Inspired by fantasy RPG world design
-// Original naming to avoid IP issues, Genshin-level aesthetic
 
 export type RegionId = 'liyun' | 'sakuraya' | 'mondberg' | 'fontalis' | 'sumera';
 
@@ -227,7 +225,7 @@ export const ALL_REGIONS = Object.values(REGIONS);
 
 export const getRegionById = (id: RegionId): Region | undefined => REGIONS[id];
 
-// Recipe mastery levels (professional naming, no game-like ranks)
+
 export type RecipeRank = 'Apprentice' | 'Journeyman' | 'Artisan' | 'Master' | 'Grandmaster' | 'Legendary';
 
 export const RECIPE_RANKS: Record<RecipeRank, { 

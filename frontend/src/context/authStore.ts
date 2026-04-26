@@ -9,7 +9,7 @@ interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
   
-  // Actions
+  
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
   login: (email: string, password: string) => Promise<void>;
@@ -58,7 +58,7 @@ export const useAuthStore = create<AuthState>()(
           const { user } = await authApi.getMe();
           set({ user, isAuthenticated: true, isLoading: false });
         } catch (error: any) {
-          // Don't logout on rate limit or network errors
+          
           const status = error?.response?.status;
           if (status === 429 || status === 503 || !error?.response) {
             console.warn('Temporary error during auth check, keeping session');
@@ -66,7 +66,7 @@ export const useAuthStore = create<AuthState>()(
             return;
           }
           
-          // Only logout on actual auth errors (401, 403)
+          
           set({ user: null, token: null, isAuthenticated: false, isLoading: false });
           localStorage.removeItem('auth-storage');
         }

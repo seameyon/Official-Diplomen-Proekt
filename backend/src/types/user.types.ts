@@ -7,32 +7,32 @@ export type CookingTime = 'quick' | 'normal' | 'elaborate' | 'meal_prep';
 export type Budget = 'low' | 'medium' | 'high';
 
 export interface IHealthProfile {
-  // Basic info
+ 
   sex?: string;
   birthYear?: number;
   age?: number;
   
-  // Body
+ 
   height?: number;
   weight?: number;
   targetWeight?: number;
   
-  // Activity & Goals
+  
   activityLevel?: string;
   goal?: string;
   
-  // Diet
+  
   dietaryPreference?: string;
   allergies?: string[];
   dislikedIngredients?: string[];
   
-  // Preferences
+
   mealsPerDay?: number;
   cookingTime?: string;
   budget?: string;
   equipment?: string[];
   
-  // Calculated
+ 
   bmr?: number;
   dailyCalorieTarget?: number;
   proteinTarget?: number;
@@ -40,7 +40,7 @@ export interface IHealthProfile {
   fatTarget?: number;
   completedAt?: Date;
   
-  // Allow any other fields
+  
   [key: string]: unknown;
 }
 

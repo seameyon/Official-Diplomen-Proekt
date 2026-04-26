@@ -1,11 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User.model.js';
 
-/**
- * @route   PUT /api/users/health-profile
- * @desc    Save health profile - accepts ANY data
- * @access  Private
- */
+
 export const updateHealthProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.userId;
@@ -18,7 +14,7 @@ export const updateHealthProfile = async (req: Request, res: Response): Promise<
     const profileData = req.body;
     console.log('Received health profile data:', JSON.stringify(profileData, null, 2));
 
-    // Just save whatever we receive
+   
     const user = await User.findByIdAndUpdate(
       userId,
       { 
@@ -57,11 +53,7 @@ export const updateHealthProfile = async (req: Request, res: Response): Promise<
   }
 };
 
-/**
- * @route   GET /api/users/health-profile
- * @desc    Get health profile
- * @access  Private
- */
+
 export const getHealthProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = req.user;
@@ -77,11 +69,7 @@ export const getHealthProfile = async (req: Request, res: Response): Promise<voi
   }
 };
 
-/**
- * @route   PUT /api/users/settings
- * @desc    Update settings
- * @access  Private
- */
+
 export const updateSettings = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.userId;
@@ -99,11 +87,7 @@ export const updateSettings = async (req: Request, res: Response): Promise<void>
   }
 };
 
-/**
- * @route   PUT /api/users/avatar
- * @desc    Update avatar
- * @access  Private
- */
+
 export const updateAvatar = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.userId;
@@ -117,11 +101,7 @@ export const updateAvatar = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-/**
- * @route   GET /api/users/:username
- * @desc    Get public profile
- * @access  Public
- */
+
 export const getPublicProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username } = req.params;
@@ -138,11 +118,7 @@ export const getPublicProfile = async (req: Request, res: Response): Promise<voi
   }
 };
 
-/**
- * @route   DELETE /api/users/account
- * @desc    Delete account
- * @access  Private
- */
+
 export const deleteAccount = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.userId;
@@ -153,11 +129,7 @@ export const deleteAccount = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-/**
- * @route   PUT /api/users/change-password
- * @desc    Change password
- * @access  Private
- */
+
 export const changePassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.userId;
@@ -173,7 +145,7 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    // Get user with password field
+    
     const user = await User.findById(userId).select('+password');
 
     if (!user) {
@@ -181,14 +153,14 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    // Check current password
+   
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
       res.status(400).json({ success: false, message: 'Текущата парола е грешна' });
       return;
     }
 
-    // Update password
+  
     user.password = newPassword;
     await user.save();
 

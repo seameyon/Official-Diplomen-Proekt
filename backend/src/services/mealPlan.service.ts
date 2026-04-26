@@ -10,9 +10,7 @@ import { Types } from 'mongoose';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 
-/**
- * Generate weekly meal plan - uses Groq AI if available, otherwise falls back to algorithm
- */
+
 export const generateMealPlan = async (
   userId: string,
   forceRegenerate: boolean = false
@@ -29,7 +27,7 @@ export const generateMealPlan = async (
 
   const weekKey = getCurrentWeekKey();
 
-  // Check if plan exists for this week
+
   const existingPlan = await MealPlan.findOne({
     userId: new Types.ObjectId(userId),
     weekKey,
@@ -39,12 +37,12 @@ export const generateMealPlan = async (
     return existingPlan;
   }
 
-  // Get candidate recipes from database
+ 
   const candidateRecipes = await getMatchingCandidates(user.healthProfile);
 
   let mealPlanData;
 
-  // Try Groq AI first if available
+  
   if (groqClient && candidateRecipes.length > 0) {
     try {
       mealPlanData = await generateWithGroq(user.healthProfile, candidateRecipes, userId, weekKey);
@@ -53,11 +51,11 @@ export const generateMealPlan = async (
       mealPlanData = generateWithAlgorithm(user.healthProfile, candidateRecipes, userId, weekKey);
     }
   } else {
-    // Fallback to algorithm
+   
     mealPlanData = generateWithAlgorithm(user.healthProfile, candidateRecipes, userId, weekKey);
   }
 
-  // Save or update meal plan
+  
   if (existingPlan) {
     existingPlan.weeklyPlan = mealPlanData.weeklyPlan;
     existingPlan.totalDailyCalories = mealPlanData.totalDailyCalories;
@@ -75,9 +73,7 @@ export const generateMealPlan = async (
   return newPlan;
 };
 
-/**
- * Generate meal plan using Groq AI
- */
+
 const generateWithGroq = async (
   profile: IHealthProfile,
   candidates: any[],
@@ -107,9 +103,7 @@ const generateWithGroq = async (
   return transformAIPlan(aiPlan, userId, weekKey);
 };
 
-/**
- * Generate meal plan using algorithm (fallback)
- */
+
 const generateWithAlgorithm = (
   profile: IHealthProfile,
   candidates: any[],
@@ -121,7 +115,7 @@ const generateWithAlgorithm = (
   const lunchCalories = Math.round(targetCalories * 0.35);
   const dinnerCalories = Math.round(targetCalories * 0.40);
 
-  // Group recipes by tags
+ 
   const breakfastRecipes = candidates.filter(r => 
     r.tags?.includes('breakfast') || r.tags?.includes('snack')
   );
@@ -132,7 +126,7 @@ const generateWithAlgorithm = (
     r.tags?.includes('dinner') || r.tags?.includes('lunch')
   );
 
-  // Default suggestions if not enough recipes
+  
   const defaultBreakfast = {
     title: 'Овесена каша с плодове',
     calories: breakfastCalories,
@@ -171,7 +165,7 @@ const generateWithAlgorithm = (
   for (let i = 0; i < DAYS.length; i++) {
     const day = DAYS[i];
     
-    // Select recipes for each meal type (with rotation)
+    
     const breakfast = breakfastRecipes.length > 0 
       ? breakfastRecipes[i % breakfastRecipes.length]
       : null;
@@ -273,9 +267,7 @@ const generateWithAlgorithm = (
   };
 };
 
-/**
- * Get current week's meal plan
- */
+
 export const getCurrentMealPlan = async (userId: string): Promise<IMealPlan | null> => {
   const weekKey = getCurrentWeekKey();
   
@@ -288,9 +280,7 @@ export const getCurrentMealPlan = async (userId: string): Promise<IMealPlan | nu
   return mealPlan;
 };
 
-/**
- * Get meal plan history
- */
+
 export const getMealPlanHistory = async (
   userId: string,
   page: number = 1,
@@ -317,9 +307,7 @@ export const getMealPlanHistory = async (
   };
 };
 
-/**
- * Replace a single meal in the plan
- */
+
 export const replaceMeal = async (
   userId: string,
   day: keyof IWeeklyPlan,
@@ -386,7 +374,7 @@ export const replaceMeal = async (
 
   mealPlan.weeklyPlan[day][mealType] = newMeal;
 
-  // Recalculate daily calories
+
   const dayMeals = mealPlan.weeklyPlan[day];
   mealPlan.totalDailyCalories[day] = 
     dayMeals.breakfast.calories + 
@@ -397,7 +385,7 @@ export const replaceMeal = async (
   return mealPlan;
 };
 
-// ==================== Helper Functions ====================
+
 
 const getMatchingCandidates = async (profile: IHealthProfile) => {
   const query: Record<string, unknown> = { isPublished: true };

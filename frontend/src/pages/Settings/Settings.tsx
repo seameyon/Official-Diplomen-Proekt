@@ -21,7 +21,7 @@ export default function Settings() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletePassword, setDeletePassword] = useState('');
   
-  // Password change state
+ 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -58,7 +58,7 @@ export default function Settings() {
     },
   });
 
-  // Password change mutation
+  
   const passwordMutation = useMutation({
     mutationFn: (data: { currentPassword: string; newPassword: string }) => 
       userApi.changePassword(data.currentPassword, data.newPassword),
@@ -107,7 +107,7 @@ export default function Settings() {
     );
   };
 
-  // Translations
+  
   const t = {
     settings: language === 'bg' ? 'Настройки' : 'Settings',
     managePreferences: language === 'bg' ? 'Управлявай предпочитанията на акаунта си' : 'Manage your account preferences',
@@ -131,7 +131,7 @@ export default function Settings() {
     passwordPlaceholder: language === 'bg' ? 'Въведи паролата' : 'Enter password',
     cancel: language === 'bg' ? 'Отказ' : 'Cancel',
     deleteForever: language === 'bg' ? 'Изтрий завинаги' : 'Delete Forever',
-    // Password change
+    
     changePassword: language === 'bg' ? 'Смяна на парола' : 'Change Password',
     currentPassword: language === 'bg' ? 'Текуща парола' : 'Current Password',
     newPassword: language === 'bg' ? 'Нова парола' : 'New Password',

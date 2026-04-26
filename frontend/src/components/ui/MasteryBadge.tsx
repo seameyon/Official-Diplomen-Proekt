@@ -43,7 +43,7 @@ export function MasteryBadge({ rank, size = 'md', showLabel = false }: MasteryBa
   );
 }
 
-// Simple tier dots for minimal display
+
 export function MasteryDots({ rank }: { rank: RecipeRank }) {
   const rankInfo = RECIPE_RANKS[rank];
   

@@ -5,14 +5,11 @@ import { mealPlanLimiter } from '../middlewares/rateLimit.middleware.js';
 
 const router = Router();
 
-// All routes are protected and require onboarding
 router.use(protect);
 router.use(requireVerified);
 
-// Get current meal plan (doesn't require onboarding - to show empty state)
 router.get('/current', mealPlanController.getCurrentMealPlan);
 
-// Generation requires onboarding
 router.post(
   '/generate',
   requireOnboarding,
@@ -20,7 +17,6 @@ router.post(
   mealPlanController.generateMealPlan
 );
 
-// Other routes
 router.get('/history', mealPlanController.getMealPlanHistory);
 router.get('/shopping-list', mealPlanController.getShoppingList);
 router.put('/replace-meal', requireOnboarding, mealPlanController.replaceMeal);

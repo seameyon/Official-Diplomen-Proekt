@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import { useThemeStore } from '../../context/themeStore';
 
-// Beautiful food images for the collage
 const FOOD_IMAGES = [
   'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop', // Salad bowl
   'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop', // Pizza

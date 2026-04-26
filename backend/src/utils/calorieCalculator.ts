@@ -1,6 +1,6 @@
 import { ActivityLevel, Goal, IHealthProfile } from '../types/user.types.js';
 
-// Activity level multipliers for TDEE calculation
+
 const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
   sedentary: 1.2,      // Little or no exercise
   light: 1.375,        // Light exercise 1-3 days/week
@@ -8,7 +8,7 @@ const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
   very_active: 1.725,  // Hard exercise 6-7 days/week
 };
 
-// Goal adjustments (calories)
+
 const GOAL_ADJUSTMENTS: Record<Goal, number> = {
   lose_weight: -500,   // 500 calorie deficit for ~0.5kg/week loss
   maintain: 0,
@@ -39,16 +39,12 @@ export const calculateBMR = (
   }
 };
 
-/**
- * Calculate Total Daily Energy Expenditure (TDEE)
- */
+
 export const calculateTDEE = (bmr: number, activityLevel: ActivityLevel): number => {
   return Math.round(bmr * ACTIVITY_MULTIPLIERS[activityLevel]);
 };
 
-/**
- * Calculate daily calorie target based on goal
- */
+
 export const calculateDailyCalorieTarget = (
   tdee: number,
   goal: Goal
@@ -86,28 +82,24 @@ export const calculateMacroTargets = (
   const protein = Math.round(weight * proteinPerKg);
   const proteinCalories = protein * 4;
   
-  // Fat: 30% of total calories
+ 
   const fatCalories = calories * 0.30;
   const fat = Math.round(fatCalories / 9);
   
-  // Carbs: Remaining calories
+ 
   const carbCalories = calories - proteinCalories - fatCalories;
   const carbs = Math.round(carbCalories / 4);
   
   return { protein, carbs, fat };
 };
 
-/**
- * Calculate BMI
- */
+
 export const calculateBMI = (weight: number, height: number): number => {
   const heightInMeters = height / 100;
   return Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
 };
 
-/**
- * Get BMI category
- */
+
 export const getBMICategory = (bmi: number): string => {
   if (bmi < 18.5) return 'Underweight';
   if (bmi < 25) return 'Normal weight';
@@ -115,9 +107,7 @@ export const getBMICategory = (bmi: number): string => {
   return 'Obese';
 };
 
-/**
- * Calculate all health metrics from profile
- */
+
 export const calculateHealthMetrics = (
   profile: Pick<IHealthProfile, 'height' | 'weight' | 'age' | 'sex' | 'activityLevel' | 'goal'>
 ): {

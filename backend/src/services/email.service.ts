@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import { env } from '../config/env.js';
 
-// Create Gmail transporter
+
 const createTransporter = () => {
   if (!env.emailUser || !env.emailPass) {
     return null;
@@ -18,9 +18,7 @@ const createTransporter = () => {
 
 const transporter = createTransporter();
 
-/**
- * Send email using Gmail
- */
+
 export const sendEmail = async (to: string, subject: string, html: string): Promise<boolean> => {
   if (!transporter) {
     console.log('📧 Email not configured - skipping send to:', to);
@@ -42,9 +40,7 @@ export const sendEmail = async (to: string, subject: string, html: string): Prom
   }
 };
 
-/**
- * Send welcome email after registration
- */
+
 export const sendWelcomeEmail = async (email: string, username: string): Promise<boolean> => {
   const html = `
     <!DOCTYPE html>
@@ -92,9 +88,7 @@ export const sendWelcomeEmail = async (email: string, username: string): Promise
   return sendEmail(email, '🎉 Добре дошъл в Yumly!', html);
 };
 
-/**
- * Send verification email
- */
+
 export const sendVerificationEmail = async (email: string, token: string): Promise<boolean> => {
   const verifyUrl = `${env.frontendUrl}/verify-email?token=${token}`;
 
@@ -124,9 +118,7 @@ export const sendVerificationEmail = async (email: string, token: string): Promi
   return sendEmail(email, '🍳 Yumly - Потвърди имейла си', html);
 };
 
-/**
- * Send password reset email
- */
+
 export const sendPasswordResetEmail = async (email: string, token: string): Promise<boolean> => {
   const resetUrl = `${env.frontendUrl}/reset-password/${token}`;
 

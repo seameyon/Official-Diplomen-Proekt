@@ -1,9 +1,3 @@
-/**
- * Unit Tests for Validation Utilities
- * 
- * Тези тестове проверяват правилната работа на всички валидационни
- * и помощни функции в приложението.
- */
 
 import {
   isValidEmail,
@@ -24,7 +18,7 @@ import {
   calculateAge,
 } from '../utils/validation.js';
 
-// ==================== Email Validation Tests ====================
+
 describe('isValidEmail', () => {
   test('трябва да приеме валиден имейл адрес', () => {
     expect(isValidEmail('test@example.com')).toBe(true);
@@ -46,7 +40,7 @@ describe('isValidEmail', () => {
   });
 });
 
-// ==================== Password Validation Tests ====================
+
 describe('isValidPassword', () => {
   test('трябва да приеме парола с 8+ символа', () => {
     expect(isValidPassword('12345678')).toBe(true);
@@ -66,7 +60,7 @@ describe('isValidPassword', () => {
   });
 });
 
-// ==================== Username Validation Tests ====================
+
 describe('isValidUsername', () => {
   test('трябва да приеме валидно потребителско име', () => {
     expect(isValidUsername('user123')).toBe(true);
@@ -91,7 +85,7 @@ describe('isValidUsername', () => {
   });
 });
 
-// ==================== BMI Calculation Tests ====================
+
 describe('calculateBMI', () => {
   test('трябва да изчисли правилно BMI', () => {
     // 70kg, 175cm -> BMI = 70 / 1.75^2 = 22.86
@@ -112,7 +106,7 @@ describe('calculateBMI', () => {
   });
 });
 
-// ==================== BMI Category Tests ====================
+
 describe('getBMICategory', () => {
   test('трябва да определи категория "underweight" за BMI < 18.5', () => {
     expect(getBMICategory(17)).toBe('underweight');
@@ -143,7 +137,7 @@ describe('getBMICategory', () => {
   });
 });
 
-// ==================== BMR Calculation Tests ====================
+
 describe('calculateBMR', () => {
   test('трябва да изчисли BMR за мъж', () => {
     // Formula: 10 × 70 + 6.25 × 175 - 5 × 30 + 5 = 1648
@@ -164,7 +158,7 @@ describe('calculateBMR', () => {
   });
 });
 
-// ==================== Daily Calories Tests ====================
+
 describe('calculateDailyCalories', () => {
   test('трябва да изчисли калории според нивото на активност', () => {
     const bmr = 1500;
@@ -182,7 +176,7 @@ describe('calculateDailyCalories', () => {
   });
 });
 
-// ==================== Recipe Title Validation Tests ====================
+
 describe('isValidRecipeTitle', () => {
   test('трябва да приеме валидно заглавие (3-100 символа)', () => {
     expect(isValidRecipeTitle('Пица')).toBe(true);
@@ -200,7 +194,7 @@ describe('isValidRecipeTitle', () => {
   });
 });
 
-// ==================== Recipe Description Validation Tests ====================
+
 describe('isValidRecipeDescription', () => {
   test('трябва да приеме валидно описание (10-2000 символа)', () => {
     expect(isValidRecipeDescription('Това е вкусна рецепта за цялото семейство.')).toBe(true);
@@ -216,7 +210,7 @@ describe('isValidRecipeDescription', () => {
   });
 });
 
-// ==================== Cooking Time Validation Tests ====================
+
 describe('isValidCookingTime', () => {
   test('трябва да приеме валидно време за готвене', () => {
     expect(isValidCookingTime(30)).toBe(true);
@@ -231,7 +225,7 @@ describe('isValidCookingTime', () => {
   });
 });
 
-// ==================== Servings Validation Tests ====================
+
 describe('isValidServings', () => {
   test('трябва да приеме валиден брой порции', () => {
     expect(isValidServings(1)).toBe(true);
@@ -247,7 +241,7 @@ describe('isValidServings', () => {
   });
 });
 
-// ==================== Ingredient Validation Tests ====================
+
 describe('isValidIngredient', () => {
   test('трябва да приеме валидна съставка', () => {
     expect(isValidIngredient({ name: 'Брашно', amount: 500, unit: 'г' })).toBe(true);
@@ -264,7 +258,7 @@ describe('isValidIngredient', () => {
   });
 });
 
-// ==================== Slugify Tests ====================
+
 describe('slugify', () => {
   test('трябва да създаде валиден slug', () => {
     expect(slugify('Hello World')).toBe('hello-world');
@@ -283,7 +277,7 @@ describe('slugify', () => {
   });
 });
 
-// ==================== Truncate Text Tests ====================
+
 describe('truncateText', () => {
   test('трябва да съкрати дълъг текст', () => {
     expect(truncateText('This is a long text', 10)).toBe('This is...');
@@ -298,7 +292,7 @@ describe('truncateText', () => {
   });
 });
 
-// ==================== Title Case Tests ====================
+
 describe('titleCase', () => {
   test('трябва да капитализира първата буква на всяка дума', () => {
     expect(titleCase('hello world')).toBe('Hello World');
@@ -310,7 +304,7 @@ describe('titleCase', () => {
   });
 });
 
-// ==================== Calculate Age Tests ====================
+
 describe('calculateAge', () => {
   test('трябва да изчисли възрастта правилно', () => {
     const currentYear = new Date().getFullYear();

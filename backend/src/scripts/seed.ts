@@ -437,11 +437,10 @@ async function seedDatabase() {
       console.log('✅ Създаден системен потребител');
     }
 
-    // Clear existing recipes from system user
+   
     await Recipe.deleteMany({ authorId: systemUser._id });
     console.log('🧹 Изчистени стари рецепти');
 
-    // Insert Bulgarian recipes
     const recipesWithAuthor = bulgarianRecipes.map(recipe => ({
       ...recipe,
       authorId: systemUser!._id,

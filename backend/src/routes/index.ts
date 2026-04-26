@@ -10,12 +10,12 @@ import uploadRoutes from './upload.routes.js';
 
 const router = Router();
 
-// Health check
+
 router.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Mount routes
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/recipes', recipeRoutes);

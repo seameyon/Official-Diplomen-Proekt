@@ -30,7 +30,6 @@ const FavoriteSchema = new Schema<IFavorite>({
   }
 });
 
-// Compound index to ensure unique favorites per user
 FavoriteSchema.index({ userId: 1, recipeId: 1 }, { unique: true });
 
 export const Favorite = mongoose.model<IFavorite>('Favorite', FavoriteSchema);

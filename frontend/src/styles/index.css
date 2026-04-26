@@ -1,8 +1,6 @@
 @import './globals.css';
 
-/* Additional app-specific styles */
 
-/* Mobile navigation animation */
 @keyframes slideUp {
   from {
     transform: translateY(100%);
@@ -94,7 +92,7 @@
   animation: shimmer 1.5s infinite;
 }
 
-/* Recipe card image hover effect */
+
 .recipe-image-hover {
   transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
@@ -103,7 +101,7 @@
   transform: scale(1.08);
 }
 
-/* Meal plan day card */
+
 .meal-day-card {
   transition: all 0.3s ease;
 }
@@ -112,7 +110,7 @@
   transform: translateX(4px);
 }
 
-/* Gradient border effect - Premium dark theme */
+
 .gradient-border {
   position: relative;
   background: linear-gradient(#1a2133, #1a2133) padding-box,
@@ -121,7 +119,7 @@
   border-radius: 1rem;
 }
 
-/* Loading dots */
+
 .loading-dots span {
   animation: loadingDot 1.4s infinite ease-in-out both;
 }
@@ -143,13 +141,13 @@
   }
 }
 
-/* Progress bar - Premium gold */
+
 .progress-bar {
   background: linear-gradient(90deg, #c8a75b 0%, #6a8dff 50%, #34d399 100%);
   transition: width 0.5s ease;
 }
 
-/* Tab indicator - Premium gold */
+
 .tab-indicator {
   position: absolute;
   bottom: 0;
@@ -159,7 +157,7 @@
   transition: left 0.3s ease, width 0.3s ease;
 }
 
-/* Responsive typography */
+
 @media (max-width: 640px) {
   html {
     font-size: 14px;
@@ -172,7 +170,7 @@
   }
 }
 
-/* Print styles */
+
 @media print {
   .no-print {
     display: none !important;

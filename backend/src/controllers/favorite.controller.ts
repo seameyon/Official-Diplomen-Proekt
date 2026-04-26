@@ -4,27 +4,23 @@ import { asyncHandler, ApiError } from '../middlewares/error.middleware.js';
 import { Favorite } from '../models/Favorite.model.js';
 import { Recipe } from '../models/Recipe.model.js';
 
-/**
- * @route   POST /api/favorites/:recipeId
- * @desc    Add recipe to favorites
- * @access  Private
- */
+
 export const addFavorite = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { recipeId } = req.params;
 
-  // Validate ObjectId
+ 
   if (!Types.ObjectId.isValid(recipeId)) {
     throw new ApiError('Invalid recipe ID', 400);
   }
 
-  // Check if recipe exists
+  
   const recipe = await Recipe.findById(recipeId);
   if (!recipe) {
     throw new ApiError('Recipe not found', 404);
   }
 
-  // Check if already favorited
+ 
   const existingFavorite = await Favorite.findOne({
     userId: new Types.ObjectId(userId),
     recipeId: new Types.ObjectId(recipeId),
@@ -34,7 +30,7 @@ export const addFavorite = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError('Recipe already in favorites', 400);
   }
 
-  // Create favorite
+ 
   await Favorite.create({
     userId: new Types.ObjectId(userId),
     recipeId: new Types.ObjectId(recipeId),
@@ -46,11 +42,7 @@ export const addFavorite = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * @route   DELETE /api/favorites/:recipeId
- * @desc    Remove recipe from favorites
- * @access  Private
- */
+
 export const removeFavorite = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { recipeId } = req.params;
@@ -74,11 +66,7 @@ export const removeFavorite = asyncHandler(async (req: Request, res: Response) =
   });
 });
 
-/**
- * @route   GET /api/favorites
- * @desc    Get user's favorites
- * @access  Private
- */
+
 export const getFavorites = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { page = '1', limit = '12' } = req.query;
@@ -87,12 +75,12 @@ export const getFavorites = asyncHandler(async (req: Request, res: Response) => 
   const limitNum = Math.min(parseInt(limit as string), 50);
   const skip = (pageNum - 1) * limitNum;
 
-  // Get total count
+ 
   const total = await Favorite.countDocuments({
     userId: new Types.ObjectId(userId),
   });
 
-  // Get favorites with populated recipes
+
   const favorites = await Favorite.find({ userId: new Types.ObjectId(userId) })
     .populate({
       path: 'recipeId',
@@ -106,9 +94,9 @@ export const getFavorites = asyncHandler(async (req: Request, res: Response) => 
     .limit(limitNum)
     .lean();
 
-  // Transform data
+
   const recipes = favorites
-    .filter(f => f.recipeId) // Filter out any deleted recipes
+    .filter(f => f.recipeId) //Филтрират се изтрити рецепти
     .map(f => ({
       ...f.recipeId,
       favoritedAt: f.createdAt,
@@ -126,11 +114,7 @@ export const getFavorites = asyncHandler(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * @route   GET /api/favorites/check/:recipeId
- * @desc    Check if recipe is favorited
- * @access  Private
- */
+
 export const checkFavorite = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { recipeId } = req.params;
@@ -153,27 +137,22 @@ export const checkFavorite = asyncHandler(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * @route   POST /api/favorites/toggle/:recipeId
- * @desc    Toggle favorite status
- * @access  Private
- */
+
 export const toggleFavorite = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.userId!;
   const { recipeId } = req.params;
 
-  // Validate ObjectId
   if (!Types.ObjectId.isValid(recipeId)) {
     throw new ApiError('Invalid recipe ID. Make sure the recipe is saved first.', 400);
   }
 
-  // Check if recipe exists
+ 
   const recipe = await Recipe.findById(recipeId);
   if (!recipe) {
     throw new ApiError('Recipe not found. Make sure the recipe is saved first.', 404);
   }
 
-  // Check if favorited
+  
   const existingFavorite = await Favorite.findOne({
     userId: new Types.ObjectId(userId),
     recipeId: new Types.ObjectId(recipeId),

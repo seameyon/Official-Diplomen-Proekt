@@ -19,7 +19,7 @@ export const useThemeStore = create<ThemeState>()(
       language: 'bg',
       
       setTheme: (theme) => {
-        // Apply to DOM
+        
         if (theme === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
@@ -33,7 +33,7 @@ export const useThemeStore = create<ThemeState>()(
       toggleTheme: () => {
         const current = get().theme;
         const next = current === 'dark' ? 'light' : 'dark';
-        // Apply to DOM
+    
         if (next === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
@@ -45,7 +45,7 @@ export const useThemeStore = create<ThemeState>()(
     {
       name: 'yumly-settings',
       onRehydrateStorage: () => (state) => {
-        // Apply theme when store loads
+   
         if (state) {
           if (state.theme === 'dark') {
             document.documentElement.classList.add('dark');
@@ -58,7 +58,7 @@ export const useThemeStore = create<ThemeState>()(
   )
 );
 
-// Initialize theme on page load
+
 if (typeof window !== 'undefined') {
   const stored = localStorage.getItem('yumly-settings');
   if (stored) {

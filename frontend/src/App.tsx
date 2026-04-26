@@ -5,11 +5,11 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './context/authStore';
 import { useThemeStore } from './context/themeStore';
 
-// Layout
+
 import MainLayout from './components/layout/MainLayout';
 import AuthLayout from './components/layout/AuthLayout';
 
-// Pages
+
 import Welcome from './pages/Welcome/Welcome';
 import Landing from './pages/Landing/Landing';
 import Login from './pages/Auth/Login';
@@ -39,7 +39,7 @@ const queryClient = new QueryClient({
   },
 });
 
-// Protected Route wrapper
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, user } = useAuthStore();
   
@@ -47,7 +47,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" replace />;
   }
   
-  // Only redirect to onboarding if explicitly not completed
+  
   if (user && user.hasCompletedOnboarding === false && window.location.pathname !== '/onboarding') {
     return <Navigate to="/onboarding" replace />;
   }
@@ -55,7 +55,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Guest Route wrapper
+
 function GuestRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
   
@@ -66,7 +66,7 @@ function GuestRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Admin Route wrapper
+
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user, isAuthenticated } = useAuthStore();
   
@@ -74,7 +74,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" replace />;
   }
   
-  // Allow main admin OR users with isAdmin flag
+  
   const isMainAdmin = user?.email === 'xzvelkosimeon@gmail.com';
   const hasAdminAccess = isMainAdmin || user?.isAdmin;
   

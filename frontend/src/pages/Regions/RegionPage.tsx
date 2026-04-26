@@ -15,11 +15,11 @@ import { cn } from '../../utils';
 
 const RECIPES_PER_PAGE = 8;
 
-// Use backend proxy to avoid CORS issues
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const MEALDB_PROXY = `${API_BASE}/mealdb`;
 
-// Region hero images - real photos representing each region
+
 const REGION_HERO_IMAGES: Record<string, string> = {
   'liyun': 'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=1920&q=80', // Chinese temple/landscape
   'sakuraya': 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=80', // Japanese shrine
@@ -28,7 +28,7 @@ const REGION_HERO_IMAGES: Record<string, string> = {
   'sumera': 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1920&q=80', // India/Taj Mahal
 };
 
-// Region to TheMealDB area mapping
+
 const REGION_TO_AREAS: Record<string, string[]> = {
   'liyun': ['Chinese', 'Thai', 'Vietnamese', 'Malaysian'],
   'sakuraya': ['Japanese', 'Thai'],
@@ -37,7 +37,7 @@ const REGION_TO_AREAS: Record<string, string[]> = {
   'sumera': ['Indian', 'Turkish', 'Moroccan', 'Egyptian', 'Mexican', 'Tunisian'],
 };
 
-// Keywords for searching when area has few results
+
 const REGION_KEYWORDS: Record<string, string[]> = {
   'sakuraya': ['sushi', 'chicken teriyaki', 'salmon'],
   'liyun': ['chicken', 'beef', 'noodle'],
@@ -46,7 +46,7 @@ const REGION_KEYWORDS: Record<string, string[]> = {
   'sumera': ['curry', 'lamb', 'chicken'],
 };
 
-// Fallback static recipes with REAL MealDB IDs
+
 const FALLBACK_RECIPES: Record<string, Recipe[]> = {
   'sakuraya': [
     { _id: 'mealdb_53065', title: 'Sushi', mainImage: 'https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg', prepTime: 30, cookTime: 0, servings: 1, nutrition: { calories: 350 }, isFromAPI: true },
@@ -92,7 +92,7 @@ interface Recipe {
   tags?: string[];
 }
 
-// Recipe name translations for Bulgarian - COMPREHENSIVE
+
 const RECIPE_TRANSLATIONS: Record<string, string> = {
   // Japanese
   'Sushi': 'Суши', 'Teriyaki Chicken Casserole': 'Пиле Терияки Касерола', 'Katsu Chicken': 'Пиле Кацу',
@@ -199,7 +199,7 @@ const translateRecipeTitle = (title: string, language: string): string => {
   return title;
 };
 
-// Convert MealDB recipe to our format
+
 const convertMealDBRecipe = (meal: any): Recipe => {
   const ingredients = [];
   for (let i = 1; i <= 20; i++) {
@@ -231,7 +231,7 @@ const convertMealDBRecipe = (meal: any): Recipe => {
   };
 };
 
-// Fetch with retry helper
+
 const fetchWithRetry = async (url: string, retries = 2): Promise<any> => {
   for (let i = 0; i <= retries; i++) {
     try {
@@ -266,7 +266,7 @@ const fetchByArea = async (area: string): Promise<Recipe[]> => {
     
     const meals = listData.meals.slice(0, 8);
     
-    // Fetch details in batches of 4 to avoid overwhelming the server
+
     const recipes: Recipe[] = [];
     for (let i = 0; i < meals.length; i += 4) {
       const batch = meals.slice(i, i + 4);
@@ -287,7 +287,7 @@ const fetchByArea = async (area: string): Promise<Recipe[]> => {
       
       recipes.push(...batchRecipes);
       
-      // Small delay between batches
+     
       if (i + 4 < meals.length) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
@@ -301,7 +301,7 @@ const fetchByArea = async (area: string): Promise<Recipe[]> => {
   }
 };
 
-// Search by keyword with retry
+
 const searchMealDB = async (keyword: string): Promise<Recipe[]> => {
   try {
     console.log(`[MealDB] Searching: ${keyword}`);
@@ -336,7 +336,7 @@ function RecipeCard({ recipe, language }: { recipe: Recipe; language: string }) 
     try {
       let recipeId = recipe._id;
       
-      // If API recipe, save it first with properly formatted data
+      
       if (recipe.isFromAPI) {
         // Format ingredients
         const formattedIngredients = (recipe.ingredients || []).map(ing => ({
@@ -348,20 +348,20 @@ function RecipeCard({ recipe, language }: { recipe: Recipe; language: string }) 
           formattedIngredients.push({ name: 'Съставка', amount: 1, unit: 'бр.' });
         }
 
-        // Description
+        
         let description = recipe.description || '';
         if (description.length < 10) {
           description = `${recipe.title} - вкусна рецепта от TheMealDB. Опитайте!`;
         }
 
-        // Steps
+        
         let steps = recipe.steps || [];
         steps = steps.filter(s => s && s.trim()).map(s => s.trim());
         if (steps.length === 0) {
           steps = ['Следвайте инструкциите за приготвяне.'];
         }
 
-        // Image
+        
         const mainImage = recipe.mainImage && recipe.mainImage.startsWith('http') 
           ? recipe.mainImage 
           : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400';
@@ -492,14 +492,14 @@ export default function RegionPage() {
     refresh: language === 'bg' ? 'Презареди' : 'Refresh',
   };
 
-  // Fetch user recipes for this region
+  
   const { data: userRecipesData, isLoading: loadingUser } = useQuery({
     queryKey: ['recipes', 'region', regionId],
     queryFn: () => recipeApi.getAll({ region: regionId as any, limit: 50 }),
     enabled: !!region,
   });
 
-  // Fetch API recipes
+ 
   const loadApiRecipes = async () => {
     if (!regionId) {
       console.log('[RegionPage] No regionId');
@@ -521,7 +521,7 @@ export default function RegionPage() {
       
       let allRecipes: Recipe[] = [];
       
-      // Fetch from all areas in parallel
+      
       const areaPromises = areas.map(area => fetchByArea(area));
       const areaResults = await Promise.all(areaPromises);
       
@@ -531,7 +531,7 @@ export default function RegionPage() {
       
       console.log('[RegionPage] Got', allRecipes.length, 'recipes from areas');
       
-      // If we got few results, search by keywords
+     
       if (allRecipes.length < 10) {
         const keywords = REGION_KEYWORDS[regionId] || [];
         console.log('[RegionPage] Searching keywords:', keywords);
@@ -539,7 +539,7 @@ export default function RegionPage() {
         for (const keyword of keywords) {
           if (allRecipes.length >= 20) break;
           const searchResults = await searchMealDB(keyword);
-          // Add only new recipes
+        
           for (const recipe of searchResults) {
             if (!allRecipes.some(r => r._id === recipe._id)) {
               allRecipes.push(recipe);
@@ -548,14 +548,14 @@ export default function RegionPage() {
         }
       }
       
-      // Remove duplicates
+      
       const uniqueRecipes = allRecipes.filter((recipe, index, self) =>
         index === self.findIndex(r => r._id === recipe._id)
       );
       
       console.log('[RegionPage] Final:', uniqueRecipes.length, 'unique recipes');
       
-      // If still no recipes, use fallback
+     
       if (uniqueRecipes.length === 0) {
         console.log('[RegionPage] Using fallback recipes for', regionId);
         const fallback = FALLBACK_RECIPES[regionId] || [];
@@ -565,7 +565,7 @@ export default function RegionPage() {
       }
     } catch (error) {
       console.error('[RegionPage] Error loading API recipes:', error);
-      // Use fallback on error
+     
       const fallback = FALLBACK_RECIPES[regionId] || [];
       console.log('[RegionPage] Using fallback recipes due to error');
       setApiRecipes(fallback);
@@ -574,13 +574,13 @@ export default function RegionPage() {
     }
   };
 
-  // Load when regionId changes
+ 
   useEffect(() => {
     console.log('[RegionPage] useEffect triggered, regionId:', regionId);
     if (regionId) {
       loadApiRecipes();
     }
-  }, [regionId]); // Only depend on regionId
+  }, [regionId]); 
 
   const handleBack = () => {
     navigate('/recipes');
@@ -602,7 +602,7 @@ export default function RegionPage() {
 
   const userRecipes = userRecipesData?.recipes || [];
   
-  // Combine user recipes and API recipes, user recipes first
+  
   const allRecipes = [
     ...userRecipes,
     ...apiRecipes.filter(api => !userRecipes.some((user: Recipe) => user.title.toLowerCase() === api.title.toLowerCase()))

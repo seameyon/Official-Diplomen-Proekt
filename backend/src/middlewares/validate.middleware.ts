@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 
-// ==================== Auth Schemas ====================
+
 
 export const registerSchema = z.object({
   email: z.string().email('Невалиден имейл адрес'),
@@ -24,7 +24,6 @@ export const resetPasswordSchema = z.object({
     .min(8, 'Паролата трябва да е поне 8 символа'),
 });
 
-// ==================== Health Profile Schema ====================
 
 export const healthProfileSchema = z.object({
   height: z.number().min(50, 'Height must be at least 50cm').max(300, 'Height must be at most 300cm'),
@@ -43,7 +42,6 @@ export const healthProfileSchema = z.object({
   hasMedicalCondition: z.boolean().default(false),
 });
 
-// ==================== Recipe Schemas ====================
 
 const ingredientSchema = z.object({
   name: z.string().min(1, 'Ingredient name is required'),
@@ -81,7 +79,6 @@ export const recipeSchema = z.object({
   nutrition: nutritionSchema,
 });
 
-// ==================== User Settings Schema ====================
 
 export const userSettingsSchema = z.object({
   username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/).optional(),
@@ -90,7 +87,6 @@ export const userSettingsSchema = z.object({
   language: z.enum(['en', 'bg']).optional(),
 });
 
-// ==================== Validation Middleware ====================
 
 export const validate = <T extends z.ZodSchema>(schema: T) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {

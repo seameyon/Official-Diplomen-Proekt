@@ -18,11 +18,9 @@ const dropSlugIndex = async () => {
     
     const collection = db.collection('recipes');
     
-    // List all indexes
     const indexes = await collection.indexes();
     console.log('Current indexes:', indexes.map(i => i.name));
     
-    // Check if slug index exists
     const slugIndex = indexes.find(i => i.name === 'slug_1');
     
     if (slugIndex) {
@@ -33,7 +31,6 @@ const dropSlugIndex = async () => {
       console.log('✅ No slug_1 index found, nothing to drop.');
     }
     
-    // List indexes after
     const indexesAfter = await collection.indexes();
     console.log('Indexes after:', indexesAfter.map(i => i.name));
     

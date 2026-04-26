@@ -10,7 +10,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32, 'JWT secret must be at least 32 characters'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   
-  // Simple Gmail config
+
   EMAIL_USER: z.string().optional(),
   EMAIL_PASS: z.string().optional(),
   

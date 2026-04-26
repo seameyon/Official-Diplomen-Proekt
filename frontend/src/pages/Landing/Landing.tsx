@@ -6,11 +6,11 @@ import { useAuthStore } from '../../context/authStore';
 import { ALL_REGIONS } from '../../config/regions';
 import { cn } from '../../utils';
 
-// Wood texture backgrounds - pure wood grain textures
+
 const WOOD_TEXTURE_DARK = 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=1920&q=80';
 const WOOD_TEXTURE_LIGHT = 'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1920&q=80';
 
-// Reliable food images from Unsplash
+
 const FOOD_IMAGES = [
   'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop', // Pizza
   'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=400&fit=crop', // Pancakes
@@ -24,7 +24,7 @@ export default function Landing() {
   const location = useLocation();
   const isDark = theme === 'dark';
 
-  // Redirect unauthenticated users to Welcome page
+ 
   if (!isAuthenticated) {
     return <Navigate to="/welcome" replace />;
   }

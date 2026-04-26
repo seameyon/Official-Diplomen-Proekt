@@ -13,16 +13,14 @@ import { useAuthStore } from '../../context/authStore';
 import { useThemeStore } from '../../context/themeStore';
 import { cn } from '../../utils';
 
-// Cache for translations
+
 const translationCache: Record<string, {
   title: string;
   steps: string[];
   ingredients: string[];
 }> = {};
 
-// ============================================================
-// EXACT TITLE TRANSLATIONS (full recipe names)
-// ============================================================
+
 const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
   'Sushi': 'Суши',
   'Spaghetti Carbonara': 'Спагети Карбонара',
@@ -305,9 +303,7 @@ const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
   'Pilchard puttanesca': 'Путанеска със сардини',
 };
 
-// ============================================================
-// WORD-BY-WORD TRANSLATION (for titles not in exact match)
-// ============================================================
+
 const WORD_DICT: Record<string, string> = {
   // Proteins
   'Chicken': 'Пиле', 'chicken': 'пиле',
@@ -636,7 +632,7 @@ const STEP_DICT: Record<string, string> = {
   'mixture': 'смес', 'liquid': 'течност', 'surface': 'повърхност',
 };
 
-// Translate cooking steps text
+
 function translateStepText(text: string): string {
   let result = text;
   const sorted = Object.entries(STEP_DICT).sort((a, b) => b[0].length - a[0].length);
@@ -654,9 +650,7 @@ function translateStepText(text: string): string {
 }
 
 
-// ============================================================
-// INGREDIENT TRANSLATION
-// ============================================================
+
 const INGREDIENT_TRANSLATIONS: Record<string, string> = {
   'Olive Oil': 'зехтин', 'olive oil': 'зехтин',
   'Vegetable Oil': 'растително олио', 'vegetable oil': 'растително олио',
@@ -776,7 +770,6 @@ function translateUnit(unit: string): string {
 function translateIngredientName(name: string): string {
   if (!name) return name;
   
-  // Check exact match (longest first)
   const sorted = Object.entries(INGREDIENT_TRANSLATIONS).sort((a, b) => b[0].length - a[0].length);
   let result = name;
   for (const [en, bg] of sorted) {
@@ -787,9 +780,7 @@ function translateIngredientName(name: string): string {
 }
 
 
-// ============================================================
-// FILTER STEPS
-// ============================================================
+
 const filterSteps = (steps: string[]): string[] => {
   return steps.filter(step => {
     const trimmed = step.trim().toLowerCase();
@@ -800,9 +791,6 @@ const filterSteps = (steps: string[]): string[] => {
 };
 
 
-// ============================================================
-// MAIN COMPONENT
-// ============================================================
 interface Recipe {
   _id: string;
   title: string;
@@ -910,14 +898,13 @@ export default function APIRecipeDetail() {
               let translation;
               
               try {
-                // Try backend API first
                 translation = await recipeApi.translateRecipe(
                   data.title,
                   filteredSteps,
                   ingredientStrings
                 );
               } catch (apiError) {
-                // Fallback to comprehensive local translation
+               
                 translation = {
                   title: translateTitle(data.title),
                   steps: filteredSteps.map((step: string) => translateStepText(step)),
@@ -1019,7 +1006,7 @@ export default function APIRecipeDetail() {
     return Math.round((amount / baseServings) * servings * 100) / 100;
   };
 
-  // Loading
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
@@ -1029,7 +1016,7 @@ export default function APIRecipeDetail() {
     );
   }
 
-  // Error
+ 
   if (error || !recipe) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
@@ -1054,7 +1041,7 @@ export default function APIRecipeDetail() {
 
   const totalTime = (recipe.prepTime || 0) + (recipe.cookTime || 0);
   
-  // Use translated title if available, otherwise use local translation
+  
   const displayTitle = isBg 
     ? (translatedContent?.title || translateTitle(recipe.title))
     : recipe.title;

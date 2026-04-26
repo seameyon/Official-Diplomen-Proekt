@@ -6,17 +6,13 @@ import { sendWelcomeEmail, sendPasswordResetEmail, isEmailConfigured } from '../
 import { User } from '../models/User.model.js';
 import bcrypt from 'bcryptjs';
 
-/**
- * @route   POST /api/auth/register
- * @desc    Register a new user
- * @access  Public
- */
+
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, username } = req.body;
 
   const { user, token } = await authService.register(email, password, username);
 
-  // Send welcome email (non-blocking)
+ 
   sendWelcomeEmail(email, username).catch(err => {
     console.log('[Auth] Welcome email failed:', err.message);
   });
@@ -28,11 +24,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * @route   POST /api/auth/login
- * @desc    Login user
- * @access  Public
- */
+
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -45,11 +37,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * @route   POST /api/auth/verify-email
- * @desc    Verify email (not used - kept for compatibility)
- * @access  Public
- */
+
 export const verifyEmail = asyncHandler(async (_req: Request, res: Response) => {
   res.json({
     success: true,
@@ -57,11 +45,7 @@ export const verifyEmail = asyncHandler(async (_req: Request, res: Response) => 
   });
 });
 
-/**
- * @route   POST /api/auth/resend-verification
- * @desc    Resend verification (not used)
- * @access  Public
- */
+
 export const resendVerification = asyncHandler(async (_req: Request, res: Response) => {
   res.json({
     success: true,
@@ -69,11 +53,7 @@ export const resendVerification = asyncHandler(async (_req: Request, res: Respon
   });
 });
 
-/**
- * @route   POST /api/auth/forgot-password
- * @desc    Request password reset
- * @access  Public
- */
+
 export const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
   const { email } = req.body;
 
@@ -81,15 +61,15 @@ export const forgotPassword = asyncHandler(async (req: Request, res: Response) =
     throw new ApiError('Моля, въведете имейл', 400);
   }
 
-  // Check if email is configured
+  
   if (!isEmailConfigured()) {
     throw new ApiError('Email функционалността не е конфигурирана. Моля, свържете се с администратор.', 500);
   }
 
-  // Find user
+  
   const user = await User.findOne({ email: email.toLowerCase() });
   
-  // Always return success to prevent email enumeration
+// Винаги се връща успешен отговор, за да не се разкрива дали имейлът съществува
   if (!user) {
     console.log('[Auth] Password reset requested for non-existent email:', email);
     res.json({
@@ -99,16 +79,15 @@ export const forgotPassword = asyncHandler(async (req: Request, res: Response) =
     return;
   }
 
-  // Generate reset token
   const resetToken = crypto.randomBytes(32).toString('hex');
   const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
-  // Save to user
+
   user.passwordResetToken = hashedToken;
   user.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
   await user.save();
 
-  // Send email
+  
   const emailSent = await sendPasswordResetEmail(email, resetToken);
   
   if (!emailSent) {
@@ -126,11 +105,7 @@ export const forgotPassword = asyncHandler(async (req: Request, res: Response) =
   });
 });
 
-/**
- * @route   POST /api/auth/reset-password/:token
- * @desc    Reset password with token
- * @access  Public
- */
+
 export const resetPassword = asyncHandler(async (req: Request, res: Response) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -143,10 +118,10 @@ export const resetPassword = asyncHandler(async (req: Request, res: Response) =>
     throw new ApiError('Паролата трябва да е поне 8 символа', 400);
   }
 
-  // Hash the token to compare with stored hash
+
   const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
-  // Find user with valid token
+  
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
@@ -156,7 +131,7 @@ export const resetPassword = asyncHandler(async (req: Request, res: Response) =>
     throw new ApiError('Невалиден или изтекъл токен. Моля, поискайте нов линк.', 400);
   }
 
-  // Update password
+ 
   user.password = password;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
@@ -170,11 +145,7 @@ export const resetPassword = asyncHandler(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * @route   GET /api/auth/me
- * @desc    Get current user
- * @access  Private
- */
+
 export const getMe = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user!;
 

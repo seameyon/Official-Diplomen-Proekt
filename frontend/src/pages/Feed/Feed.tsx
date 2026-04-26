@@ -30,7 +30,7 @@ interface Recipe {
 
 const RECIPES_PER_PAGE = 8;
 
-// Use backend proxy to avoid CORS issues
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const MEALDB_PROXY = `${API_BASE}/mealdb`;
 
@@ -44,13 +44,9 @@ const CATEGORY_MAP: Record<string, string> = {
   'pasta': 'Pasta',
 };
 
-// ============================================================
-// COMPREHENSIVE BULGARIAN TRANSLATION SYSTEM
-// ============================================================
 
-// Full recipe title translations (exact match)
 const EXACT_TITLE_TRANSLATIONS: Record<string, string> = {
-  // === Popular / Common ===
+ 
   'Sushi': 'Суши',
   'Spaghetti Carbonara': 'Спагети Карбонара',
   'Spaghetti Bolognese': 'Спагети Болонезе',
@@ -689,29 +685,24 @@ const WORD_TRANSLATIONS: Record<string, string> = {
   'Vegetarian': 'Вегетарианско', 'vegetarian': 'вегетарианско',
 };
 
-// Translation cache for runtime
+
 const titleTranslationCache: Record<string, string> = {};
 
-/**
- * Translates a recipe title to Bulgarian.
- * 1. First checks exact match dictionary
- * 2. Then does word-by-word translation with longest-match-first
- * 3. Caches result for performance
- */
+
 function translateRecipeTitle(title: string, language: string): string {
   if (language !== 'bg') return title;
   if (!title) return title;
   
-  // Check cache
+ 
   if (titleTranslationCache[title]) return titleTranslationCache[title];
   
-  // 1. Exact match
+
   if (EXACT_TITLE_TRANSLATIONS[title]) {
     titleTranslationCache[title] = EXACT_TITLE_TRANSLATIONS[title];
     return EXACT_TITLE_TRANSLATIONS[title];
   }
   
-  // 2. Case-insensitive exact match
+  
   const titleLower = title.toLowerCase();
   for (const [key, val] of Object.entries(EXACT_TITLE_TRANSLATIONS)) {
     if (key.toLowerCase() === titleLower) {
@@ -720,7 +711,6 @@ function translateRecipeTitle(title: string, language: string): string {
     }
   }
   
-  // 3. Word-by-word translation (longest phrases first)
   let result = title;
   const sortedWords = Object.entries(WORD_TRANSLATIONS)
     .sort((a, b) => b[0].length - a[0].length);
@@ -733,18 +723,15 @@ function translateRecipeTitle(title: string, language: string): string {
     result = result.replace(regex, bg);
   }
   
-  // Clean up: remove double spaces, trim
   result = result.replace(/\s+/g, ' ').trim();
   
-  // If nothing changed, return original
+  
   titleTranslationCache[title] = result;
   return result;
 }
 
 
-// ============================================================
-// MealDB DATA FETCHING (with deduplication)
-// ============================================================
+
 
 const convertMealDBRecipe = (meal: any): Recipe => {
   const ingredients = [];
@@ -818,7 +805,7 @@ const fetchMealDBRandom = async (count: number = 12): Promise<Recipe[]> => {
     const seenIds = new Set<string>();
     const seenTitles = new Set<string>();
     
-    // Request more than needed to account for duplicates
+    
     const maxAttempts = count * 3;
     let attempts = 0;
     const batchSize = 4;
@@ -837,7 +824,7 @@ const fetchMealDBRandom = async (count: number = 12): Promise<Recipe[]> => {
           const id = meal.idMeal;
           const titleNorm = meal.strMeal?.toLowerCase().trim();
           
-          // Skip if we already have this recipe (by ID or title)
+        
           if (!seenIds.has(id) && !seenTitles.has(titleNorm)) {
             seenIds.add(id);
             seenTitles.add(titleNorm);
@@ -847,7 +834,7 @@ const fetchMealDBRandom = async (count: number = 12): Promise<Recipe[]> => {
         attempts++;
       }
       
-      // Small delay between batches
+      
       if (recipes.length < count) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
@@ -867,7 +854,7 @@ const searchMealDB = async (query: string): Promise<Recipe[]> => {
     const data = await res.json();
     if (!data.meals) return [];
     
-    // Deduplicate search results by ID
+    
     const seen = new Set<string>();
     return data.meals
       .filter((m: any) => {
@@ -882,7 +869,7 @@ const searchMealDB = async (query: string): Promise<Recipe[]> => {
   }
 };
 
-// Fallback recipes with REAL MealDB IDs
+
 const FALLBACK_FEED_RECIPES: Recipe[] = [
   { _id: 'mealdb_52982', title: 'Spaghetti Carbonara', mainImage: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg', prepTime: 10, cookTime: 20, servings: 1, nutrition: { calories: 520 }, isFromAPI: true, tags: ['pasta'] },
   { _id: 'mealdb_52940', title: 'Chicken Curry', mainImage: 'https://www.themealdb.com/images/media/meals/1525876468.jpg', prepTime: 20, cookTime: 40, servings: 1, nutrition: { calories: 420 }, isFromAPI: true, tags: ['chicken'] },
@@ -894,11 +881,9 @@ const FALLBACK_FEED_RECIPES: Recipe[] = [
   { _id: 'mealdb_53065', title: 'Sushi', mainImage: 'https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg', prepTime: 30, cookTime: 0, servings: 1, nutrition: { calories: 350 }, isFromAPI: true, tags: ['seafood'] },
 ];
 
-// ============================================================
-// DEDUPLICATION UTILITY
-// ============================================================
 
-/** Deduplicates recipes by _id and normalized title */
+
+
 function deduplicateRecipes(recipes: Recipe[]): Recipe[] {
   const seenIds = new Set<string>();
   const seenTitles = new Set<string>();
@@ -921,9 +906,6 @@ function deduplicateRecipes(recipes: Recipe[]): Recipe[] {
 }
 
 
-// ============================================================
-// RECIPE CARD COMPONENT
-// ============================================================
 
 function RecipeCard({ recipe, language }: { recipe: Recipe; language: string }) {
   const { isAuthenticated } = useAuthStore();
@@ -1074,9 +1056,7 @@ function RecipeCard({ recipe, language }: { recipe: Recipe; language: string }) 
 }
 
 
-// ============================================================
-// MAIN FEED COMPONENT
-// ============================================================
+
 
 export default function Feed() {
   const { isAuthenticated } = useAuthStore();
@@ -1127,7 +1107,7 @@ export default function Feed() {
     try {
       const allRecipes: Recipe[] = [];
 
-      // Get user recipes
+      
       try {
         const userData = await recipeApi.getAll({ limit: 50 });
         if (userData?.recipes) {
@@ -1137,7 +1117,7 @@ export default function Feed() {
         // No user recipes or error — continue
       }
 
-      // Get API recipes
+      
       let apiRecipes: Recipe[] = [];
       
       if (search) {
@@ -1153,12 +1133,12 @@ export default function Feed() {
 
       allRecipes.push(...apiRecipes);
 
-      // If we have very few recipes, add fallback
+      
       if (allRecipes.length < 3 && !search) {
         allRecipes.push(...FALLBACK_FEED_RECIPES);
       }
 
-      // *** KEY FIX: Deduplicate everything by _id AND title ***
+      
       const uniqueRecipes = deduplicateRecipes(allRecipes);
 
       setRecipes(uniqueRecipes);
@@ -1178,7 +1158,7 @@ export default function Feed() {
     setLoadKey(prev => prev + 1);
   };
 
-  // Pagination
+  
   const totalPages = Math.ceil(recipes.length / RECIPES_PER_PAGE);
   const paginatedRecipes = recipes.slice(
     (currentPage - 1) * RECIPES_PER_PAGE,

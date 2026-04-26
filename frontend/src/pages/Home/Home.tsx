@@ -62,7 +62,7 @@ export default function Home() {
     { icon: Users, title: text.feature4Title, desc: text.feature4Desc, color: '#2196f3' },
   ];
 
-  // Wood panel style
+ 
   const woodPanelStyle = {
     background: theme === 'dark' 
       ? 'linear-gradient(180deg, #2d1f15 0%, #1a1612 100%)'
@@ -71,7 +71,7 @@ export default function Home() {
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
   };
 
-  // Green button style
+  
   const greenBtnStyle = {
     background: 'linear-gradient(180deg, #8bc34a 0%, #689f38 100%)',
     border: '3px solid #558b2f',

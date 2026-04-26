@@ -6,7 +6,7 @@ import { validate, registerSchema, loginSchema, forgotPasswordSchema, resetPassw
 
 const router = Router();
 
-// Public routes
+
 router.post(
   '/register',
   registerLimiter,
@@ -45,7 +45,7 @@ router.post(
   authController.resetPassword
 );
 
-// Protected routes
+
 router.get('/me', protect, authController.getMe);
 
 export default router;

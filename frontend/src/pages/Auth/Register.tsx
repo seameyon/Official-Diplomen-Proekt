@@ -27,7 +27,7 @@ export default function Register() {
   
 
   const onSubmit = async (data: RegisterForm) => {
-    // Validate
+    
     if (!data.email || !data.email.includes('@')) {
       toast.error('Моля въведи валиден имейл');
       return;

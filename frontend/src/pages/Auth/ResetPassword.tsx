@@ -51,7 +51,7 @@ export default function ResetPassword() {
       setIsSuccess(true);
       toast.success('Паролата е променена!');
       
-      // Redirect to login after 3 seconds
+      
       setTimeout(() => {
         navigate('/login');
       }, 3000);

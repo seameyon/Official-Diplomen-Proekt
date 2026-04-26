@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
 import { env } from './env.js';
 
-// Create Groq client only if API key is provided
+
 export const groqClient = env.groqApiKey 
   ? new Groq({ apiKey: env.groqApiKey })
   : null;

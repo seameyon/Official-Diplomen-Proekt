@@ -73,7 +73,6 @@ const MealPlanSchema = new Schema<IMealPlan>({
   }
 });
 
-// Compound index for user's weekly plans
 MealPlanSchema.index({ userId: 1, weekKey: 1 }, { unique: true });
 MealPlanSchema.index({ userId: 1, isActive: 1 });
 MealPlanSchema.index({ createdAt: -1 });

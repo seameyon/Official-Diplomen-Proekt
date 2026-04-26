@@ -1,8 +1,8 @@
-// Region Types (Culinary regions inspired by world cuisines)
+
 export type RegionId = 'liyun' | 'sakuraya' | 'mondberg' | 'fontalis' | 'sumera';
 export type RecipeRank = 'Apprentice' | 'Journeyman' | 'Artisan' | 'Master' | 'Grandmaster' | 'Legendary';
 
-// User Types
+
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'very_active';
 export type Goal = 'lose_weight' | 'maintain' | 'gain_muscle';
 export type DietaryPreference = 'vegan' | 'vegetarian' | 'pescatarian' | 'none';
@@ -61,7 +61,7 @@ export interface UserPublic {
   createdAt: string;
 }
 
-// Recipe Types
+
 export interface Ingredient {
   name: string;
   amount: number;
@@ -156,7 +156,7 @@ export interface RecipeInput {
   nutrition?: Partial<Nutrition>;
 }
 
-// Meal Plan Types
+
 export interface MealItem {
   recipeId: string | null;
   title: string;
@@ -217,7 +217,7 @@ export interface MealPlan {
   updatedAt: string;
 }
 
-// API Response Types
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   message?: string;
@@ -232,7 +232,7 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-// Auth Types
+
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -249,7 +249,7 @@ export interface AuthResponse {
   token: string;
 }
 
-// Filter Types
+
 export interface RecipeFilters {
   search?: string;
   tags?: RecipeTag[];
@@ -264,7 +264,7 @@ export interface RecipeFilters {
   sortOrder?: 'asc' | 'desc';
 }
 
-// Health Metrics
+
 export interface HealthMetrics {
   bmi: number;
   bmiCategory: string;

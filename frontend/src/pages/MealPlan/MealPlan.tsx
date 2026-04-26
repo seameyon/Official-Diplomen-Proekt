@@ -91,7 +91,7 @@ interface HealthProfile {
   goal?: string;
 }
 
-// Common recipe name translations to Bulgarian
+
 const RECIPE_TRANSLATIONS: Record<string, string> = {
   Chicken: 'Пиле',
   Beef: 'Телешко',
@@ -157,7 +157,7 @@ const RECIPE_TRANSLATIONS: Record<string, string> = {
   Cinnamon: 'Канела',
 };
 
-// Translate recipe title to Bulgarian
+
 const translateRecipeTitle = (title: string, language: string): string => {
   if (language !== 'bg') return title;
 

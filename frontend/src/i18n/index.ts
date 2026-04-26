@@ -21,13 +21,13 @@ i18n.use(initReactI18next).init({
   },
 });
 
-// Export useTranslation hook
+
 export const useTranslation = () => {
   const { t, i18n: instance } = useI18nTranslation();
   return { t, i18n: instance, language: instance.language };
 };
 
-// Export I18nProvider as a simple pass-through (i18next already initialized)
+
 export const I18nProvider = ({ children }: { children: React.ReactNode }) => children;
 
 export default i18n;

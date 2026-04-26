@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 
-// Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: (query: string) => ({
@@ -15,7 +14,7 @@ Object.defineProperty(window, 'matchMedia', {
   }),
 });
 
-// Mock localStorage
+
 const localStorageMock = {
   getItem: () => null,
   setItem: () => {},
@@ -24,7 +23,7 @@ const localStorageMock = {
 };
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
-// Mock IntersectionObserver
+
 class IntersectionObserverMock {
   observe = () => {};
   disconnect = () => {};

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Debounce hook
+
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -12,7 +12,7 @@ export function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-// Local storage hook
+
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
@@ -35,7 +35,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
   return [storedValue, setValue];
 }
 
-// Media query hook
+
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
 
@@ -52,12 +52,12 @@ export function useMediaQuery(query: string): boolean {
   return matches;
 }
 
-// Mobile detection hook
+
 export function useIsMobile(): boolean {
   return useMediaQuery('(max-width: 768px)');
 }
 
-// Click outside hook
+
 export function useClickOutside<T extends HTMLElement>(
   callback: () => void
 ): React.RefObject<T> {
@@ -77,7 +77,7 @@ export function useClickOutside<T extends HTMLElement>(
   return ref;
 }
 
-// Scroll position hook
+
 export function useScrollPosition(): number {
   const [scrollY, setScrollY] = useState(0);
 
@@ -90,7 +90,7 @@ export function useScrollPosition(): number {
   return scrollY;
 }
 
-// Intersection observer hook
+
 export function useIntersectionObserver(
   options?: IntersectionObserverInit
 ): [React.RefObject<HTMLDivElement>, boolean] {
@@ -112,14 +112,14 @@ export function useIntersectionObserver(
   return [ref, isIntersecting];
 }
 
-// Toggle hook
+
 export function useToggle(initialValue = false): [boolean, () => void, (value: boolean) => void] {
   const [value, setValue] = useState(initialValue);
   const toggle = useCallback(() => setValue((v) => !v), []);
   return [value, toggle, setValue];
 }
 
-// Previous value hook
+
 export function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>();
   useEffect(() => {
@@ -128,7 +128,7 @@ export function usePrevious<T>(value: T): T | undefined {
   return ref.current;
 }
 
-// Copy to clipboard hook
+
 export function useCopyToClipboard(): [boolean, (text: string) => Promise<void>] {
   const [copied, setCopied] = useState(false);
 

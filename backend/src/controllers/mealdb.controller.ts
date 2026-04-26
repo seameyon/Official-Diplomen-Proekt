@@ -44,17 +44,13 @@ const fetchWithRetry = async (url: string, retries = 3): Promise<any> => {
   }
 };
 
-/**
- * @route   GET /api/mealdb/search
- * @desc    Search MealDB recipes by name
- * @access  Public
- */
+
 export const searchByName = asyncHandler(async (req: Request, res: Response) => {
   const { q } = req.query;
   const query = String(q || '');
   const cacheKey = `search:${query}`;
   
-  // Check cache first
+ 
   const cached = getCached(cacheKey);
   if (cached) {
     console.log(`[MealDB] Cache hit for search: ${query}`);
@@ -72,16 +68,12 @@ export const searchByName = asyncHandler(async (req: Request, res: Response) => 
   }
 });
 
-/**
- * @route   GET /api/mealdb/lookup/:id
- * @desc    Get MealDB recipe by ID
- * @access  Public
- */
+
 export const getById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const cacheKey = `lookup:${id}`;
   
-  // Check cache first
+ 
   const cached = getCached(cacheKey);
   if (cached) {
     console.log(`[MealDB] Cache hit for ID: ${id}`);
@@ -108,16 +100,12 @@ export const getById = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-/**
- * @route   GET /api/mealdb/random
- * @desc    Get random MealDB recipes
- * @access  Public
- */
+
 export const getRandom = asyncHandler(async (req: Request, res: Response) => {
   try {
     const data = await fetchWithRetry(`${MEALDB_BASE_URL}/random.php`);
     
-    // Cache random recipes too by their ID
+    
     if (data.meals && data.meals[0]) {
       const meal = data.meals[0];
       setCache(`lookup:${meal.idMeal}`, data);
@@ -130,11 +118,7 @@ export const getRandom = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-/**
- * @route   GET /api/mealdb/filter/area/:area
- * @desc    Filter MealDB recipes by area/region
- * @access  Public
- */
+
 export const filterByArea = asyncHandler(async (req: Request, res: Response) => {
   const { area } = req.params;
   const cacheKey = `area:${area}`;
@@ -156,11 +140,7 @@ export const filterByArea = asyncHandler(async (req: Request, res: Response) => 
   }
 });
 
-/**
- * @route   GET /api/mealdb/filter/category/:category
- * @desc    Filter MealDB recipes by category
- * @access  Public
- */
+
 export const filterByCategory = asyncHandler(async (req: Request, res: Response) => {
   const { category } = req.params;
   const cacheKey = `category:${category}`;
@@ -182,11 +162,7 @@ export const filterByCategory = asyncHandler(async (req: Request, res: Response)
   }
 });
 
-/**
- * @route   GET /api/mealdb/categories
- * @desc    Get all MealDB categories
- * @access  Public
- */
+
 export const getCategories = asyncHandler(async (_req: Request, res: Response) => {
   const cacheKey = 'categories';
   
@@ -206,11 +182,7 @@ export const getCategories = asyncHandler(async (_req: Request, res: Response) =
   }
 });
 
-/**
- * @route   GET /api/mealdb/areas
- * @desc    Get all MealDB areas
- * @access  Public
- */
+
 export const getAreas = asyncHandler(async (_req: Request, res: Response) => {
   const cacheKey = 'areas';
   

@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.js';
 import { User } from '../models/User.model.js';
 
-/**
- * Middleware to protect routes - requires valid JWT
- */
+
 export const protect = async (
   req: Request,
   res: Response,
@@ -13,7 +11,6 @@ export const protect = async (
   try {
     let token: string | undefined;
 
-    // Check for token in Authorization header
     if (req.headers.authorization?.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }
@@ -26,10 +23,8 @@ export const protect = async (
       return;
     }
 
-    // Verify token
     const decoded = verifyToken(token);
 
-    // Get user from database
     const user = await User.findById(decoded.userId);
 
     if (!user) {
@@ -40,7 +35,6 @@ export const protect = async (
       return;
     }
 
-    // Attach user to request
     req.user = user;
     req.userId = user._id.toString();
 
@@ -53,9 +47,7 @@ export const protect = async (
   }
 };
 
-/**
- * Middleware to check if user's email is verified
- */
+
 export const requireVerified = async (
   req: Request,
   res: Response,
@@ -71,9 +63,7 @@ export const requireVerified = async (
   next();
 };
 
-/**
- * Middleware to check if user has completed onboarding
- */
+
 export const requireOnboarding = async (
   req: Request,
   res: Response,
@@ -90,9 +80,7 @@ export const requireOnboarding = async (
   next();
 };
 
-/**
- * Optional auth - attaches user if token exists but doesn't require it
- */
+
 export const optionalAuth = async (
   req: Request,
   res: Response,
@@ -121,7 +109,7 @@ export const optionalAuth = async (
   }
 };
 
-// Alias for backward compatibility
+
 export const requireAuth = protect;
 
 export default { protect, requireAuth, requireVerified, requireOnboarding, optionalAuth };

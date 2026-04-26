@@ -7,7 +7,7 @@ const router = Router();
 
 const ADMIN_EMAIL = 'xzvelkosimeon@gmail.com';
 
-// Admin middleware - allows main admin or users with isAdmin flag
+
 const requireAdmin = async (req: Request, res: Response, next: any) => {
   if (!req.user) {
     return res.status(403).json({ success: false, message: 'Unauthorized' });
@@ -22,7 +22,7 @@ const requireAdmin = async (req: Request, res: Response, next: any) => {
   next();
 };
 
-// Middleware for main admin only (for dangerous operations)
+
 const requireMainAdmin = async (req: Request, res: Response, next: any) => {
   if (!req.user || req.user.email !== ADMIN_EMAIL) {
     return res.status(403).json({ success: false, message: 'Only main admin can perform this action' });
@@ -30,7 +30,7 @@ const requireMainAdmin = async (req: Request, res: Response, next: any) => {
   next();
 };
 
-// Get all users - any admin can view
+
 router.get('/users', protect, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const users = await User.find().select('-password').sort({ createdAt: -1 });
@@ -40,7 +40,7 @@ router.get('/users', protect, requireAdmin, async (_req: Request, res: Response)
   }
 });
 
-// Get stats - any admin can view
+
 router.get('/stats', protect, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const userCount = await User.countDocuments();
@@ -58,7 +58,7 @@ router.get('/stats', protect, requireAdmin, async (_req: Request, res: Response)
   }
 });
 
-// Delete user - only main admin
+
 router.delete('/users/:id', protect, requireMainAdmin, async (req: Request, res: Response) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -68,13 +68,13 @@ router.delete('/users/:id', protect, requireMainAdmin, async (req: Request, res:
   }
 });
 
-// Toggle admin status - only main admin
+
 router.put('/users/:id/admin', protect, requireMainAdmin, async (req: Request, res: Response) => {
   try {
     const { isAdmin } = req.body;
     const userId = req.params.id;
 
-    // Prevent removing admin from main admin
+    
     const targetUser = await User.findById(userId);
     if (targetUser?.email === ADMIN_EMAIL && !isAdmin) {
       return res.status(400).json({ 

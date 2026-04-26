@@ -108,22 +108,22 @@ export default function CreateRecipe() {
     name: 'steps',
   });
 
-  // Handle image file selection
+ 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
+      
       if (!file.type.startsWith('image/')) {
         toast.error(language === 'bg' ? 'Моля изберете снимка' : 'Please select an image');
         return;
       }
-      // Validate file size (max 5MB)
+      
       if (file.size > 5 * 1024 * 1024) {
         toast.error(language === 'bg' ? 'Снимката е твърде голяма (макс. 5MB)' : 'Image too large (max 5MB)');
         return;
       }
       setImageFile(file);
-      // Create preview
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -132,7 +132,7 @@ export default function CreateRecipe() {
     }
   };
 
-  // Remove selected image
+
   const handleRemoveImage = () => {
     setImageFile(null);
     setImagePreview(null);
@@ -141,7 +141,7 @@ export default function CreateRecipe() {
     }
   };
 
-  // Upload image to server
+ 
   const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append('image', file);
@@ -157,7 +157,7 @@ export default function CreateRecipe() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      // Upload image first if selected
+     
       let imageUrl = '';
       if (imageFile) {
         setUploadingImage(true);
@@ -171,7 +171,7 @@ export default function CreateRecipe() {
         }
       }
       
-      // Create recipe with uploaded image URL
+      
       return recipeApi.createRecipe({
         ...data,
         mainImage: imageUrl,

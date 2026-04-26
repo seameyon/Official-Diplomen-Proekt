@@ -16,14 +16,14 @@ import { cn } from '../../utils';
 
 const ADMIN_EMAIL = 'xzvelkosimeon@gmail.com';
 
-// Calculate BMI
+
 const calculateBMI = (weight: number, height: number): number => {
   if (!weight || !height) return 0;
   const heightInMeters = height / 100;
   return Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10;
 };
 
-// Get BMI category
+
 const getBMICategory = (bmi: number, language: string): { label: string; color: string } => {
   if (bmi === 0) return { label: language === 'bg' ? 'Няма данни' : 'No data', color: 'text-gray-500' };
   if (bmi < 18.5) return { label: language === 'bg' ? 'Поднормено' : 'Underweight', color: 'text-blue-500' };
@@ -32,7 +32,7 @@ const getBMICategory = (bmi: number, language: string): { label: string; color: 
   return { label: language === 'bg' ? 'Затлъстяване' : 'Obese', color: 'text-red-500' };
 };
 
-// User card component with expandable BMI stats
+
 function UserCard({ user, language, onToggleAdmin, onDeleteUser, isMainAdmin }: any) {
   const [expanded, setExpanded] = useState(false);
   
@@ -261,7 +261,7 @@ export default function Admin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [userSearch, setUserSearch] = useState('');
 
-  // Check admin access - allow main admin OR users with isAdmin flag
+ 
   const isMainAdmin = user?.email === ADMIN_EMAIL;
   const hasAdminAccess = isMainAdmin || user?.isAdmin;
 
@@ -287,13 +287,12 @@ export default function Admin() {
     );
   }
 
-  // Fetch all recipes
   const { data: recipesData, isLoading: recipesLoading } = useQuery({
     queryKey: ['admin', 'recipes'],
     queryFn: () => recipeApi.getAll({ limit: 100 }),
   });
 
-  // Fetch all users
+  
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ['admin', 'users'],
     queryFn: async () => {
@@ -302,7 +301,6 @@ export default function Admin() {
     },
   });
 
-  // Delete recipe mutation
   const deleteRecipeMutation = useMutation({
     mutationFn: (id: string) => recipeApi.deleteRecipe(id),
     onSuccess: () => {
@@ -314,7 +312,7 @@ export default function Admin() {
     },
   });
 
-  // Toggle admin mutation
+  /
   const toggleAdminMutation = useMutation({
     mutationFn: async ({ userId, isAdmin }: { userId: string; isAdmin: boolean }) => {
       const { data } = await api.put(`/admin/users/${userId}/admin`, { isAdmin });
@@ -333,7 +331,7 @@ export default function Admin() {
     },
   });
 
-  // Delete user mutation
+  
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
       const { data } = await api.delete(`/admin/users/${userId}`);
@@ -362,7 +360,6 @@ export default function Admin() {
 
   const adminCount = users.filter((u: any) => u.isAdmin).length;
 
-  // Translations
   const t = {
     title: language === 'bg' ? 'Админ Панел' : 'Admin Panel',
     users: language === 'bg' ? 'Потребители' : 'Users',

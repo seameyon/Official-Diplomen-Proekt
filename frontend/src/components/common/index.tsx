@@ -1,6 +1,5 @@
 import { cn } from '../../utils';
 
-// ==================== Loading ====================
 interface LoadingProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
@@ -29,7 +28,6 @@ export const Loading = ({ size = 'md', className, text }: LoadingProps) => {
   );
 };
 
-// ==================== Spinner (inline) ====================
 export const Spinner = ({ className }: { className?: string }) => (
   <div
     className={cn(
@@ -39,7 +37,6 @@ export const Spinner = ({ className }: { className?: string }) => (
   />
 );
 
-// ==================== Card ====================
 interface CardProps {
   children: React.ReactNode;
   className?: string;
@@ -62,7 +59,6 @@ export const Card = ({ children, className, hover = false, onClick }: CardProps)
   </div>
 );
 
-// ==================== Avatar ====================
 interface AvatarProps {
   src?: string;
   alt?: string;
@@ -109,7 +105,6 @@ export const Avatar = ({ src, alt, fallback, size = 'md', className }: AvatarPro
   );
 };
 
-// ==================== Badge ====================
 interface BadgeProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'neutral';
@@ -140,7 +135,6 @@ export const Badge = ({ children, variant = 'primary', className }: BadgeProps) 
   );
 };
 
-// ==================== Divider ====================
 interface DividerProps {
   className?: string;
   text?: string;
@@ -162,7 +156,6 @@ export const Divider = ({ className, text }: DividerProps) => {
   );
 };
 
-// ==================== Empty State ====================
 interface EmptyStateProps {
   icon?: React.ReactNode;
   title: string;
@@ -184,7 +177,6 @@ export const EmptyState = ({ icon, title, description, action, className }: Empt
   </div>
 );
 
-// ==================== Skeleton ====================
 interface SkeletonProps {
   className?: string;
   variant?: 'text' | 'circular' | 'rectangular';
@@ -211,7 +203,6 @@ export const Skeleton = ({ className, variant = 'rectangular', width, height }: 
   );
 };
 
-// ==================== Page Header ====================
 interface PageHeaderProps {
   title: string;
   subtitle?: string;

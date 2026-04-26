@@ -16,7 +16,7 @@ import type {
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-// Create axios instance
+
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
@@ -24,10 +24,10 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor - add auth token
+
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Read from zustand persisted storage
+    
     const authStorage = localStorage.getItem('auth-storage');
     if (authStorage) {
       try {
@@ -45,25 +45,25 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor - handle errors
+
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiResponse>) => {
-    // Don't logout on rate limit errors (429)
+    
     if (error.response?.status === 429) {
       console.warn('Rate limit exceeded, please wait...');
       return Promise.reject(error);
     }
     
-    // Only handle 401 errors for actual auth failures
+    
     if (error.response?.status === 401) {
-      // Only redirect if not already on auth pages
+      
       const isAuthPage = window.location.pathname.startsWith('/login') || 
                          window.location.pathname.startsWith('/register') ||
                          window.location.pathname.startsWith('/forgot-password') ||
                          window.location.pathname.startsWith('/welcome');
       
-      // Check if it's an actual auth failure vs other 401
+    
       const message = error.response?.data?.message || '';
       const isTokenError = message.includes('token') || message.includes('authorized');
       
@@ -76,7 +76,7 @@ api.interceptors.response.use(
   }
 );
 
-// ==================== Auth API ====================
+
 
 export const authApi = {
   register: async (credentials: RegisterCredentials): Promise<AuthResponse> => {
@@ -110,8 +110,6 @@ export const authApi = {
     return data.data!;
   },
 };
-
-// ==================== User API ====================
 
 export const userApi = {
   updateHealthProfile: async (
@@ -160,7 +158,6 @@ export const userApi = {
   },
 };
 
-// ==================== Recipe API ====================
 
 export const recipeApi = {
   getAll: async (
@@ -284,7 +281,7 @@ export const recipeApi = {
   },
 };
 
-// ==================== Favorites API ====================
+
 
 export const favoriteApi = {
   getFavorites: async (
@@ -320,7 +317,7 @@ export const favoriteApi = {
   },
 };
 
-// ==================== Meal Plan API ====================
+
 
 export const mealPlanApi = {
   generateMealPlan: async (forceRegenerate = false): Promise<{ mealPlan: MealPlan }> => {
@@ -376,7 +373,7 @@ export const mealPlanApi = {
   },
 };
 
-// ==================== Upload API ====================
+
 
 export const uploadApi = {
   uploadImage: async (file: File): Promise<{ url: string; filename: string }> => {

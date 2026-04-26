@@ -7,7 +7,6 @@ import { useAuthStore } from '../../context/authStore';
 import { useThemeStore } from '../../context/themeStore';
 import { cn } from '../../utils';
 
-// Wood texture backgrounds
 const WOOD_TEXTURE_DARK = 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=1920&q=80';
 const WOOD_TEXTURE_LIGHT = 'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1920&q=80';
 
@@ -19,7 +18,6 @@ export default function MainLayout() {
   const isAdmin = user?.email === 'xzvelkosimeon@gmail.com' || user?.isAdmin;
   const isDark = theme === 'dark';
   
-  // Don't show layout on landing page
   if (location.pathname === '/') {
     return <Outlet />;
   }

@@ -1,9 +1,7 @@
 import { groqClient, GROQ_MODEL } from '../config/groq.js';
 import { IRecipe } from '../types/recipe.types.js';
 
-/**
- * Estimate nutrition for a recipe using AI
- */
+
 export const estimateNutrition = async (
   ingredients: Array<{ name: string; amount: number; unit: string }>,
   servings: number
@@ -59,9 +57,7 @@ Return ONLY a JSON object with these exact fields (numbers only, no units):
   }
 };
 
-/**
- * Generate recipe suggestions based on available ingredients
- */
+
 export const suggestRecipes = async (
   ingredients: string[],
   preferences: {
@@ -118,9 +114,7 @@ Return a JSON array with exactly 3 recipes, each having:
   }
 };
 
-/**
- * Generate cooking tips for a recipe
- */
+
 export const generateCookingTips = async (recipe: Partial<IRecipe>): Promise<string[]> => {
   const prompt = `
 Generate 3-5 helpful cooking tips for this recipe:
@@ -155,9 +149,7 @@ Return a JSON object with a "tips" array of strings.
   }
 };
 
-/**
- * Analyze recipe for dietary compliance
- */
+
 export const analyzeDietaryCompliance = async (
   recipe: Partial<IRecipe>,
   dietaryRequirements: string[]
@@ -209,9 +201,7 @@ Return a JSON object:
   }
 };
 
-/**
- * Translate recipe title and steps to Bulgarian
- */
+
 export const translateRecipe = async (
   title: string,
   steps: string[],

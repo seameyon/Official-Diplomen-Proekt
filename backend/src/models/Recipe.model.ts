@@ -93,12 +93,10 @@ const RecipeSchema = new Schema<IRecipe>({
   }
 });
 
-// Virtual for total time
 RecipeSchema.virtual('totalTime').get(function() {
   return this.prepTime + this.cookTime;
 });
 
-// Indexes for efficient queries
 RecipeSchema.index({ title: 'text', description: 'text' });
 RecipeSchema.index({ tags: 1 });
 RecipeSchema.index({ region: 1 });

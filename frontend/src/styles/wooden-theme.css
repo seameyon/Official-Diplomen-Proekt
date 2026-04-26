@@ -1,6 +1,4 @@
-/* Wooden Theme - Inspired by Зоната */
 
-/* Wood texture background */
 .wood-bg {
   background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80');
   background-size: cover;
@@ -12,7 +10,7 @@
   background: linear-gradient(180deg, rgba(139, 90, 43, 0.1) 0%, rgba(101, 67, 33, 0.2) 100%);
 }
 
-/* Wood panel cards */
+
 .wood-panel {
   background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dcc5a0 100%);
   border: 3px solid #8B5A2B;
@@ -34,7 +32,7 @@
   border-radius: 5px;
 }
 
-/* Green header banner */
+
 .green-banner {
   background: linear-gradient(180deg, #8BC34A 0%, #689F38 50%, #558B2F 100%);
   border: 2px solid #33691E;
@@ -43,7 +41,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Navigation buttons */
+
 .nav-wood-btn {
   background: linear-gradient(180deg, #9CCC65 0%, #7CB342 50%, #689F38 100%);
   border: 2px solid #558B2F;
@@ -69,7 +67,7 @@
   color: #5D4037;
 }
 
-/* Recipe card wooden style */
+
 .recipe-card-wood {
   background: linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%);
   border: 3px solid #8D6E63;
@@ -88,7 +86,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Rustic button */
+
 .btn-rustic {
   background: linear-gradient(180deg, #8D6E63 0%, #6D4C41 50%, #5D4037 100%);
   border: 2px solid #4E342E;
@@ -108,7 +106,7 @@
   transform: translateY(-2px);
 }
 
-/* Green accent button */
+
 .btn-green-accent {
   background: linear-gradient(180deg, #7CB342 0%, #558B2F 50%, #33691E 100%);
   border: 2px solid #1B5E20;
@@ -120,7 +118,7 @@
   background: linear-gradient(180deg, #8BC34A 0%, #689F38 50%, #558B2F 100%);
 }
 
-/* Wooden sign/label */
+
 .wood-sign {
   background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
   border: 3px solid #5D4037;
@@ -135,7 +133,7 @@
   position: relative;
 }
 
-/* Rope decoration */
+
 .rope-hang {
   position: relative;
 }
@@ -159,7 +157,7 @@
   right: 20%;
 }
 
-/* Input fields wooden style */
+
 .input-wood {
   background: #FFFDE7;
   border: 2px solid #8D6E63;
@@ -177,7 +175,7 @@
     0 0 0 3px rgba(104, 159, 56, 0.3);
 }
 
-/* Scrollbar wooden theme */
+
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -197,7 +195,6 @@
   background: linear-gradient(180deg, #A1887F 0%, #8D6E63 100%);
 }
 
-/* Dark mode adjustments */
 .dark .wood-panel {
   background: linear-gradient(135deg, #5D4037 0%, #4E342E 50%, #3E2723 100%);
   border-color: #8D6E63;
