@@ -312,7 +312,7 @@ export default function Admin() {
     },
   });
 
-  /
+  
   const toggleAdminMutation = useMutation({
     mutationFn: async ({ userId, isAdmin }: { userId: string; isAdmin: boolean }) => {
       const { data } = await api.put(`/admin/users/${userId}/admin`, { isAdmin });
