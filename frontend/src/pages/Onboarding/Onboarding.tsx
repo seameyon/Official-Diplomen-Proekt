@@ -79,8 +79,8 @@ const COOKING_TIMES = [
 ] as const;
 
 const BUDGETS = [
-  { value: 'low', label: 'Икономичен', desc: 'До 50 лв/седмица' },
-  { value: 'medium', label: 'Среден', desc: '50-100 лв/седмица' },
+  { value: 'low', label: 'Икономичен', desc: 'До 50 евро/седмица' },
+  { value: 'medium', label: 'Среден', desc: '50-100 евро/седмица' },
   { value: 'high', label: 'Без ограничение', desc: 'Качество над цена' },
 ] as const;
 
