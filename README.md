@@ -72,8 +72,8 @@ npm run dev
 
 http://localhost:5173
 
-Production:
-👉 https://official-diplomen-proekt-d95b-awz4t6bdb.vercel.app
+Линк към сайта:
+👉 https://official-diplomen-proekt.vercel.app/welcome
 
 AI функционалности:
 
