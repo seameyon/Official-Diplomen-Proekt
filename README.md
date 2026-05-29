@@ -46,7 +46,7 @@ Groq AI – интелигентни функционалности
 
 Демонстрация:
 
-https://official-diplomen-proekt.vercel.app/welcome
+https://official-diplomen-proekt.vercel.app/
 
 Автор:
 Симеон Велков
