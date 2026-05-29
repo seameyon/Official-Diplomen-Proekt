@@ -18,6 +18,7 @@ const envSchema = z.object({
   GROQ_API_KEY: z.string().optional(),
   
   FRONTEND_URL: z.string().default('http://localhost:5173'),
+  BACKEND_URL: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -41,4 +42,5 @@ export const env = {
   emailPass: parsed.data.EMAIL_PASS || '',
   groqApiKey: parsed.data.GROQ_API_KEY || '',
   frontendUrl: parsed.data.FRONTEND_URL,
+  backendUrl: parsed.data.BACKEND_URL || '',
 };

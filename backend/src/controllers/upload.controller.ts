@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-
+import { env } from '../config/env.js';
 
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -55,7 +55,8 @@ export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
   
   const protocol = req.protocol;
   const host = req.get('host');
-  const imageUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+  const baseUrl = env.backendUrl || `${req.protocol}://${req.get('host')}`;
+const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
 
   console.log('[Upload] Image uploaded:', imageUrl);
 
