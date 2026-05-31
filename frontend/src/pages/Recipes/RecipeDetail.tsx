@@ -58,6 +58,28 @@ interface RecipeResponse {
   recipe: Recipe;
 }
 
+const renderDescription = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  return text.split(urlRegex).map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline break-all hover:text-blue-600"
+        >
+          {part}
+        </a>
+      );
+    }
+
+    return part;
+  });
+};
+
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -256,7 +278,7 @@ export default function RecipeDetail() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         {recipe.description && (
           <p className="text-lg text-wood-600 dark:text-cream-400 mb-8 leading-relaxed">
-            {recipe.description}
+            {renderDescription(recipe.description)}
           </p>
         )}
 

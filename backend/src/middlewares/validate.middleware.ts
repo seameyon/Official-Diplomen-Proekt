@@ -59,7 +59,7 @@ export const healthProfileSchema = z.object({
   dietaryPreference: z.enum(['vegan', 'vegetarian', 'pescatarian', 'none', 'keto']).default('none'),
   allergies: z.array(z.string()).default([]),
   dislikedIngredients: z.array(z.string()).default([]),
-  mealsPerDay: z.number().min(2).max(5).default(3),
+  mealsPerDay: z.literal(3).default(3),
   cookingTime: z.enum(['quick', 'normal', 'elaborate', 'meal_prep']).default('normal'),
   budget: z.enum(['low', 'medium', 'high']).default('medium'),
   equipment: z.array(z.string()).default([]),

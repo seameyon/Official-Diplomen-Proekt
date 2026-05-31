@@ -225,7 +225,7 @@ export default function Onboarding() {
           .map((s) => s.trim())
           .filter(Boolean),
         cookingTime: formData.cookingTime,
-        mealsPerDay: formData.mealsPerDay,
+        mealsPerDay: 3,
         budget: formData.budget,
         equipment: [],
         hasMedicalCondition: false,
@@ -662,30 +662,20 @@ export default function Onboarding() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-wood-700 dark:text-cream-300">
-                      Хранения на ден
-                    </label>
-                    <div className="flex items-center gap-4">
-                      {[2, 3, 4, 5].map((num) => (
-                        <button
-                          key={num}
-                          type="button"
-                          onClick={() =>
-                            setFormData((prev) => ({ ...prev, mealsPerDay: num }))
-                          }
-                          className={cn(
-                            'h-12 w-12 rounded-xl border-2 font-bold transition-all',
-                            formData.mealsPerDay === num
-                              ? 'border-orange-500 bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-300'
-                              : 'border-wood-200 bg-cream-50 text-wood-600 hover:border-orange-300 dark:border-wood-600 dark:bg-wood-700 dark:text-cream-300'
-                          )}
-                        >
-                          {num}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                <div>
+  <label className="mb-2 block text-sm font-medium text-wood-700 dark:text-cream-300">
+    Хранения на ден
+  </label>
+
+  <div className="rounded-xl border-2 border-orange-200 bg-orange-50 p-4 dark:border-orange-800 dark:bg-orange-900/30">
+    <div className="text-lg font-semibold text-wood-800 dark:text-cream-100">
+      3 хранения на ден
+    </div>
+    <p className="mt-1 text-sm text-wood-500 dark:text-cream-400">
+      Хранителният план се състои от закуска, обяд и вечеря.
+    </p>
+  </div>
+</div>
 
                   <div>
                     <label className="mb-3 block text-sm font-medium text-wood-700 dark:text-cream-300">
