@@ -1,3 +1,4 @@
+/*receives the requests like login/register*/
 import { Request, Response } from 'express';
 import crypto from 'crypto';
 import { asyncHandler, ApiError } from '../middlewares/error.middleware.js';

@@ -1,3 +1,4 @@
+/*expands the express request object*/
 import { IUser } from './user.types.js';
 
 declare global {

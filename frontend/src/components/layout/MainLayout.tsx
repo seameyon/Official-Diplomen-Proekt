@@ -1,3 +1,4 @@
+/*the general layout after the login*/
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { 
   Home, ChefHat, Calendar, Heart, User, Settings, 

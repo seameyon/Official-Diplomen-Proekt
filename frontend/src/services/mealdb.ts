@@ -1,4 +1,4 @@
-
+/*uses THEMEALDB recipes with backend proxy*/
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const PROXY_URL = `${API_BASE}/mealdb`;
 

@@ -1,3 +1,4 @@
+/*central service file for backend requests, frontend uses recipeAPI, mealPlanAPI to use backend endpoints*/
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 import type {

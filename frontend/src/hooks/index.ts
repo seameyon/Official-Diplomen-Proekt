@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
+/*has custom react reusable functions for delayed requests, local storage, responsivness*/
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);

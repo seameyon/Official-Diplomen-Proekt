@@ -1,3 +1,4 @@
+/*contains maintenance scripts*/
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 

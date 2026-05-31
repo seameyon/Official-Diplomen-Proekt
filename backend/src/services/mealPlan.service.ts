@@ -1,3 +1,4 @@
+/*Uses the user profile info and generates the meal plan*/
 import { groqClient, GROQ_MODEL, MEAL_PLAN_SYSTEM_PROMPT } from '../config/groq.js';
 import { MealPlan } from '../models/MealPlan.model.js';
 import { User } from '../models/User.model.js';

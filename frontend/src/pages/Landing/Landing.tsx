@@ -1,3 +1,4 @@
+/*home page AFTER the log in*/
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChefHat, Heart, Sparkles, Sun, Moon, ArrowRight, Activity, Home, Calendar } from 'lucide-react';

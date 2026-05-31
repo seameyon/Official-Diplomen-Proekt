@@ -1,3 +1,4 @@
+/*universal buttons*/
 import { forwardRef, ButtonHTMLAttributes } from 'react';
 import { cn } from '../../utils';
 import { Loader2 } from 'lucide-react';

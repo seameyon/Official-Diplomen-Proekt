@@ -1,3 +1,4 @@
+/*describes the user type and health profiel*/
 import { Document, Types } from 'mongoose';
 
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';

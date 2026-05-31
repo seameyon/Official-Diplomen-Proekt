@@ -1,3 +1,4 @@
+/*contains all auth endpoints and is responsible for authentication and authorization*/
 import { Router } from 'express';
 import * as authController from '../controllers/auth.controller.js';
 import { protect } from '../middlewares/auth.middleware.js';

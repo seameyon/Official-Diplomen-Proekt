@@ -1,3 +1,4 @@
+/*takes the heatlh profile and calculates everything and then shows recipes but the groq integration is in backend*/
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {

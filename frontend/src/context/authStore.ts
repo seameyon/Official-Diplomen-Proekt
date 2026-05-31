@@ -1,3 +1,4 @@
+/*globally saves user info, tokens and in this way the app knows if a user is logged in*/
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { User } from '../types';

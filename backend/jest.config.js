@@ -1,3 +1,4 @@
+/*configuration fir tests*/
 /** @type {import('jest').Config} */
 export default {
   preset: 'ts-jest/presets/default-esm',

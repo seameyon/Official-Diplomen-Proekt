@@ -1,3 +1,4 @@
+/*checks if user is admin, etc, has all admin API endpoints*/
 import { Router, Request, Response } from 'express';
 import { protect } from '../middlewares/auth.middleware.js';
 import User from '../models/User.model.js';

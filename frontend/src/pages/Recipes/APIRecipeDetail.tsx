@@ -1,3 +1,4 @@
+/*the meal db detailed page for recipes*/
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';

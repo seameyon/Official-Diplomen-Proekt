@@ -1,3 +1,4 @@
+/*creates a base recipes for the data base*/
 import mongoose from 'mongoose';
 import { Recipe } from '../models/Recipe.model.js';
 import { User } from '../models/User.model.js';

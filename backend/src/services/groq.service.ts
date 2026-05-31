@@ -1,3 +1,4 @@
+/*realises all functionalities that are connected to AI(nutrients, dietary analyses*/
 import { groqClient, GROQ_MODEL } from '../config/groq.js';
 import { IRecipe } from '../types/recipe.types.js';
 

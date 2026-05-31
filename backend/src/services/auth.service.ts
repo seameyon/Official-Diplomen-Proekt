@@ -1,3 +1,5 @@
+/*frontend --> backend*/
+/*checks passes, creates user, JWT generating*/
 import { User } from '../models/User.model.js';
 import { generateToken, generateVerificationToken } from '../utils/jwt.js';
 import { ApiError } from '../middlewares/error.middleware.js';

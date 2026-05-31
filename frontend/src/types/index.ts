@@ -1,4 +1,4 @@
-
+/*TypeScript files like user, meal plan things to give a teamplate for the structure*/
 export type RegionId = 'liyun' | 'sakuraya' | 'mondberg' | 'fontalis' | 'sumera';
 export type RecipeRank = 'Apprentice' | 'Journeyman' | 'Artisan' | 'Master' | 'Grandmaster' | 'Legendary';
 

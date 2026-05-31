@@ -1,3 +1,5 @@
+/*Validates the token and identifies the user*/
+
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.js';
 import { User } from '../models/User.model.js';

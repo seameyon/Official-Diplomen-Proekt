@@ -1,3 +1,4 @@
+/*OLD currently unused function for difficulty badges fpr the recipes*/
 import { cn } from '../../utils';
 import { RECIPE_RANKS, type RecipeRank } from '../../config/regions';
 

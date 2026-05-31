@@ -1,3 +1,4 @@
+/*entry point for rending of the react app*/
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
