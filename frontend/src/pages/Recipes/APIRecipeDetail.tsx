@@ -354,7 +354,78 @@ const WORD_DICT: Record<string, string> = {
   'Vegetable': 'Зеленчуков', 'vegetable': 'зеленчуков', 'Vegetables': 'Зеленчуци',
   'Scallions': 'Зелен лук', 'scallions': 'зелен лук',
   'Ginger': 'Джинджифил', 'ginger': 'джинджифил',
-  
+  // MEAT / FISH
+'Cod': 'треска',
+'Haddock': 'пикша',
+'Mackerel': 'скумрия',
+'Sardines': 'сардини',
+'Tuna Steak': 'стек от тон',
+'Chicken Thighs': 'пилешки бутчета',
+'Chicken Legs': 'пилешки бутчета',
+'Minced Beef': 'телешка кайма',
+'Minced Lamb': 'агнешка кайма',
+
+// VEGETABLES
+'Red Onion': 'червен лук',
+'Spring Onion': 'зелен лук',
+'Leek': 'праз',
+'Courgette': 'тиквичка',
+'Zucchini': 'тиквичка',
+'Aubergine': 'патладжан',
+'Eggplant': 'патладжан',
+'Bell Pepper': 'чушка',
+'Red Pepper': 'червена чушка',
+'Green Pepper': 'зелена чушка',
+'Chili': 'люта чушка',
+'Chilli': 'люта чушка',
+'Cucumber': 'краставица',
+'Parsley': 'магданоз',
+'Coriander': 'кориандър',
+'Cilantro': 'кориандър',
+'Mint': 'мента',
+'Basil': 'босилек',
+'Oregano': 'риган',
+'Dill': 'копър',
+
+// LEGUMES
+'Chickpeas': 'нахут',
+'Kidney Beans': 'червен боб',
+'Black Beans': 'черен боб',
+
+// DAIRY
+'Greek Yogurt': 'гръцко кисело мляко',
+'Yogurt': 'кисело мляко',
+'Feta': 'сирене фета',
+'Cheddar': 'чедър',
+'Ricotta': 'рикота',
+
+// FRUITS
+'Raisins': 'стафиди',
+'Dates': 'фурми',
+'Apricots': 'кайсии',
+'Pineapple': 'ананас',
+'Mango': 'манго',
+
+// SPICES
+'Paprika': 'червен пипер',
+'Cumin': 'кимион',
+'Turmeric': 'куркума',
+'Curry Powder': 'къри',
+'Bay Leaf': 'дафинов лист',
+'Mustard': 'горчица',
+
+// BAKING
+'Self Raising Flour': 'самонабухващо брашно',
+'Plain Flour': 'бяло брашно',
+'Yeast': 'мая',
+'Breadcrumbs': 'галета',
+
+// SAUCES
+'Tomato Puree': 'доматено пюре',
+'Tomato Paste': 'доматено пюре',
+'Fish Sauce': 'рибен сос',
+'Oyster Sauce': 'стриден сос',
+'Worcestershire Sauce': 'уорчестър сос',
   // Fruits
   'Apple': 'Ябълка', 'apple': 'ябълка', 'Apples': 'Ябълки',
   'Banana': 'Банан', 'banana': 'банан',
@@ -738,6 +809,116 @@ const INGREDIENT_TRANSLATIONS: Record<string, string> = {
   'Thyme': 'мащерка', 'thyme': 'мащерка',
   'Bay Leaf': 'дафинов лист', 'bay leaf': 'дафинов лист',
   'Bay Leaves': 'дафинови листа',
+  // Asian ingredients
+'Sake': 'саке',
+'sake': 'саке',
+'Mirin': 'мирин',
+'mirin': 'мирин',
+'Sesame': 'сусам',
+'sesame': 'сусам',
+'Sesame Seed': 'сусам',
+'sesame seed': 'сусам',
+'Sesame Seeds': 'сусам',
+'sesame seeds': 'сусам',
+'Teriyaki Sauce': 'терияки сос',
+'teriyaki sauce': 'терияки сос',
+'Oyster Sauce': 'стриден сос',
+'oyster sauce': 'стриден сос',
+'Hoisin Sauce': 'хойсин сос',
+'hoisin sauce': 'хойсин сос',
+'Rice Wine': 'оризово вино',
+'rice wine': 'оризово вино',
+'Miso Paste': 'мисо паста',
+'miso paste': 'мисо паста',
+
+// Vegetables
+'Leek': 'праз лук',
+'leek': 'праз лук',
+'Leeks': 'праз лук',
+'Celery': 'целина',
+'celery': 'целина',
+'Cucumber': 'краставица',
+'cucumber': 'краставица',
+'Cucumbers': 'краставици',
+'Courgette': 'тиквичка',
+'courgette': 'тиквичка',
+'Courgettes': 'тиквички',
+'Zucchini': 'тиквичка',
+'zucchini': 'тиквичка',
+'Aubergine': 'патладжан',
+'aubergine': 'патладжан',
+'Eggplant': 'патладжан',
+'eggplant': 'патладжан',
+'Spring Onion': 'зелен лук',
+'spring onion': 'зелен лук',
+'Spring Onions': 'зелен лук',
+'Bell Pepper': 'чушка',
+'bell pepper': 'чушка',
+'Red Pepper': 'червена чушка',
+'Green Pepper': 'зелена чушка',
+
+// Herbs
+'Coriander': 'кориандър',
+'coriander': 'кориандър',
+'Mint': 'мента',
+'mint': 'мента',
+'Dill': 'копър',
+'dill': 'копър',
+'Sage': 'градински чай',
+'sage': 'градински чай',
+
+// Meat
+'Chicken Thighs': 'пилешки бутчета',
+'chicken thighs': 'пилешки бутчета',
+'Chicken Wings': 'пилешки крилца',
+'chicken wings': 'пилешки крилца',
+'Minced Beef': 'телешка кайма',
+'minced beef': 'телешка кайма',
+'Minced Pork': 'свинска кайма',
+'minced pork': 'свинска кайма',
+
+// Dairy
+'Yoghurt': 'кисело мляко',
+'yoghurt': 'кисело мляко',
+'Greek Yoghurt': 'гръцко кисело мляко',
+'greek yoghurt': 'гръцко кисело мляко',
+'Feta': 'сирене фета',
+'feta': 'сирене фета',
+'Ricotta': 'рикота',
+'ricotta': 'рикота',
+
+// Fruits
+'Raisins': 'стафиди',
+'raisins': 'стафиди',
+'Dates': 'фурми',
+'dates': 'фурми',
+'Apricot': 'кайсия',
+'apricot': 'кайсия',
+'Apricots': 'кайсии',
+
+// Baking
+'Self Raising Flour': 'самонабухващо брашно',
+'self raising flour': 'самонабухващо брашно',
+'Plain Flour': 'бяло брашно',
+'plain flour': 'бяло брашно',
+'Caster Sugar': 'фина захар',
+'caster sugar': 'фина захар',
+'Brown Sugar': 'кафява захар',
+'brown sugar': 'кафява захар',
+'Icing Sugar': 'пудра захар',
+'icing sugar': 'пудра захар',
+
+// Misc
+'Peanut Butter': 'фъстъчено масло',
+'peanut butter': 'фъстъчено масло',
+'Maple Syrup': 'кленов сироп',
+'maple syrup': 'кленов сироп',
+'Coconut Cream': 'кокосова сметана',
+'coconut cream': 'кокосова сметана',
+'Red Wine': 'червено вино',
+'red wine': 'червено вино',
+'White Wine': 'бяло вино',
+'white wine': 'бяло вино',
 };
 
 const UNIT_TRANSLATIONS: Record<string, string> = {
@@ -1153,24 +1334,34 @@ export default function APIRecipeDetail() {
 
               <ul className="space-y-3">
                 {recipe.ingredients?.map((ing, idx) => {
-                  const scaledAmount = scaleAmount(ing.amount || 1);
-                  const formatAmount = (amt: number) => {
-                    if (amt === Math.floor(amt)) return amt.toString();
-                    return amt.toFixed(1).replace(/\.0$/, '');
-                  };
-                  
-                  const unit = isBg ? translateUnit(ing.unit || '') : (ing.unit || '');
-                  const name = isBg ? translateIngredientName(ing.name) : ing.name;
-                  
-                  return (
-                    <li key={idx} className="flex items-start gap-3 text-wood-700 dark:text-cream-300">
-                      <span className="w-2 h-2 rounded-full bg-forest-500 mt-2 flex-shrink-0" />
-                      <span>
-                        <strong>{formatAmount(scaledAmount)} {unit}</strong> {name}
-                      </span>
-                    </li>
-                  );
-                })}
+  const scaledAmount = scaleAmount(ing.amount || 1);
+
+  const formatAmount = (amt: number) => {
+    if (amt === Math.floor(amt)) return amt.toString();
+    return amt.toFixed(1).replace(/\.0$/, '');
+  };
+
+  const unit = isBg ? translateUnit(ing.unit || '') : (ing.unit || '');
+  const name = isBg ? translateIngredientName(ing.name) : ing.name;
+
+  const translatedLine = translatedContent?.ingredients?.[idx];
+
+  return (
+    <li key={idx} className="flex items-start gap-3 text-wood-700 dark:text-cream-300">
+      <span className="w-2 h-2 rounded-full bg-forest-500 mt-2 flex-shrink-0" />
+
+      <span>
+        {isBg && translatedLine ? (
+          translatedLine
+        ) : (
+          <>
+            <strong>{formatAmount(scaledAmount)} {unit}</strong> {name}
+          </>
+        )}
+      </span>
+    </li>
+  );
+})}
               </ul>
             </div>
           </div>
