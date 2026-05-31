@@ -1065,6 +1065,7 @@ export default function Feed() {
   const location = useLocation();
   
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedTag, setSelectedTag] = useState('all');
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1101,52 +1102,70 @@ export default function Feed() {
     { id: 'pasta', label: t.pasta },
   ];
 
+  const getMealDbSearchQuery = (term: string) => {
+  const searchTranslations: Record<string, string> = {
+    'кебаб': 'kebab',
+    'кебап': 'kebab',
+    'пиле': 'chicken',
+    'пилешко': 'chicken',
+    'телешко': 'beef',
+    'говеждо': 'beef',
+    'риба': 'fish',
+    'салата': 'salad',
+    'торта': 'cake',
+    'супа': 'soup',
+    'паста': 'pasta',
+    'спагети': 'spaghetti',
+    'ориз': 'rice',
+    'шоколад': 'chocolate',
+    'палачинки': 'pancakes',
+    'суши': 'sushi',
+    'къри': 'curry',
+  };
+
+  return searchTranslations[term.toLowerCase().trim()] || term;
+};
   
-  const loadData = useCallback(async () => {
+ const loadData = useCallback(async () => {
   setLoading(true);
   setCurrentPage(1);
 
   try {
     const allRecipes: Recipe[] = [];
-    const searchTerm = search.trim().toLowerCase();
+    const searchTerm = debouncedSearch.trim().toLowerCase();
 
     try {
       const userData = await recipeApi.getAll({ limit: 50 });
 
       if (userData?.recipes) {
         const filteredUserRecipes = searchTerm
-          ? userData.recipes.filter((recipe: Recipe) =>
-              recipe.title?.toLowerCase().includes(searchTerm) ||
-              recipe.description?.toLowerCase().includes(searchTerm)
-            )
+          ? userData.recipes.filter((recipe: Recipe) => {
+              const title = recipe.title?.toLowerCase() || '';
+              const translatedTitle = translateRecipeTitle(recipe.title || '', 'bg').toLowerCase();
+              const description = recipe.description?.toLowerCase() || '';
+
+              return (
+                title.includes(searchTerm) ||
+                translatedTitle.includes(searchTerm) ||
+                description.includes(searchTerm)
+              );
+            })
           : userData.recipes;
 
         allRecipes.push(...filteredUserRecipes);
       }
-    } catch (e) {
-      // No user recipes or error — continue
+    } catch {
+      // Continue without user recipes
     }
 
     let apiRecipes: Recipe[] = [];
 
     if (searchTerm) {
-      const searchTranslations: Record<string, string> = {
-        'кебаб': 'kebab',
-        'пиле': 'chicken',
-        'телешко': 'beef',
-        'риба': 'fish',
-        'салата': 'salad',
-        'торта': 'cake',
-        'супа': 'soup',
-        'паста': 'pasta',
-        'ориз': 'rice',
-        'шоколад': 'chocolate',
-      };
-
-      const mealDbQuery = searchTranslations[searchTerm] || searchTerm;
+      const mealDbQuery = getMealDbSearchQuery(searchTerm);
       apiRecipes = await searchMealDB(mealDbQuery);
     } else if (selectedTag !== 'all') {
       const category = CATEGORY_MAP[selectedTag];
+
       if (category) {
         apiRecipes = await fetchMealDBByCategory(category);
       }
@@ -1160,20 +1179,31 @@ export default function Feed() {
       allRecipes.push(...FALLBACK_FEED_RECIPES);
     }
 
-    const uniqueRecipes = deduplicateRecipes(allRecipes);
-    setRecipes(uniqueRecipes);
+    setRecipes(deduplicateRecipes(allRecipes));
   } catch (error) {
     console.error('[Feed] Error loading:', error);
-    setRecipes(deduplicateRecipes(FALLBACK_FEED_RECIPES));
+
+    if (!debouncedSearch.trim()) {
+      setRecipes(deduplicateRecipes(FALLBACK_FEED_RECIPES));
+    } else {
+      setRecipes([]);
+    }
   } finally {
     setLoading(false);
   }
-}, [selectedTag, search]);
+}, [selectedTag, debouncedSearch]);
 
   useEffect(() => {
     loadData();
   }, [loadData, loadKey, location.key]);
 
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search.trim());
+  }, 400);
+
+  return () => clearTimeout(timer);
+}, [search]);
   const handleRefresh = () => {
     setLoadKey(prev => prev + 1);
   };
@@ -1235,7 +1265,14 @@ export default function Feed() {
             className="w-full pl-12 pr-12 py-3 rounded-xl border-2 border-orange-200 dark:border-wood-600 bg-white dark:bg-wood-800 text-gray-800 dark:text-cream-100 focus:ring-2 focus:ring-orange-500 dark:focus:ring-forest-500 focus:border-transparent"
           />
           {search && (
-            <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+          <button
+  onClick={() => {
+    setSearch('');
+    setDebouncedSearch('');
+    setLoadKey((prev) => prev + 1);
+  }}
+  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+>
               <X className="w-5 h-5" />
             </button>
           )}
