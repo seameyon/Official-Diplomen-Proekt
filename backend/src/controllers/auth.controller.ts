@@ -14,11 +14,9 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   const { user, token } = await authService.register(email, password, username);
 
  
- const welcomeEmailSent = await sendWelcomeEmail(email, username);
-
-if (!welcomeEmailSent) {
-  console.log('[Auth] Welcome email was not sent to:', email);
-}
+  sendWelcomeEmail(email, username).catch(err => {
+    console.log('[Auth] Welcome email failed:', err.message);
+  });
 
   res.status(201).json({
     success: true,
