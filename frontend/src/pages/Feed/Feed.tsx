@@ -1101,55 +1101,74 @@ export default function Feed() {
     { id: 'pasta', label: t.pasta },
   ];
 
+  
   const loadData = useCallback(async () => {
-    setLoading(true);
-    setCurrentPage(1);
-    
+  setLoading(true);
+  setCurrentPage(1);
+
+  try {
+    const allRecipes: Recipe[] = [];
+    const searchTerm = search.trim().toLowerCase();
+
     try {
-      const allRecipes: Recipe[] = [];
+      const userData = await recipeApi.getAll({ limit: 50 });
 
-      
-      try {
-        const userData = await recipeApi.getAll({ limit: 50 });
-        if (userData?.recipes) {
-          allRecipes.push(...userData.recipes);
-        }
-      } catch (e) {
-        // No user recipes or error — continue
+      if (userData?.recipes) {
+        const filteredUserRecipes = searchTerm
+          ? userData.recipes.filter((recipe: Recipe) =>
+              recipe.title?.toLowerCase().includes(searchTerm) ||
+              recipe.description?.toLowerCase().includes(searchTerm)
+            )
+          : userData.recipes;
+
+        allRecipes.push(...filteredUserRecipes);
       }
-
-      
-      let apiRecipes: Recipe[] = [];
-      
-      if (search) {
-        apiRecipes = await searchMealDB(search);
-      } else if (selectedTag !== 'all') {
-        const category = CATEGORY_MAP[selectedTag];
-        if (category) {
-          apiRecipes = await fetchMealDBByCategory(category);
-        }
-      } else {
-        apiRecipes = await fetchMealDBRandom(24);
-      }
-
-      allRecipes.push(...apiRecipes);
-
-      
-      if (allRecipes.length < 3 && !search) {
-        allRecipes.push(...FALLBACK_FEED_RECIPES);
-      }
-
-      
-      const uniqueRecipes = deduplicateRecipes(allRecipes);
-
-      setRecipes(uniqueRecipes);
-    } catch (error) {
-      console.error('[Feed] Error loading:', error);
-      setRecipes(deduplicateRecipes(FALLBACK_FEED_RECIPES));
-    } finally {
-      setLoading(false);
+    } catch (e) {
+      // No user recipes or error — continue
     }
-  }, [selectedTag, search]);
+
+    let apiRecipes: Recipe[] = [];
+
+    if (searchTerm) {
+      const searchTranslations: Record<string, string> = {
+        'кебаб': 'kebab',
+        'пиле': 'chicken',
+        'телешко': 'beef',
+        'риба': 'fish',
+        'салата': 'salad',
+        'торта': 'cake',
+        'супа': 'soup',
+        'паста': 'pasta',
+        'ориз': 'rice',
+        'шоколад': 'chocolate',
+      };
+
+      const mealDbQuery = searchTranslations[searchTerm] || searchTerm;
+      apiRecipes = await searchMealDB(mealDbQuery);
+    } else if (selectedTag !== 'all') {
+      const category = CATEGORY_MAP[selectedTag];
+      if (category) {
+        apiRecipes = await fetchMealDBByCategory(category);
+      }
+    } else {
+      apiRecipes = await fetchMealDBRandom(24);
+    }
+
+    allRecipes.push(...apiRecipes);
+
+    if (allRecipes.length < 3 && !searchTerm) {
+      allRecipes.push(...FALLBACK_FEED_RECIPES);
+    }
+
+    const uniqueRecipes = deduplicateRecipes(allRecipes);
+    setRecipes(uniqueRecipes);
+  } catch (error) {
+    console.error('[Feed] Error loading:', error);
+    setRecipes(deduplicateRecipes(FALLBACK_FEED_RECIPES));
+  } finally {
+    setLoading(false);
+  }
+}, [selectedTag, search]);
 
   useEffect(() => {
     loadData();
