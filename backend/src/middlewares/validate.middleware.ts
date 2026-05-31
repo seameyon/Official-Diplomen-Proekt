@@ -24,20 +24,44 @@ export const resetPasswordSchema = z.object({
     .min(8, 'Паролата трябва да е поне 8 символа'),
 });
 
+const currentYear = new Date().getFullYear();
 
 export const healthProfileSchema = z.object({
-  height: z.number().min(50, 'Height must be at least 50cm').max(300, 'Height must be at most 300cm'),
-  weight: z.number().min(20, 'Weight must be at least 20kg').max(500, 'Weight must be at most 500kg'),
-  age: z.number().min(13, 'Must be at least 13 years old').max(120, 'Invalid age'),
   sex: z.enum(['male', 'female', 'other']).optional(),
-  activityLevel: z.enum(['sedentary', 'light', 'moderate', 'very_active']),
+
+  birthYear: z
+    .number()
+    .min(currentYear - 100, 'Невалидна година на раждане')
+    .max(currentYear - 13, 'Потребителят трябва да е поне на 13 години'),
+
+  age: z
+    .number()
+    .min(13, 'Потребителят трябва да е поне на 13 години')
+    .max(100, 'Невалидна възраст'),
+
+  height: z
+    .number()
+    .min(100, 'Височината трябва да е поне 100 см')
+    .max(250, 'Височината трябва да е максимум 250 см'),
+
+  weight: z
+    .number()
+    .min(30, 'Теглото трябва да е поне 30 кг')
+    .max(300, 'Теглото трябва да е максимум 300 кг'),
+
+  targetWeight: z
+    .number()
+    .min(30, 'Целевото тегло трябва да е поне 30 кг')
+    .max(300, 'Целевото тегло трябва да е максимум 300 кг'),
+
+  activityLevel: z.enum(['sedentary', 'light', 'moderate', 'active', 'very_active']),
   goal: z.enum(['lose_weight', 'maintain', 'gain_muscle']),
-  dietaryPreference: z.enum(['vegan', 'vegetarian', 'pescatarian', 'none']).default('none'),
+  dietaryPreference: z.enum(['vegan', 'vegetarian', 'pescatarian', 'none', 'keto']).default('none'),
   allergies: z.array(z.string()).default([]),
   dislikedIngredients: z.array(z.string()).default([]),
   mealsPerDay: z.number().min(2).max(5).default(3),
-  cookingTime: z.enum(['quick', 'normal', 'meal_prep']).default('normal'),
-  budget: z.enum(['low', 'medium', 'flexible']).default('medium'),
+  cookingTime: z.enum(['quick', 'normal', 'elaborate', 'meal_prep']).default('normal'),
+  budget: z.enum(['low', 'medium', 'high']).default('medium'),
   equipment: z.array(z.string()).default([]),
   hasMedicalCondition: z.boolean().default(false),
 });

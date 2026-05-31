@@ -169,8 +169,42 @@ export default function Onboarding() {
     }
   };
 
+  const validateCurrentData = () => {
+  const currentYear = new Date().getFullYear();
+  const age = currentYear - formData.birthYear;
+
+  if (!formData.sex) {
+    toast.error('Моля, изберете пол.');
+    return false;
+  }
+
+  if (age < 13 || age > 100) {
+    toast.error('Моля, въведете реалистична възраст.');
+    return false;
+  }
+
+  if (formData.height < 100 || formData.height > 250) {
+    toast.error('Височината трябва да бъде между 100 и 250 см.');
+    return false;
+  }
+
+  if (formData.weight < 30 || formData.weight > 300) {
+    toast.error('Теглото трябва да бъде между 30 и 300 кг.');
+    return false;
+  }
+
+  if (formData.targetWeight < 30 || formData.targetWeight > 300) {
+    toast.error('Целевото тегло трябва да бъде между 30 и 300 кг.');
+    return false;
+  }
+
+  return true;
+};
+
   const handleSubmit = async () => {
-    setIsSubmitting(true);
+  if (!validateCurrentData()) return;
+
+  setIsSubmitting(true);
 
     try {
       const currentYear = new Date().getFullYear();
@@ -214,7 +248,14 @@ export default function Onboarding() {
       case 0:
         return !!formData.sex;
       case 1:
-        return formData.height > 0 && formData.weight > 0;
+  return (
+    formData.height >= 100 &&
+    formData.height <= 250 &&
+    formData.weight >= 30 &&
+    formData.weight <= 300 &&
+    formData.targetWeight >= 30 &&
+    formData.targetWeight <= 300
+  );
       default:
         return true;
     }
