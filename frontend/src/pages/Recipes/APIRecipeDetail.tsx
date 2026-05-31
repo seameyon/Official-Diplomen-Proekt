@@ -354,7 +354,78 @@ const WORD_DICT: Record<string, string> = {
   'Vegetable': 'Зеленчуков', 'vegetable': 'зеленчуков', 'Vegetables': 'Зеленчуци',
   'Scallions': 'Зелен лук', 'scallions': 'зелен лук',
   'Ginger': 'Джинджифил', 'ginger': 'джинджифил',
-  
+  // MEAT / FISH
+'Cod': 'треска',
+'Haddock': 'пикша',
+'Mackerel': 'скумрия',
+'Sardines': 'сардини',
+'Tuna Steak': 'стек от тон',
+'Chicken Thighs': 'пилешки бутчета',
+'Chicken Legs': 'пилешки бутчета',
+'Minced Beef': 'телешка кайма',
+'Minced Lamb': 'агнешка кайма',
+
+// VEGETABLES
+'Red Onion': 'червен лук',
+'Spring Onion': 'зелен лук',
+'Leek': 'праз',
+'Courgette': 'тиквичка',
+'Zucchini': 'тиквичка',
+'Aubergine': 'патладжан',
+'Eggplant': 'патладжан',
+'Bell Pepper': 'чушка',
+'Red Pepper': 'червена чушка',
+'Green Pepper': 'зелена чушка',
+'Chili': 'люта чушка',
+'Chilli': 'люта чушка',
+'Cucumber': 'краставица',
+'Parsley': 'магданоз',
+'Coriander': 'кориандър',
+'Cilantro': 'кориандър',
+'Mint': 'мента',
+'Basil': 'босилек',
+'Oregano': 'риган',
+'Dill': 'копър',
+
+// LEGUMES
+'Chickpeas': 'нахут',
+'Kidney Beans': 'червен боб',
+'Black Beans': 'черен боб',
+
+// DAIRY
+'Greek Yogurt': 'гръцко кисело мляко',
+'Yogurt': 'кисело мляко',
+'Feta': 'сирене фета',
+'Cheddar': 'чедър',
+'Ricotta': 'рикота',
+
+// FRUITS
+'Raisins': 'стафиди',
+'Dates': 'фурми',
+'Apricots': 'кайсии',
+'Pineapple': 'ананас',
+'Mango': 'манго',
+
+// SPICES
+'Paprika': 'червен пипер',
+'Cumin': 'кимион',
+'Turmeric': 'куркума',
+'Curry Powder': 'къри',
+'Bay Leaf': 'дафинов лист',
+'Mustard': 'горчица',
+
+// BAKING
+'Self Raising Flour': 'самонабухващо брашно',
+'Plain Flour': 'бяло брашно',
+'Yeast': 'мая',
+'Breadcrumbs': 'галета',
+
+// SAUCES
+'Tomato Puree': 'доматено пюре',
+'Tomato Paste': 'доматено пюре',
+'Fish Sauce': 'рибен сос',
+'Oyster Sauce': 'стриден сос',
+'Worcestershire Sauce': 'уорчестър сос',
   // Fruits
   'Apple': 'Ябълка', 'apple': 'ябълка', 'Apples': 'Ябълки',
   'Banana': 'Банан', 'banana': 'банан',
@@ -755,7 +826,6 @@ const INGREDIENT_TRANSLATIONS: Record<string, string> = {
 'oyster sauce': 'стриден сос',
 'Hoisin Sauce': 'хойсин сос',
 'hoisin sauce': 'хойсин сос',
-
 'Rice Wine': 'оризово вино',
 'rice wine': 'оризово вино',
 'Miso Paste': 'мисо паста',
@@ -1264,24 +1334,34 @@ export default function APIRecipeDetail() {
 
               <ul className="space-y-3">
                 {recipe.ingredients?.map((ing, idx) => {
-                  const scaledAmount = scaleAmount(ing.amount || 1);
-                  const formatAmount = (amt: number) => {
-                    if (amt === Math.floor(amt)) return amt.toString();
-                    return amt.toFixed(1).replace(/\.0$/, '');
-                  };
-                  
-                  const unit = isBg ? translateUnit(ing.unit || '') : (ing.unit || '');
-                  const name = isBg ? translateIngredientName(ing.name) : ing.name;
-                  
-                  return (
-                    <li key={idx} className="flex items-start gap-3 text-wood-700 dark:text-cream-300">
-                      <span className="w-2 h-2 rounded-full bg-forest-500 mt-2 flex-shrink-0" />
-                      <span>
-                        <strong>{formatAmount(scaledAmount)} {unit}</strong> {name}
-                      </span>
-                    </li>
-                  );
-                })}
+  const scaledAmount = scaleAmount(ing.amount || 1);
+
+  const formatAmount = (amt: number) => {
+    if (amt === Math.floor(amt)) return amt.toString();
+    return amt.toFixed(1).replace(/\.0$/, '');
+  };
+
+  const unit = isBg ? translateUnit(ing.unit || '') : (ing.unit || '');
+  const name = isBg ? translateIngredientName(ing.name) : ing.name;
+
+  const translatedLine = translatedContent?.ingredients?.[idx];
+
+  return (
+    <li key={idx} className="flex items-start gap-3 text-wood-700 dark:text-cream-300">
+      <span className="w-2 h-2 rounded-full bg-forest-500 mt-2 flex-shrink-0" />
+
+      <span>
+        {isBg && translatedLine ? (
+          translatedLine
+        ) : (
+          <>
+            <strong>{formatAmount(scaledAmount)} {unit}</strong> {name}
+          </>
+        )}
+      </span>
+    </li>
+  );
+})}
               </ul>
             </div>
           </div>

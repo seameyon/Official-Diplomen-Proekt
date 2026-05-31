@@ -1,108 +1,112 @@
-/*the general layout after the login*/
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { 
-  Home, ChefHat, Calendar, Heart, User, Settings, 
-  LogOut, Sun, Moon, Shield, LogIn, UserPlus
-} from 'lucide-react';
-import { useAuthStore } from '../../context/authStore';
-import { useThemeStore } from '../../context/themeStore';
-import { cn } from '../../utils';
+  /*the general layout after the login*/
+  import { Outlet, Link, useLocation } from 'react-router-dom';
+  import { 
+    Home, ChefHat, Calendar, Heart, User, Settings, 
+    LogOut, Sun, Moon, Shield, LogIn, UserPlus, Droplets
+  } from 'lucide-react';
+  import { useAuthStore } from '../../context/authStore';
+  import { useThemeStore } from '../../context/themeStore';
+  import { cn } from '../../utils';
 
-const WOOD_TEXTURE_DARK = 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=1920&q=80';
-const WOOD_TEXTURE_LIGHT = 'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1920&q=80';
+  const WOOD_TEXTURE_DARK = 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=1920&q=80';
+  const WOOD_TEXTURE_LIGHT = 'https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?w=1920&q=80';
 
-export default function MainLayout() {
-  const location = useLocation();
-  const { user, isAuthenticated, logout } = useAuthStore();
-  const { theme, setTheme, language, setLanguage } = useThemeStore();
-  
-  const isAdmin = user?.email === 'xzvelkosimeon@gmail.com' || user?.isAdmin;
-  const isDark = theme === 'dark';
-  
-  if (location.pathname === '/') {
-    return <Outlet />;
-  }
+  export default function MainLayout() {
+    const location = useLocation();
+    const { user, isAuthenticated, logout } = useAuthStore();
+    const { theme, setTheme, language, setLanguage } = useThemeStore();
+    
+    const isAdmin = user?.email === 'xzvelkosimeon@gmail.com' || user?.isAdmin;
+    const isDark = theme === 'dark';
+    
+    if (location.pathname === '/') {
+      return <Outlet />;
+    }
 
-  const t = {
-    home: language === 'bg' ? 'Начало' : 'Home',
-    recipes: language === 'bg' ? 'Рецепти' : 'Recipes',
-    plan: language === 'bg' ? 'План' : 'Plan',
-    favorites: language === 'bg' ? 'Любими' : 'Favorites',
-    profile: language === 'bg' ? 'Профил' : 'Profile',
-    admin: language === 'bg' ? 'Админ' : 'Admin',
-    login: language === 'bg' ? 'Вход' : 'Login',
-    register: language === 'bg' ? 'Регистрация' : 'Register',
-  };
+    const t = {
+      home: language === 'bg' ? 'Начало' : 'Home',
+      recipes: language === 'bg' ? 'Рецепти' : 'Recipes',
+      plan: language === 'bg' ? 'План' : 'Plan',
+      favorites: language === 'bg' ? 'Любими' : 'Favorites',
+      //!!!!
+      hydration: language === 'bg' ? 'Хидратация' : 'Hydration',
+      //!!!!
+      profile: language === 'bg' ? 'Профил' : 'Profile',
+      admin: language === 'bg' ? 'Админ' : 'Admin',
+      login: language === 'bg' ? 'Вход' : 'Login',
+      register: language === 'bg' ? 'Регистрация' : 'Register',
+    };
 
-  const navItems = [
-    { to: '/', icon: Home, label: t.home, auth: false },
-    { to: '/recipes', icon: ChefHat, label: t.recipes, auth: false },
-    { to: '/meal-plan', icon: Calendar, label: t.plan, auth: true },
-    { to: '/favorites', icon: Heart, label: t.favorites, auth: true },
-  ];
+   const navItems = [
+  { to: '/', icon: Home, label: t.home, auth: false },
+  { to: '/recipes', icon: ChefHat, label: t.recipes, auth: false },
+  { to: '/meal-plan', icon: Calendar, label: t.plan, auth: true },
+  { to: '/hydration', icon: Droplets, label: t.hydration, auth: true },
+  { to: '/favorites', icon: Heart, label: t.favorites, auth: true },
+];
 
-  return (
-    <div 
-      className="min-h-screen pb-20 lg:pb-0 select-none relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${isDark ? WOOD_TEXTURE_DARK : WOOD_TEXTURE_LIGHT})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        maxWidth: '100vw',
-        width: '100%',
-      }}
-    >
-      {/* Overlay for readability */}
-      <div className={cn(
-        "fixed inset-0 pointer-events-none",
-        isDark ? 'bg-wood-900/75' : 'bg-orange-50/80'
-      )} />
-
-      {/* Desktop Header */}
-      <header 
-        className="hidden lg:block fixed top-0 left-0 right-0 z-50 shadow-lg border-b-4 border-wood-900"
+    return (
+      <div 
+        className="min-h-screen pb-20 lg:pb-0 select-none relative overflow-hidden"
         style={{
           backgroundImage: `url(${isDark ? WOOD_TEXTURE_DARK : WOOD_TEXTURE_LIGHT})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          maxWidth: '100vw',
+          width: '100%',
         }}
       >
-        {/* Header overlay */}
+        {/* Overlay for readability */}
         <div className={cn(
-          "absolute inset-0",
-          isDark ? 'bg-wood-900/85' : 'bg-orange-500/80'
+          "fixed inset-0 pointer-events-none",
+          isDark ? 'bg-wood-900/75' : 'bg-orange-50/80'
         )} />
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <img src="/logo.png" alt="Yumly" className="h-10 w-auto" />
-            </Link>
 
-            {/* Nav Links */}
-            <nav className="flex items-center gap-1">
-              {navItems.map((item) => {
-                if (item.auth && !isAuthenticated) return null;
-                const isActive = location.pathname === item.to || 
-                  (item.to !== '/' && location.pathname.startsWith(item.to));
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={cn(
-                      'flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
-                      isActive 
-                        ? (isDark ? 'bg-forest-600 text-white' : 'bg-white/30 text-white')
-                        : 'text-white/90 hover:bg-white/20'
-                    )}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                );
-              })}
+        {/* Desktop Header */}
+        <header 
+          className="hidden lg:block fixed top-0 left-0 right-0 z-50 shadow-lg border-b-4 border-wood-900"
+          style={{
+            backgroundImage: `url(${isDark ? WOOD_TEXTURE_DARK : WOOD_TEXTURE_LIGHT})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {/* Header overlay */}
+          <div className={cn(
+            "absolute inset-0",
+            isDark ? 'bg-wood-900/85' : 'bg-orange-500/80'
+          )} />
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <Link to="/" className="flex items-center gap-2">
+                <img src="/logo.png" alt="Yumly" className="h-10 w-auto" />
+              </Link>
+
+              {/* Nav Links */}
+              <nav className="flex items-center gap-1">
+                {navItems.map((item) => {
+                  if (item.auth && !isAuthenticated) return null;
+                  const isActive = location.pathname === item.to || 
+                    (item.to !== '/' && location.pathname.startsWith(item.to));
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className={cn(
+                        'flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
+                        isActive 
+                          ? (isDark ? 'bg-forest-600 text-white' : 'bg-white/30 text-white')
+                          : 'text-white/90 hover:bg-white/20'
+                      )}
+                    >
+                      <item.icon className="w-4 h-4" />
+                      {item.label}
+                    </Link>
+                  );
+                })}
               
               {isAdmin && (
                 <Link
@@ -224,7 +228,7 @@ export default function MainLayout() {
         )} />
         
         <div className="flex justify-around py-2 relative z-10">
-          {navItems.slice(0, 3).map((item) => {
+          {navItems.slice(0, 4).map((item) => {
             if (item.auth && !isAuthenticated) return null;
             const isActive = location.pathname === item.to || 
               (item.to !== '/' && location.pathname.startsWith(item.to));
