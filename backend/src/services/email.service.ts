@@ -52,7 +52,7 @@ export const sendWelcomeEmail = async (email: string, username: string): Promise
       <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
         <div style="background: linear-gradient(135deg, #2d5a27 0%, #4a7c43 100%); color: white; padding: 40px 30px; text-align: center;">
           <div style="font-size: 48px; margin-bottom: 10px;">🍳</div>
-          <h1 style="margin: 0; font-size: 28px;">Добре дошъл в Yumly!</h1>
+          <h1 style="margin: 0; font-size: 28px;">Добре дошъл/а в Yumly!</h1>
         </div>
         <div style="padding: 30px; color: #5c4a3a;">
           <h2 style="color: #2d5a27; margin-top: 0;">Здравей, ${username}! 👋</h2>
@@ -61,7 +61,7 @@ export const sendWelcomeEmail = async (email: string, username: string): Promise
           <div style="background: #f5f0e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <strong>Какво можеш да правиш в Yumly:</strong>
             <ul style="margin: 10px 0; padding-left: 20px;">
-              <li style="margin: 10px 0;">🌍 Разглеждай рецепти от 5 различни региона</li>
+              <li style="margin: 10px 0;">🌍 Разглеждай рецепти от 5 различни *фентъзи* региона</li>
               <li style="margin: 10px 0;">❤️ Запазвай любимите си рецепти</li>
               <li style="margin: 10px 0;">📅 Планирай седмично меню с AI</li>
               <li style="margin: 10px 0;">📊 Следи калориите и хранителните стойности</li>
@@ -85,7 +85,7 @@ export const sendWelcomeEmail = async (email: string, username: string): Promise
     </html>
   `;
 
-  return sendEmail(email, '🎉 Добре дошъл в Yumly!', html);
+  return sendEmail(email, '🎉 Добре дошъл/а в Yumly!', html);
 };
 
 
@@ -100,7 +100,7 @@ export const sendVerificationEmail = async (email: string, token: string): Promi
       </div>
       
       <div style="background: linear-gradient(135deg, #2d5a27 0%, #4a7c43 100%); padding: 30px; border-radius: 15px; text-align: center;">
-        <h2 style="color: white; margin: 0 0 15px 0;">Добре дошъл! 🎉</h2>
+        <h2 style="color: white; margin: 0 0 15px 0;">Добре дошъл/а! 🎉</h2>
         <p style="color: rgba(255,255,255,0.9); margin: 0 0 25px 0;">
           Моля, потвърди имейла си за да активираш акаунта.
         </p>
@@ -152,7 +152,7 @@ export const sendPasswordResetEmail = async (email: string, token: string): Prom
           </div>
         </div>
         <div style="background: #f5f0e8; padding: 20px; text-align: center; color: #8b7355; font-size: 14px;">
-          <p style="margin: 5px 0;">© 2024 Yumly - Твоят кулинарен помощник</p>
+          <p style="margin: 5px 0;">© 2026 Yumly - Твоят кулинарен помощник</p>
         </div>
       </div>
     </body>
