@@ -72,7 +72,21 @@ export default function HydrationTracker() {
             Поздравления! Изпълнихте дневната си доза вода.
           </div>
         )}
+
       </div>
+
+      <div className="text-center mt-6">
+  <button
+    onClick={() => {
+      const resetGlasses = Array(TOTAL_GLASSES).fill(false);
+      setGlasses(resetGlasses);
+      localStorage.setItem(storageKey, JSON.stringify(resetGlasses));
+    }}
+    className="px-5 py-3 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors"
+  >
+    Нулирай дневния прием
+  </button>
+</div>
     </div>
   );
 }
