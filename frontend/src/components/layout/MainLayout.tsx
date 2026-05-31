@@ -28,9 +28,6 @@
       recipes: language === 'bg' ? 'Рецепти' : 'Recipes',
       plan: language === 'bg' ? 'План' : 'Plan',
       favorites: language === 'bg' ? 'Любими' : 'Favorites',
-      //!!!!
-      hydration: language === 'bg' ? 'Хидратация' : 'Hydration',
-      //!!!!
       profile: language === 'bg' ? 'Профил' : 'Profile',
       admin: language === 'bg' ? 'Админ' : 'Admin',
       login: language === 'bg' ? 'Вход' : 'Login',
@@ -41,7 +38,6 @@
   { to: '/', icon: Home, label: t.home, auth: false },
   { to: '/recipes', icon: ChefHat, label: t.recipes, auth: false },
   { to: '/meal-plan', icon: Calendar, label: t.plan, auth: true },
-  { to: '/hydration', icon: Droplets, label: t.hydration, auth: true },
   { to: '/favorites', icon: Heart, label: t.favorites, auth: true },
 ];
 
@@ -228,7 +224,7 @@
         )} />
         
         <div className="flex justify-around py-2 relative z-10">
-          {navItems.slice(0, 4).map((item) => {
+          {navItems.slice(0, 3).map((item) => {
             if (item.auth && !isAuthenticated) return null;
             const isActive = location.pathname === item.to || 
               (item.to !== '/' && location.pathname.startsWith(item.to));

@@ -29,9 +29,7 @@ import Settings from './pages/Settings/Settings';
 import RegionPage from './pages/Regions/RegionPage';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound';
-//!!!!!!!
-import HydrationTracker from './pages/Hydration/HydrationTracker';
-//!!!!!
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -133,9 +131,7 @@ function AppContent() {
             <Route path="/recipes/create" element={<ProtectedRoute><CreateRecipe /></ProtectedRoute>} />
             <Route path="/recipes/:id/edit" element={<ProtectedRoute><EditRecipe /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-            //!!!!!!!!!!!!!!!!!!!!!!!!!
-            <Route path="/hydration" element={<HydrationTracker />} />
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
             <Route path="/meal-plan" element={<ProtectedRoute><MealPlan /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
