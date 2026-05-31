@@ -90,7 +90,7 @@ export const sendWelcomeEmail = async (email: string, username: string): Promise
           </div>
         </div>
         <div style="background: #f5f0e8; padding: 20px; text-align: center; color: #8b7355; font-size: 14px;">
-          <p style="margin: 5px 0;">© 2024 Yumly - Твоят кулинарен помощник</p>
+          <p style="margin: 5px 0;">© 2026 Yumly - Твоят кулинарен помощник</p>
         </div>
       </div>
     </body>
