@@ -112,9 +112,16 @@ const generateWithAlgorithm = (
   weekKey: string
 ) => {
   const targetCalories = profile.dailyCalorieTarget || 2000;
-  const breakfastCalories = Math.round(targetCalories * 0.25);
-  const lunchCalories = Math.round(targetCalories * 0.35);
-  const dinnerCalories = Math.round(targetCalories * 0.40);
+const mealsPerDay = profile.mealsPerDay || 3;
+const snackCount = Math.max(0, mealsPerDay - 3);
+
+const snackCalories = snackCount > 0 ? Math.round(targetCalories * 0.10) : 0;
+const totalSnackCalories = snackCalories * snackCount;
+const remainingCalories = targetCalories - totalSnackCalories;
+
+const breakfastCalories = Math.round(remainingCalories * 0.25);
+const lunchCalories = Math.round(remainingCalories * 0.35);
+const dinnerCalories = Math.round(remainingCalories * 0.40);
 
  
   const breakfastRecipes = candidates.filter(r => 
@@ -235,20 +242,43 @@ const generateWithAlgorithm = (
       suggested: true,
       reason: 'Препоръчано - лека вечеря',
     };
+  
+    const snacks = Array.from({ length: snackCount }).map((_, index) => ({
+  recipeId: null,
+  title: index === 0 ? 'Кисело мляко с плодове' : 'Ядки и плод',
+  servings: 1,
+  calories: snackCalories,
+  protein: index === 0 ? 10 : 6,
+  carbs: index === 0 ? 25 : 20,
+  fat: index === 0 ? 5 : 12,
+  prepTime: 5,
+  suggested: true,
+  reason: 'Допълнително хранене според избрания брой хранения за деня',
+}));
 
     weeklyPlan[day] = {
       breakfast: breakfastMeal,
       lunch: lunchMeal,
       dinner: dinnerMeal,
-      snacks: [],
+      snacks,
     };
 
-    const dayCalories = breakfastMeal.calories + lunchMeal.calories + dinnerMeal.calories;
-    totalDailyCalories[day] = dayCalories;
-    totalCals += dayCalories;
-    totalProtein += breakfastMeal.protein + lunchMeal.protein + dinnerMeal.protein;
-    totalCarbs += breakfastMeal.carbs + lunchMeal.carbs + dinnerMeal.carbs;
-    totalFat += breakfastMeal.fat + lunchMeal.fat + dinnerMeal.fat;
+   const snacksCalories = snacks.reduce((sum, snack) => sum + snack.calories, 0);
+const snacksProtein = snacks.reduce((sum, snack) => sum + snack.protein, 0);
+const snacksCarbs = snacks.reduce((sum, snack) => sum + snack.carbs, 0);
+const snacksFat = snacks.reduce((sum, snack) => sum + snack.fat, 0);
+
+const dayCalories =
+  breakfastMeal.calories +
+  lunchMeal.calories +
+  dinnerMeal.calories +
+  snacksCalories;
+
+totalDailyCalories[day] = dayCalories;
+totalCals += dayCalories;
+totalProtein += breakfastMeal.protein + lunchMeal.protein + dinnerMeal.protein + snacksProtein;
+totalCarbs += breakfastMeal.carbs + lunchMeal.carbs + dinnerMeal.carbs + snacksCarbs;
+totalFat += breakfastMeal.fat + lunchMeal.fat + dinnerMeal.fat + snacksFat;
   }
 
   return {
@@ -417,7 +447,7 @@ const buildUserPrompt = (profile: IHealthProfile, candidates: unknown[]): string
 - Алергии: ${profile.allergies?.length > 0 ? profile.allergies.join(', ') : 'Няма'}
 - Нелюбими съставки: ${profile.dislikedIngredients?.length > 0 ? profile.dislikedIngredients.join(', ') : 'Няма'}
 - Цел: ${profile.goal === 'lose_weight' ? 'Отслабване' : profile.goal === 'gain_muscle' ? 'Качване на мускули' : 'Поддържане'}
-
+- Брой хранения на ден: ${profile.mealsPerDay || 3}
 НАЛИЧНИ РЕЦЕПТИ (ИЗПОЛЗВАЙ ПЪРВО ТЯХ):
 ${JSON.stringify(candidates, null, 2)}
 
@@ -426,6 +456,7 @@ ${JSON.stringify(candidates, null, 2)}
 2. Използвай рецептите от списъка когато е възможно
 3. Осигури разнообразие
 4. Отговори само с валиден JSON
+5. Ако потребителят е избрал повече от 3 хранения на ден, добави допълнителните хранения в полето snacks.
 `;
 };
 
@@ -447,10 +478,16 @@ const transformAIPlan = (
       snacks: dayPlan?.snacks?.map(transformMeal) || [],
     };
 
-    totalDailyCalories[day] = aiPlan.totalDailyCalories?.[day] || 
-      weeklyPlan[day].breakfast.calories +
-      weeklyPlan[day].lunch.calories +
-      weeklyPlan[day].dinner.calories;
+    const snacksCalories = weeklyPlan[day].snacks?.reduce(
+  (sum, snack) => sum + snack.calories,
+  0
+) || 0;
+
+totalDailyCalories[day] = aiPlan.totalDailyCalories?.[day] || 
+  weeklyPlan[day].breakfast.calories +
+  weeklyPlan[day].lunch.calories +
+  weeklyPlan[day].dinner.calories +
+  snacksCalories;
   }
 
   return {
