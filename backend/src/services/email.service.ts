@@ -1,42 +1,49 @@
-import nodemailer from 'nodemailer';
+
 import { env } from '../config/env.js';
 
 
-const createTransporter = () => {
-  if (!env.emailUser || !env.emailPass) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 2225,
-  secure: false,
-  auth: {
-    user: env.emailUser,
-    pass: env.emailPass,
-  },
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-});
-};
-console.log('[Email] Using Brevo SMTP');
-const transporter = createTransporter();
 
 
-export const sendEmail = async (to: string, subject: string, html: string): Promise<boolean> => {
-  if (!transporter) {
-    console.log('📧 Email not configured - skipping send to:', to);
+
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  html: string
+): Promise<boolean> => {
+  if (!env.brevoApiKey || !env.emailUser) {
+    console.log('📧 Brevo not configured - skipping send to:', to);
     return false;
   }
 
   try {
-    await transporter.sendMail({
-      from: '"Yumly 🍳" <noreply@yourdomain.com>',
-      to,
-      subject,
-      html,
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'api-key': env.brevoApiKey,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: {
+          name: 'Yumly',
+          email: env.emailUser,
+        },
+        to: [
+          {
+            email: to,
+          },
+        ],
+        subject,
+        htmlContent: html,
+      }),
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ Brevo email error:', errorText);
+      return false;
+    }
+
     console.log('✅ Email sent to:', to);
     return true;
   } catch (error) {
@@ -168,7 +175,7 @@ export const sendPasswordResetEmail = async (email: string, token: string): Prom
 };
 
 export const isEmailConfigured = (): boolean => {
-  return !!(env.emailUser && env.emailPass);
+  return !!(env.brevoApiKey && env.emailUser);
 };
 
 export default {

@@ -13,7 +13,7 @@ const envSchema = z.object({
 
   EMAIL_USER: z.string().optional(),
   EMAIL_PASS: z.string().optional(),
-  
+  BREVO_API_KEY: z.string().optional(),
   // Groq AI
   GROQ_API_KEY: z.string().optional(),
   
@@ -39,6 +39,7 @@ export const env = {
   },
   // Gmail config
   emailUser: parsed.data.EMAIL_USER || '',
+  brevoApiKey: parsed.data.BREVO_API_KEY || '',
   emailPass: parsed.data.EMAIL_PASS || '',
   groqApiKey: parsed.data.GROQ_API_KEY || '',
   frontendUrl: parsed.data.FRONTEND_URL,
