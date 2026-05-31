@@ -8,12 +8,17 @@ const createTransporter = () => {
   }
 
   return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: env.emailUser,
-      pass: env.emailPass,
-    },
-  });
+  host: 'smtp-relay.brevo.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: env.emailUser,
+    pass: env.emailPass,
+  },
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+});
 };
 
 const transporter = createTransporter();
@@ -27,7 +32,7 @@ export const sendEmail = async (to: string, subject: string, html: string): Prom
 
   try {
     await transporter.sendMail({
-      from: `"Yumly 🍳" <${env.emailUser}>`,
+      from: '"Yumly 🍳" <noreply@yourdomain.com>',
       to,
       subject,
       html,
