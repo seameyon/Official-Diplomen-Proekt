@@ -9,7 +9,7 @@ const createTransporter = () => {
 
   return nodemailer.createTransport({
   host: 'smtp-relay.brevo.com',
-  port: 587,
+  port: 2225,
   secure: false,
   auth: {
     user: env.emailUser,
@@ -20,7 +20,7 @@ const createTransporter = () => {
   socketTimeout: 30000,
 });
 };
-
+console.log('[Email] Using Brevo SMTP');
 const transporter = createTransporter();
 
 
