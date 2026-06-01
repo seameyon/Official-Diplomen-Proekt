@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './context/authStore';
 import { useThemeStore } from './context/themeStore';
+
 /*defines routing, middleware things*/
 
 import MainLayout from './components/layout/MainLayout';
@@ -23,6 +24,7 @@ import APIRecipeDetail from './pages/Recipes/APIRecipeDetail';
 import CreateRecipe from './pages/Recipes/CreateRecipe';
 import EditRecipe from './pages/Recipes/EditRecipe';
 import Favorites from './pages/Favorites/Favorites';
+import HydrationSleepTracker from './pages/HydrationSleep/HydrationSleepTracker';
 import MealPlan from './pages/MealPlan/MealPlan';
 import Profile from './pages/Profile/Profile';
 import Settings from './pages/Settings/Settings';
@@ -131,7 +133,7 @@ function AppContent() {
             <Route path="/recipes/create" element={<ProtectedRoute><CreateRecipe /></ProtectedRoute>} />
             <Route path="/recipes/:id/edit" element={<ProtectedRoute><EditRecipe /></ProtectedRoute>} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-            
+            <Route path="/hydration" element={<HydrationSleepTracker />}/>
             <Route path="/meal-plan" element={<ProtectedRoute><MealPlan /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
